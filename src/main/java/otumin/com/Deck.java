@@ -1,7 +1,6 @@
 package otumin.com;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,7 +21,7 @@ public class Deck {
 
     public static void shuffle(){
         //do something
-        Collections.shuffle();
+        //Collections.shuffle();
     }
 }
 
