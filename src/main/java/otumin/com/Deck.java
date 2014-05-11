@@ -17,11 +17,18 @@ public class Deck {
 
     // コンストラクタ
     public Deck(){
-        List<Integer> deck = new ArrayList<Integer>();
+        ArrayList<Integer> deck = new ArrayList<Integer>();
     }
 
-    public ArrayList create(){
-        return new ArrayList<String>();
+    public List<Integer> create(){
+        //List<Integer> deck = new ArrayList<Integer>(3){{
+        //    add(1); add(2); add(3);
+        //}};
+        // ヌルポになってしまう。。。
+        deck.add(1);
+        deck.add(2);
+        deck.add(3);
+        return deck;
     }
 
     public void shuffle(){
