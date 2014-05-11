@@ -12,8 +12,8 @@ public class Nimto {
         System.out.println("nimto Start!!");
 
         Deck deck =  new Deck();
-        deck.create;
-        deck.shuffle;
+        deck.create();
+        deck.shuffle();
 
     }
 }

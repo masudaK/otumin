@@ -13,14 +13,14 @@ import java.util.List;
  */
 public class Deck {
 
-    private List<Integer> deck;
+    public List<Integer> deck;
 
     // コンストラクタ
     public Deck(){
         List<Integer> deck = new ArrayList<Integer>();
     }
 
-    public static ArrayList create(){
+    public ArrayList create(){
         return new ArrayList<String>();
     }
 
