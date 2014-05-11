@@ -20,9 +20,12 @@ public class Deck {
         List<Integer> deck = new ArrayList<Integer>();
     }
 
-    public static void shuffle(){
-        //do something
-        Collections.shuffle();
+    public static ArrayList create(){
+        return new ArrayList<String>();
+    }
+
+    public void shuffle(){
+        Collections.shuffle(deck);
     }
 }
 
