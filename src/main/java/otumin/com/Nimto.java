@@ -11,12 +11,19 @@ public class Nimto {
 
         // プレイヤーの人数をinputで受け付けて決定する
         Terminal terminal = new Terminal();
-        terminal.determinePlayerNum();
+        Integer playerNum =  terminal.determinePlayerNum();
+        System.out.println("プレイヤーの人数は「" + playerNum + "」人です");
+
+        //playerNumの数だけループさせる
+        // 各ユーザオブジェクトは変数がいいのか、もっといい形があるかはわからぬm(__)m
+        User user1 = new User();
 
         // ゲーム開始
         Deck deck =  new Deck();
         deck.create();
         deck.shuffle();
+
+        System.out.println("デッキの中身:" + deck.getDeck());
 
     }
 }

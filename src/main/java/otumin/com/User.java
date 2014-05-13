@@ -8,5 +8,13 @@ package otumin.com;
  * To change this template use File | Settings | File Templates.
  */
 public class User {
-    // list hands
+
+    public void User(){
+
+    }
+
+    public User create(){
+        User user = new User();
+        return user;
+    }
 }

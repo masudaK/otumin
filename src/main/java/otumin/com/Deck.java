@@ -13,18 +13,19 @@ import java.util.List;
  */
 public class Deck {
 
-    public List<Integer> deck;
+    //public List<Integer> deck;
+    public List<Integer> deck = new ArrayList<Integer>();
 
     // コンストラクタ
     public Deck(){
-        ArrayList<Integer> deck = new ArrayList<Integer>();
+        //ArrayList<Integer> deck = new ArrayList<Integer>(3);
+    }
+
+    public List<Integer> getDeck(){
+        return this.deck;
     }
 
     public List<Integer> create(){
-        //List<Integer> deck = new ArrayList<Integer>(3){{
-        //    add(1); add(2); add(3);
-        //}};
-        // ヌルポになってしまう。。。
         deck.add(1);
         deck.add(2);
         deck.add(3);

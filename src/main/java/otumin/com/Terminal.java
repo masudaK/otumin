@@ -42,6 +42,7 @@ public class Terminal {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        // ここってデフォルト値？
         return 1;
     }
 }
