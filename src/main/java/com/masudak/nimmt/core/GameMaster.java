@@ -51,37 +51,68 @@ public class GameMaster {
 
 	// judgeの粒度をもっと細かくしないとつながらないことがわかった
 
-	public void judge(int id, int index) {
-		// TODO
-//		List<Card> tempField = new ArrayList<Card>(players.size());
-		Map<Card, User> tempField = new TreeMap<Card, User>();
-		tempField.put(getUser(id).pickHand(index), getUser(id));
+	public SortedMap<Card, User> openHand(int userId, int index) {
+
+		SortedMap<Card, User> map = new TreeMap<Card, User>();
+		map.put(getUser(userId).pickHand(index), getUser(userId));
 
 		// NPC
 		for (int i = 1; i <players.size(); i++) {
-			tempField.put(getUser(i + 1).pickRandom(), getUser(id + 1));
+			map.put(getUser(i + 1).pickRandom(), getUser(i + 1));
 		}
+		return map;
 
-		int smallest = field.getSmallestInTheFirst();
-		for (Card card : tempField.keySet()) {
-			System.out.println(card.getNumber() + "の処理を行います");
+	}
 
-			if (card.getNumber() < smallest) {
-				// どこに置くか決めてもらってLineを更新してユーザのマイナスポイントを追加する
-				User player = tempField.get(card);
-				if (player.isNpc()) {
-					// ランダムにおく
-				} else {
-					// ユーザに選択させる
-				}
-				// マイナスポイントとLineのカード情報を更新する
+	/**
+	 * 各LINEの先頭で最も小さい数を返す
+	 *
+	 * @return
+	 */
+	public int getMinimum() {
+		return field.getSmallestInTheLast();
+	}
 
-			} else {
-				// 「そのカードの数字より小さいもののうちで最大のもの」の後ろに並べる
-				// 並べた時点で列が6になったら、その前の5枚を取得してマイナスポイントを加算する
-				card.getNumber();
+	public void updateFieldAndUser(int lineIndex, int userId) {
+		int minus = field.clearLine(lineIndex);
+		getUser(userId).setMinus(minus);
+	}
+
+	public void putField(int lineIndex, Card card) {
+		field.put(lineIndex, card);
+	}
+
+	/**
+	 * 追加するライン番号を取得する
+	 *
+	 * @param number
+	 * @return
+	 */
+	public int getLineToAddLast(int number) {
+		int difference = 104;
+		int index = 0;
+		int i = 0;
+		//List<Card> lasts = field.getLasts();
+		for (Card card : field.getLasts()) {
+			int temp = number - card.getNumber();
+			if (temp > 0 && temp < difference) {
+				difference = temp;
+				index = i;
 			}
+			i++;
 		}
+		return index;
+	}
 
+	public boolean isLineFull(int lineIndex) {
+		return field.getLines().get(lineIndex).isFull();
+	}
+
+	public List<Integer> showScore() {
+		List<Integer> scores = new ArrayList<Integer>();
+		for(User user : players) {
+			scores.add(user.getMinus());
+		}
+		return scores;
 	}
 }

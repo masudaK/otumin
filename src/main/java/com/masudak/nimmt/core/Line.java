@@ -26,6 +26,10 @@ public class Line {
 		cards.addFirst(card);
 	}
 
+	public void addLast(Card card) {
+		cards.addLast(card);
+	}
+
 	public Card getFirst() {
 		return cards.getFirst();
 	}
@@ -36,5 +40,31 @@ public class Line {
 
 	public Deque<Card> getCards() {
 		return cards;
+	}
+
+	public boolean isEmpty() {
+		return cards.isEmpty();
+	}
+
+	/**
+	 * 先頭のカードを抜きます。
+	 *
+	 * @return
+	 */
+	public Card remove() {
+		return cards.remove();
+	}
+
+	/**
+	 * LINEにこれ以上カードをおけるかどうかを判定する
+	 *
+	 * @return
+	 */
+	public boolean isFull() {
+		if (cards.size() >= 5) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

@@ -37,15 +37,37 @@ public class Field {
 		return lines;
 	}
 
-	public int getSmallestInTheFirst() {
+	public int getSmallestInTheLast() {
 		int smallest = 105;
 		for (Line line : lines) {
-			int head = line.getFirst().getNumber();
+			int head = line.getLast().getNumber();
 			if (smallest > head) {
 				smallest = head;
 			}
 		}
 		return smallest;
+	}
+
+	public int clearLine(int index) {
+		Line line = lines.get(index);
+		int totalMintus = 0;
+		while(!line.isEmpty()) {
+			totalMintus += line.remove().getMinus();
+		}
+		return totalMintus;
+
+	}
+
+	public void put(int index, Card card) {
+		lines.get(index).addLast(card);
+	}
+
+	public List<Card> getLasts() {
+		List<Card> cards = new ArrayList<Card>();
+		for (Line line : lines) {
+			cards.add(line.getLast());
+		}
+		return cards;
 	}
 //	// 各Lineの先頭
 //	public List<Integer> getFirsts() {

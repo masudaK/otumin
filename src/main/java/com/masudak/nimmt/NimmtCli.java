@@ -7,6 +7,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.SortedMap;
 
 
 public class NimmtCli {
@@ -34,8 +37,58 @@ public class NimmtCli {
 		prompt.showHands(player);
 		prompt.showField(gm.getField());
 
-		int index = prompt.getIndex(player);
-		gm.judge(player.getId(), index); // 結果をもらえる
+		while (player.handsSize() > 0) {
+
+			int index = prompt.getIndex(player);
+			SortedMap<Card, User> open = gm.openHand(player.getId(), index);
+
+			// 1ターン
+			for (Map.Entry<Card, User> entry : open.entrySet()) {
+				Card card = entry.getKey();
+				User user = entry.getValue();
+				System.out.println(card.getNumber() + "の処理を行います。カードを出したユーザは" + user.getId() + "です。");
+				if (card.getNumber() < gm.getMinimum()) {
+					// どこに置くか決めてもらってLineを更新してユーザのマイナスポイントを追加する
+					int line = -1;
+					if (user.isNpc()) {
+						// ランダムにおく
+						line = new Random().nextInt(4);
+					} else {
+						// ユーザに選択させる
+						prompt.showField(gm.getField());
+//						prompt.showHands(user);
+						line = prompt.getFieldIndex();
+					}
+					// マイナスポイントとLineのカード情報を更新する
+					gm.updateFieldAndUser(line, user.getId());
+					gm.putField(line, card);
+
+				} else {
+					int line = gm.getLineToAddLast(card.getNumber());
+					if (gm.isLineFull(line)) {
+						// マイナスポイントとLineのカード情報を更新する
+						gm.updateFieldAndUser(line, user.getId());
+						gm.putField(line, card);
+					} else {
+						// 後方に追加
+						gm.putField(line, card);
+					}
+				}
+			}
+
+			System.out.println("1巡が終わった状態");
+			prompt.showField(gm.getField());
+			prompt.showHands(player);
+		}
+
+		System.out.println("全てのターンが終わった");
+		prompt.showScore(gm.showScore());
+
+
+
+
+		//gm.judge(player.getId(), index); // 結果をもらえる
+
 
 
 
@@ -47,6 +100,7 @@ public class NimmtCli {
 
 		void showHands(User player) {
 			System.out.println("id : " + player.getId() );
+			System.out.println("minus : " + player.getMinus() );
 			System.out.println("your hands : ");
 			System.out.println("index, card number, minus");
 			List<Card> hands = player.listHands();
@@ -85,6 +139,12 @@ public class NimmtCli {
 			return number;
 		}
 
+		/**
+		 * プレーヤーの手札のうち、どれを出すか、カードのインデックス番号を取得します。
+		 *
+		 * @param player
+		 * @return
+		 */
 		int getIndex(User player) {
 //			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 			System.out.println("choose your card. [index]");
@@ -100,6 +160,27 @@ public class NimmtCli {
 					// ignore
 				}
 				System.out.println("Input should be in 0-" + player.handsSize() + ". Choose again");
+			}
+			//close(in);
+			System.out.println("You have choose [index]:" + index);
+			return index;
+		}
+
+		int getFieldIndex() {
+//			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			System.out.println("choose field. [index]");
+			int index = -1;
+			while(true) {
+				try {
+//					System.out.println("test");
+					index = Integer.parseInt(in.readLine());
+					if (0 <= index && index < 4) {
+						break;
+					}
+				} catch (Exception e) {
+					// ignore
+				}
+				System.out.println("Input should be in 0-3. Choose again");
 			}
 			//close(in);
 			System.out.println("You have choose [index]:" + index);
@@ -123,6 +204,14 @@ public class NimmtCli {
 					System.out.print(card.getNumber() + "(" + card.getMinus() + ")  ");
 				}
 				System.out.println();
+				i++;
+			}
+		}
+
+		void showScore(List<Integer> scores) {
+			int i = 1;
+			for (int score : scores) {
+				System.out.println(i + ": " + score);
 				i++;
 			}
 		}
