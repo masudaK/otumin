@@ -1,5 +1,8 @@
 package otumin.com;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: masuda_kenichi
@@ -9,12 +12,22 @@ package otumin.com;
  */
 public class GameMaster {
 
-    private static void createMultipleUser(int num){
+    private List<User> users;
+
+    public GameMaster(){
+        this.users = new ArrayList<User>();
+    }
+
+    public void createMultipleUser(int num){
         //playerNumの数だけループさせる
         for(int i = 0; i < num; i++){
             User user = new User(i);
-            //ここでsetIdできないのでコンストラクタでやってみる
-            //user.setId();
+            users.add(user);
         }
     }
+
+    public User getUser(int idx){
+        return users.get(idx + 1);
+    }
+
 }

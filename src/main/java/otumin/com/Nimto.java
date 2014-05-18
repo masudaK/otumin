@@ -15,18 +15,18 @@ public class Nimto {
         // プレイヤーの人数をinputで受け付けて決定する
         Terminal terminal = new Terminal();
         try{
-            Integer playerNum =  terminal.determinePlayerNum();
-            System.out.println("プレイヤーの人数は「" + playerNum + "」人です");
+            Integer usersNum =  terminal.determineUsersNum();
+            System.out.println("参加ユーザの数は「" + usersNum + "」人です");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
         //ユーザ作成
-        createMultipleUser(3);
+        GameMaster gm = new GameMaster();
+        gm.createMultipleUser(3);
 
 
-        // ゲーム開始
         Deck deck =  new Deck();
         deck.create();
         deck.shuffle();

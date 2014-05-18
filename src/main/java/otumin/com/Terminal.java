@@ -13,16 +13,16 @@ import java.io.InputStreamReader;
  */
 public class Terminal {
 
-    public String inputPlayerNum() throws IOException {
+    private String inputUsersNum() throws IOException {
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
         return br.readLine();
     }
 
-    public Integer determinePlayerNum(){
-        System.out.print("プレイヤーの人数を入力してください: ");
+    public Integer determineUsersNum(){
+        System.out.print("参加ユーザーの数を入力してください: ");
 
-        int n = Integer.valueOf(inputPlayerNum());
+        int n = Integer.valueOf(inputUsersNum());
         return n;
 
         //try{
