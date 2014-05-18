@@ -1,5 +1,7 @@
 package otumin.com;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: masuda_kenichi
@@ -10,6 +12,7 @@ package otumin.com;
 public class User {
 
     private int id;
+    private List<Integer> hands;
 
 
     public User(int id){
@@ -23,6 +26,11 @@ public class User {
 
     private void setId(int id){
         this.id = id;
+    }
+
+    public void recieveCard(int cardNumber){
+        //todo
+        hands.add(cardNumber);
     }
 
 
