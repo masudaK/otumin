@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * Nimmtを遊ぶプレーヤー情報を表します
+ * Nimmtを遊ぶプレーヤー情報を表します。
+ * プレーヤーに対する更新系の操作は{@link GameMaster}を通じて行います。
  *
  * @author tksmaru
  */
@@ -62,7 +63,7 @@ public class User {
 	 * @param index 手札の何枚目のカードかを示すインデックス番号
 	 * @return カード
 	 */
-	public Card pickHand(int index) {
+	Card pickHand(int index) {
 		return hands.remove(index);
 	}
 
@@ -71,7 +72,7 @@ public class User {
 	 *
 	 * @return カード
 	 */
-	public Card pickRandom() {
+	Card pickRandom() {
 		return hands.remove(new Random().nextInt(hands.size()));
 	}
 
@@ -80,7 +81,7 @@ public class User {
 	 *
 	 * @param hands カードのリスト
 	 */
-	public void setHands(List<Card> hands) {
+	void setHands(List<Card> hands) {
 		this.hands = hands;
 	}
 
@@ -98,7 +99,7 @@ public class User {
 	 *
 	 * @param cow 牛の数
 	 */
-	public void addCow(int cow) {
+	void addCow(int cow) {
 		this.cow += cow;
 	}
 
