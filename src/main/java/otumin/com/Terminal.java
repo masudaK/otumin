@@ -13,36 +13,26 @@ import java.io.InputStreamReader;
  * To change this template use File | Settings | File Templates.
  */
 public class Terminal {
-    public String input;
-
 
     public String inputPlayerNum() throws IOException {
-        // ヌルポになってしまう。
-        //Console console = System.console();
-        //if (console == null) {
-        //    System.out.println("Unable to fetch console");
-        //}
-        //System.out.print("プレイヤーの人数を入力してください");
-        //String input = console.readLine();
-        //return input;
-
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
-        String input = br.readLine();
-        return input;
+        return br.readLine();
     }
 
     public Integer determinePlayerNum(){
         System.out.print("プレイヤーの人数を入力してください: ");
 
-        try{
-          //入力がStringになってるので、Intergerにキャスト
-          Integer n = Integer.valueOf(inputPlayerNum());
-          return n;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // ここってデフォルト値？
-        return 1;
+        int n = Integer.valueOf(inputPlayerNum());
+        return n;
+
+        //try{
+        //  //入力がStringになってるので、Intergerにキャスト
+        //  return n;
+        //} catch (IOException e) {
+        //    e.printStackTrace();
+        //}
+        //// ここってデフォルト値？
+        //return 1;
     }
 }

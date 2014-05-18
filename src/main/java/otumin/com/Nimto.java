@@ -3,6 +3,7 @@ package otumin.com;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,8 +17,13 @@ public class Nimto {
 
         // プレイヤーの人数をinputで受け付けて決定する
         Terminal terminal = new Terminal();
-        Integer playerNum =  terminal.determinePlayerNum();
-        System.out.println("プレイヤーの人数は「" + playerNum + "」人です");
+        try{
+            Integer playerNum =  terminal.determinePlayerNum();
+            System.out.println("プレイヤーの人数は「" + playerNum + "」人です");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         //ユーザ作成
         createMultipleUser(3);
