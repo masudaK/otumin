@@ -1,7 +1,7 @@
 package com.masudak.nimmt.core;
 
 /**
- * ニムトのゲームルール
+ * Nimmtのゲームルール
  *
  * @author tksmaru
  */
@@ -22,8 +22,8 @@ public class Rule {
 	/** ラインに配置できる最大カード枚数 */
 	public static final int LINE_MAX_SIZE = 5;
 
+	/** Nimmtのカード枚数 */
 	public static final int NUMBER_OF_CARDS = 104;
-
 
 	/**
 	 * プレーヤー人数が正しいかを判定します。<br />
