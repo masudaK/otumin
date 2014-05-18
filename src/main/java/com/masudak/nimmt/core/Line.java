@@ -4,64 +4,95 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 /**
- * Created with IntelliJ IDEA.
- * User: maruyama_takashi
- * Date: 14/05/12
- * Time: 21:30
+ * Nimmtのフィールド内の各列を表します
+ *
+ * @author tksmaru
  */
 public class Line {
+
+	/** 列におけるカードの最大枚数 */
+	private static final int MAX_SIZE = Rule.LINE_MAX_SIZE;
+
+	/** 列番号(0-3) */
 	private int id;
+
+	/** 列が保持するカード */
 	private Deque<Card> cards;
 
-	public Line(int id) {
+	Line(int id) {
 		this.id = id;
-		cards = new LinkedList<Card>();
+		this.cards = new LinkedList<Card>();
 	}
 
+	Line(int id, Deque<Card> cards) {
+		this.id = id;
+		this.cards = new LinkedList<Card>(cards);
+	}
+
+	/**
+	 * 列番号を取得します。
+	 *
+	 * @return 列番号
+	 */
 	public int getId() {
 		return id;
 	}
 
-	public void addFirst(Card card) {
-		cards.addFirst(card);
-	}
-
+	/**
+	 * 列の最後尾にカードを置きます。
+	 *
+	 * @param card カード
+	 */
 	public void addLast(Card card) {
 		cards.addLast(card);
 	}
 
-	public Card getFirst() {
-		return cards.getFirst();
-	}
-
+	/**
+	 * 列の最後尾のカードを取得します。<br />
+	 * 但し、列からは削除しません。
+	 *
+	 * @return 列の最後尾のカード
+	 */
 	public Card getLast() {
 		return cards.getLast();
 	}
 
+	/**
+	 * 列内の全てのカードのリストを先頭順に取得しますが、削除はしません。<br />
+	 * また、取得したリスト内のカードに対して変更を加えても列の情報が変更されることはありません。
+	 *
+	 * @return 列内の全てのカードのリスト（先頭順）
+	 */
 	public Deque<Card> getCards() {
-		return cards;
+		return new LinkedList<Card>(cards);
 	}
 
+	/**
+	 * 列にカードが置かれていないかどうかを判定します。
+	 *
+	 * @return 列が空っぽの場合trueを返します。
+	 */
 	public boolean isEmpty() {
 		return cards.isEmpty();
 	}
 
 	/**
-	 * 先頭のカードを抜きます。
+	 * 列の先頭のカードを取得して、列から削除します。
 	 *
-	 * @return
+	 * @return Card
 	 */
 	public Card remove() {
 		return cards.remove();
 	}
 
 	/**
-	 * LINEにこれ以上カードをおけるかどうかを判定する
+	 * 列が一杯かどうかを判定します。<br />
+	 * 列にカードが5枚置いてある場合、列にこれ以上カードを置くことは出来ません。
 	 *
-	 * @return
+	 * @return 列にカードが5枚置いてある場合にtrueを返す
 	 */
 	public boolean isFull() {
-		if (cards.size() >= 5) {
+		if (cards.size() >= MAX_SIZE) {
 			return true;
 		} else {
 			return false;

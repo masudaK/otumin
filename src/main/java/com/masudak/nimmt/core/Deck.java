@@ -15,9 +15,9 @@ public class Deck {
 	private List<Card> cards;
 
 	public Deck() {
-		cards = new ArrayList<Card>(104);
-		for (int i = 1; i <= 104; i++) {
-			cards.add(new Card(i, -1)); // あとで直す
+		cards = new ArrayList<Card>(Rule.NUMBER_OF_CARDS);
+		for (int i = 1; i <= Rule.NUMBER_OF_CARDS; i++) {
+			cards.add(new Card(i, 1)); // TODO あとで直す
 		}
 	}
 
@@ -35,6 +35,7 @@ public class Deck {
 		return getCards(Rule.PLAYER_HANDS);
 	}
 
+	// TODO 必要？
 	public int size() {
 		return cards.size();
 	}

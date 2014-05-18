@@ -2,6 +2,8 @@ package com.masudak.nimmt;
 
 
 import com.masudak.nimmt.core.*;
+import com.masudak.nimmt.core.Field;
+import com.masudak.nimmt.core.Line;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -100,13 +102,13 @@ public class NimmtCli {
 
 		void showHands(User player) {
 			System.out.println("id : " + player.getId() );
-			System.out.println("minus : " + player.getMinus() );
+			System.out.println("minus : " + player.getCow() );
 			System.out.println("your hands : ");
 			System.out.println("index, card number, minus");
 			List<Card> hands = player.listHands();
 			for (int i = 0; i < hands.size(); i++) {
 				Card card = hands.get(i);
-				System.out.println(i + ", " + card.getNumber() + "(" + card.getMinus() + ")");
+				System.out.println(i + ", " + card.getNumber() + "(" + card.getCow() + ")");
 			}
 		}
 
@@ -201,7 +203,7 @@ public class NimmtCli {
 			for (Line line : field.getLines()) {
 				System.out.print(i + ": ");
 				for (Card card : line.getCards()) {
-					System.out.print(card.getNumber() + "(" + card.getMinus() + ")  ");
+					System.out.print(card.getNumber() + "(" + card.getCow() + ")  ");
 				}
 				System.out.println();
 				i++;

@@ -1,67 +1,93 @@
 package com.masudak.nimmt.core;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: maruyama_takashi
- * Date: 14/05/12
- * Time: 20:43
+ * Nimmtでカードを置く場を表します
+ *
+ * @author tksmaru
  */
 public class Field {
 
-	/**
-	 * size should be 4
-	 */
+	/** 場にある列の数 */
+	private static final int LINE_SIZE = Rule.FIELD_SIZE;
+
+	/** 場が持つ列 */
 	private List<Line> lines;
 
-	public Field() {
-		lines = new ArrayList<Line>(Rule.FIELD_SIZE);
-		for (int i = 0; i < Rule.FIELD_SIZE; i++) {
-			lines.add(new Line(i));
+	Field(List<Card> cards) {
+		// TODO 引数チェック
+		lines = new ArrayList<Line>(LINE_SIZE);
+		for (int i = 0; i < LINE_SIZE; i++) {
+			Line line = new Line(i);
+			line.addLast(cards.get(i));
+			lines.add(line);
 		}
 	}
 
-	public void initalize(List<Card> cards) { //throws GameException {
-//		if (cards == null || cards.size() != Rule.FIELD_SIZE) {
-//			throw new GameException("Cards should have " + Rule.FIELD_SIZE);
-//		}
-		for (int i = 0; i < Rule.FIELD_SIZE; i++) {
-			lines.get(i).addFirst(cards.get(i));
-		}
-	}
-
+	/**
+	 * フィールドを構成する列の一覧を取得しますが、削除はしません。<br />
+	 * また、取得したリスト内の列に対して変更を加えても列の情報が変更されることはありません。
+	 *
+	 * @return フィールドを構成する列の一覧
+	 */
 	public List<Line> getLines() {
-		return lines;
+		List<Line> field = new ArrayList<Line>(LINE_SIZE);
+		for (Line line : lines) {
+			field.add(new Line(line.getId(), line.getCards()));
+		}
+		return field;
 	}
 
+	/**
+	 * 場の各列の最後尾のカードのうち、最小の番号を取得します。
+	 *
+	 * @return 各列の最後尾のカードのうち、最小の番号
+	 */
 	public int getSmallestInTheLast() {
-		int smallest = 105;
+		int smallest = Rule.NUMBER_OF_CARDS;
 		for (Line line : lines) {
-			int head = line.getLast().getNumber();
-			if (smallest > head) {
-				smallest = head;
+			int number = line.getLast().getNumber();
+			if (smallest > number) {
+				smallest = number;
 			}
 		}
 		return smallest;
 	}
 
+	/**
+	 * 指定した列をクリアし、その時点で列に並んでいた各カードの牛の数の合計を返します。
+	 *
+	 * @param index 列番号（0-3）
+	 * @return 列に並んでいた各カードの牛の数の合計
+	 */
 	public int clearLine(int index) {
+		// TODO 引数チェック
 		Line line = lines.get(index);
-		int totalMintus = 0;
+		int totalCows = 0;
 		while(!line.isEmpty()) {
-			totalMintus += line.remove().getMinus();
+			totalCows += line.remove().getCow();
 		}
-		return totalMintus;
-
+		return totalCows;
 	}
 
+	/**
+	 * 指定した列の最後尾にカードを配置します。
+	 *
+	 * @param index 列番号(0-3)
+	 * @param card カード
+	 */
 	public void put(int index, Card card) {
+		// TODO
 		lines.get(index).addLast(card);
 	}
 
+	/**
+	 * 各列の最後尾のカードのリストを取得します。
+	 *
+	 * @return 各列の最後尾のカードのリスト
+	 */
 	public List<Card> getLasts() {
 		List<Card> cards = new ArrayList<Card>();
 		for (Line line : lines) {
@@ -69,23 +95,4 @@ public class Field {
 		}
 		return cards;
 	}
-//	// 各Lineの先頭
-//	public List<Integer> getFirsts() {
-//		List<Integer> cards = new ArrayList<Integer>(Rule.FIELD_SIZE);
-//		for (Line line: lines) {
-//			cards.add(line.getFirst().getNumber());
-//		}
-//		Collections.sort(cards);
-//		return cards;
-//	}
-//
-//	public List<Integer> getLasts() {
-//		List<Integer> cards = new ArrayList<Integer>(Rule.FIELD_SIZE);
-//		for (Line line: lines) {
-//			cards.add(line.getLast().getNumber());
-//		}
-//		Collections.sort(cards);
-//		return cards;
-//	}
-
 }

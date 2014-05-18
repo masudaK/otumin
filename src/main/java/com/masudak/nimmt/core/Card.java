@@ -1,26 +1,37 @@
 package com.masudak.nimmt.core;
 
 /**
- * Created with IntelliJ IDEA.
- * User: maruyama_takashi
- * Date: 14/05/12
- * Time: 16:16
+ * Nimmtにおける1枚のカードを表します
+ *
+ * @author tksmaru
  */
 public class Card implements Comparable<Card> {
+	/** カードの番号 */
 	private int number;
-	private int minus;
+	/** 牛の数 */
+	private int cow;
 
-	public Card(int number, int minus) {
+	public Card(int number, int cow) {
 		this.number = number;
-		this.minus = minus;
+		this.cow = cow;
 	}
 
+	/**
+	 * カードの番号を取得します。
+	 *
+	 * @return カードの番号
+	 */
 	public int getNumber() {
 		return number;
 	}
 
-	public int getMinus() {
-		return minus;
+	/**
+	 * カードの牛の数を取得します。
+	 *
+	 * @return 牛の数
+	 */
+	public int getCow() {
+		return cow;
 	}
 
 	@Override

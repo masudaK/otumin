@@ -20,7 +20,9 @@ public class Rule {
 	public static final int FIELD_SIZE = 4;
 
 	/** ラインに配置できる最大カード枚数 */
-	public static final int LINE_MAX_SIZE = 6;
+	public static final int LINE_MAX_SIZE = 5;
+
+	public static final int NUMBER_OF_CARDS = 104;
 
 
 	/**

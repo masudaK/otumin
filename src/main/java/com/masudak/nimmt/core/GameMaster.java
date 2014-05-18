@@ -36,8 +36,8 @@ public class GameMaster {
 	}
 
 	private void createField() {
-		field = new Field();
-		field.initalize(deck.getCards(Rule.FIELD_SIZE));
+		field = new Field(deck.getCards(Rule.FIELD_SIZE));
+//		field.initalize(deck.getCards(Rule.FIELD_SIZE));
 	}
 
 	public User getUser(int id) {
@@ -75,7 +75,7 @@ public class GameMaster {
 
 	public void updateFieldAndUser(int lineIndex, int userId) {
 		int minus = field.clearLine(lineIndex);
-		getUser(userId).setMinus(minus);
+		getUser(userId).addCow(minus);
 	}
 
 	public void putField(int lineIndex, Card card) {
@@ -111,7 +111,7 @@ public class GameMaster {
 	public List<Integer> showScore() {
 		List<Integer> scores = new ArrayList<Integer>();
 		for(User user : players) {
-			scores.add(user.getMinus());
+			scores.add(user.getCow());
 		}
 		return scores;
 	}
