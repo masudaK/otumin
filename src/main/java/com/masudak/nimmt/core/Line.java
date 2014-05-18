@@ -4,7 +4,8 @@ import java.util.Deque;
 import java.util.LinkedList;
 
 /**
- * Nimmtのフィールド内の各列を表します
+ * Nimmtのフィールド内の各列を表します。
+ * 列に対する各操作は{@link Field}を介して行います。
  *
  * @author tksmaru
  */
@@ -43,7 +44,7 @@ public class Line {
 	 *
 	 * @param card カード
 	 */
-	public void addLast(Card card) {
+	void addLast(Card card) {
 		cards.addLast(card);
 	}
 
@@ -81,7 +82,7 @@ public class Line {
 	 *
 	 * @return Card
 	 */
-	public Card remove() {
+	Card remove() {
 		return cards.remove();
 	}
 
