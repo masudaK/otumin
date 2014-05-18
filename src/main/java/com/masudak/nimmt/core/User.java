@@ -58,6 +58,15 @@ public class User {
 	}
 
 	/**
+	 * プレーヤーが手札を持ってるかを判定します。
+	 *
+	 * @return プレーヤーの手札に1枚以上カードが残っている場合にtrueを返す。
+	 */
+	public boolean hasHand() {
+		return !hands.isEmpty();
+	}
+
+	/**
 	 * プレーヤーの手札から1枚抜き取り、カードを返します。
 	 *
 	 * @param index 手札の何枚目のカードかを示すインデックス番号
