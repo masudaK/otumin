@@ -11,11 +11,22 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class User {
-    private List<User> userList;
+
+    private int id;
 
 
-    public void User(){
-        this.userList = new ArrayList<User>();
+    public User(int id){
+        //デフォルト1
+        this.id = id;
     }
+
+    private int getId(int id){
+        return id;
+    }
+
+    private void setId(int id){
+        this.id = id;
+    }
+
 
 }

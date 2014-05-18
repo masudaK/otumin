@@ -10,8 +10,6 @@ import java.util.List;
 // このゲームの支配者的存在。
 public class Nimto {
 
-    private static List<User> usersList;
-
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
         System.out.println("nimto Start!!");
@@ -38,9 +36,9 @@ public class Nimto {
     private static void createMultipleUser(int num){
         //playerNumの数だけループさせる
         for(int i = 0; i < num; i++){
-            //users.clear();
-            User user = new User();
-            usersList.add(user);
+            User user = new User(i);
+            //ここでsetIdできないのでコンストラクタでやってみる
+            //user.setId();
         }
     }
 
