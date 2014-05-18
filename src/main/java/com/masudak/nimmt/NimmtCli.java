@@ -1,9 +1,12 @@
 package com.masudak.nimmt;
 
 
-import com.masudak.nimmt.core.*;
+import com.masudak.nimmt.core.Card;
 import com.masudak.nimmt.core.Field;
+import com.masudak.nimmt.core.GameMaster;
 import com.masudak.nimmt.core.Line;
+import com.masudak.nimmt.core.Rule;
+import com.masudak.nimmt.core.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
