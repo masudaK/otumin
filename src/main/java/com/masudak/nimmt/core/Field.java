@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Nimmtでカードを置く場を表します
+ * Nimmtでカードを置く場を表します。<br />
+ * 場に対する操作は{@link GameMaster}を介して行います。
  *
  * @author tksmaru
  */
@@ -62,7 +63,7 @@ public class Field {
 	 * @param index 列番号（0-3）
 	 * @return 列に並んでいた各カードの牛の数の合計
 	 */
-	public int clearLine(int index) {
+	int clearLine(int index) {
 		// TODO 引数チェック
 		Line line = lines.get(index);
 		int totalCows = 0;
@@ -78,7 +79,7 @@ public class Field {
 	 * @param index 列番号(0-3)
 	 * @param card カード
 	 */
-	public void put(int index, Card card) {
+	void put(int index, Card card) {
 		// TODO
 		lines.get(index).addLast(card);
 	}
