@@ -4,9 +4,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 // このゲームの支配者的存在。
 public class Nimto {
@@ -39,13 +36,5 @@ public class Nimto {
     }
 
 
-    private static void createMultipleUser(int num){
-        //playerNumの数だけループさせる
-        for(int i = 0; i < num; i++){
-            User user = new User(i);
-            //ここでsetIdできないのでコンストラクタでやってみる
-            //user.setId();
-        }
-    }
 
 }
