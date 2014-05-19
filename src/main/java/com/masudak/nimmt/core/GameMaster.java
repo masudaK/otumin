@@ -161,7 +161,7 @@ public class GameMaster {
 	 * @return 列にこれ以上カードを置けない場合trueを返します。
 	 */
 	private boolean isLineFull(int lineIndex) {
-		return field.getLines().get(lineIndex).isFull();
+		return field.getLine(lineIndex).isFull();
 	}
 
 	// TODO 仮実装

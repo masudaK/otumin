@@ -25,7 +25,7 @@ public class Line {
 		this.cards = new LinkedList<Card>();
 	}
 
-	Line(int id, Deque<Card> cards) {
+	private Line(int id, Deque<Card> cards) {
 		this.id = id;
 		this.cards = new LinkedList<Card>(cards);
 	}
@@ -84,6 +84,14 @@ public class Line {
 	 */
 	Card remove() {
 		return cards.remove();
+	}
+
+	/**
+	 * 自身のコピーを取得します。（deep copy）
+	 * @return {@link Line} オブジェクトのコピー
+	 */
+	public Line copy() {
+		return new Line(id, cards);
 	}
 
 	/**

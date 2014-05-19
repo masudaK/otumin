@@ -36,9 +36,19 @@ public class Field {
 	public List<Line> getLines() {
 		List<Line> field = new ArrayList<Line>(LINE_SIZE);
 		for (Line line : lines) {
-			field.add(new Line(line.getId(), line.getCards()));
+			field.add(line.copy());
 		}
 		return field;
+	}
+
+	/**
+	 * フィールドを構成する列を取得しますが、削除はしません。<br />
+	 * また、取得した列に対して変更を加えても列の情報が変更されることはありません。
+	 *
+	 * @return フィールドを構成する列
+	 */
+	public Line getLine(int index) {
+		return lines.get(index).copy();
 	}
 
 	/**
