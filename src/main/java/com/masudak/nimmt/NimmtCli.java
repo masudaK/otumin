@@ -39,17 +39,17 @@ public class NimmtCli {
 		}
 		System.out.println("number of player : " + number );
 
-		GameMaster gm = new GameMaster(number);
+		GameMaster gameMaster = new GameMaster(number);
 
 		// 出力
-		User player = gm.getUser(1);
+		User player = gameMaster.getUser(1);
 		prompt.showHands(player);
-		prompt.showField(gm.getField());
+		prompt.showField(gameMaster.getField());
 
 		while (player.hasHand()) {
 
 			int index = prompt.getIndexOfHands(player);
-			SortedMap<Card, User> open = gm.openHand(player.getId(), index);
+			SortedMap<Card, User> open = gameMaster.openHand(player.getId(), index);
 
 			// 1ターン
 			for (Map.Entry<Card, User> entry : open.entrySet()) {
@@ -57,21 +57,22 @@ public class NimmtCli {
 				User user = entry.getValue();
 				System.out.println(card.getNumber() + "の処理を行います。カードを出したユーザは" + user.getId() + "です。");
 				int line;
-				if (card.getNumber() < gm.getMinimum()) {
-					line = getLineByUserChoise(user, gm.getField());
+				if (card.getNumber() < gameMaster.getMinimum()) {
+					line = getLineByUserChoise(user, gameMaster.getField());
 				} else {
-					line = gm.getLineToAddLast(card.getNumber());
+					line = gameMaster.getLineToAddLast(card.getNumber());
 				}
-				gm.putCardAndUpdate(line, card, user.getId());
+				gameMaster.putCardAndUpdate(line, card, user.getId());
 			}
 
 			System.out.println("1巡が終わった状態");
-			prompt.showField(gm.getField());
+			prompt.showField(gameMaster.getField());
 			prompt.showHands(player);
 		}
 
 		System.out.println("全てのターンが終わった");
-		prompt.showScore(gm.showScore());
+		prompt.showScore(gameMaster.showScore());
+		prompt.closeStream();
 	}
 
 	/**
