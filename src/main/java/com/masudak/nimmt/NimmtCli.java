@@ -58,7 +58,7 @@ public class NimmtCli {
 				System.out.println(card.getNumber() + "の処理を行います。カードを出したユーザは" + user.getId() + "です。");
 				int line;
 				if (card.getNumber() < gameMaster.getMinimum()) {
-					line = getLineByPlayerChoise(user, gameMaster.getField());
+					line = getLineByPlayerChoice(user, gameMaster.getField());
 				} else {
 					line = gameMaster.getLineToAddLast(card.getNumber());
 				}
@@ -80,7 +80,7 @@ public class NimmtCli {
 	 * @param user
 	 * @return
 	 */
-	private int getLineByPlayerChoise(Player user, Field field) {
+	private int getLineByPlayerChoice(Player user, Field field) {
 		if (user.isNpc()) {
 			// ランダムにおく
 			return new Random().nextInt(Rule.FIELD_SIZE);
