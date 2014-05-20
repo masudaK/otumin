@@ -33,6 +33,13 @@ public class Nimto {
 
         System.out.println("デッキの中身:" + deck.getDeck());
 
+        //配布
+        //int distributeNumber = deck.get(0);
+        //user.hands.add(distributeNumber);
+        //deck.remove(0)
+
+        // distributeCard(getUser(0));
+
     }
 
 
