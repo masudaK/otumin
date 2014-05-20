@@ -36,10 +36,20 @@ public class GameMaster {
 
         System.out.println("デッキの中身:" + deck.getDeck());
 
-        //配布
+        //配布Before
         //int distributeNumber = deck.get(0);
         //user.hands.add(distributeNumber);
         //deck.remove(0)
+
+        //配布After
+        //User user = um.getUserById(0);
+        //Card card = deck.getCardByIndex(0);
+        //user.receiveCard(card);
+        //deck.popCardByIndex(0);
+
+        // Field field = new Field();
+        // field.receiveCard(card); //Laneオブジェクトに置かれる
+        //deck.popCardByIndex(0);
     }
 
 
