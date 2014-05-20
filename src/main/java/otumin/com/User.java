@@ -30,7 +30,6 @@ public class User {
 
     public void recieveCard(int cardNumber){
         //todo
-        hands.add(cardNumber);
     }
 
 

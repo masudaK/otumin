@@ -12,29 +12,10 @@ public class Nimto {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
         System.out.println("nimto Start!!");
 
-        // プレイヤーの人数をinputで受け付けて決定する
-        Terminal terminal = new Terminal();
-        Integer usersNum =  terminal.determineUsersNum();
-        System.out.println("参加ユーザの数は「" + usersNum + "」人です");
-
-
-        //ユーザ作成
         GameMaster gm = new GameMaster();
-        gm.createMultipleUser(3);
+        gm.startGame();
+        gm.distributeCard();
 
-
-        Deck deck =  new Deck();
-        deck.create();
-        deck.shuffle();
-
-        System.out.println("デッキの中身:" + deck.getDeck());
-
-        //配布
-        //int distributeNumber = deck.get(0);
-        //user.hands.add(distributeNumber);
-        //deck.remove(0)
-
-        // distributeCard(getUser(0));
 
     }
 

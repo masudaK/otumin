@@ -12,22 +12,36 @@ import java.util.List;
  */
 public class GameMaster {
 
-    private List<User> users;
+    private UserMaster um;
+    private Deck deck;
+    private Terminal tm;
+
 
     public GameMaster(){
-        this.users = new ArrayList<User>();
+        this.um = new UserMaster();
+        this.deck = new Deck();
     }
 
-    public void createMultipleUser(int num){
-        //playerNumの数だけループさせる
-        for(int i = 0; i < num; i++){
-            User user = new User(i);
-            users.add(user);
-        }
+    public void startGame(){
+        // プレイヤーの人数をinputで受け付けて決定する
+        int usersNum =  um.determineUsersNum();
+        System.out.println("参加ユーザの数は「" + usersNum + "」人です");
+
+        um.createMultipleUser(usersNum);
     }
 
-    public User getUser(int idx){
-        return users.get(idx + 1);
+    public void distributeCard(){
+        deck.create();
+        deck.shuffle();
+
+        System.out.println("デッキの中身:" + deck.getDeck());
+
+        //配布
+        //int distributeNumber = deck.get(0);
+        //user.hands.add(distributeNumber);
+        //deck.remove(0)
     }
+
+
 
 }
