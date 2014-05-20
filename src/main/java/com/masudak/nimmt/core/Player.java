@@ -10,7 +10,7 @@ import java.util.Random;
  *
  * @author tksmaru
  */
-public class User {
+public class Player {
 
 	/** プレーヤーを一意に識別するID */
 	private int id;
@@ -24,7 +24,7 @@ public class User {
 	/** プレーヤがNPCかどうか */
 	private boolean npc;
 
-	public User (int id, boolean npc) {
+	public Player(int id, boolean npc) {
 		this.id = id;
 		this.npc = npc;
 	}

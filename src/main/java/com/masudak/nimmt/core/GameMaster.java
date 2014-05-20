@@ -14,7 +14,7 @@ import java.util.TreeMap;
 public class GameMaster {
 
 	/** ゲームのプレーヤー一覧 */
-	private List<User> players;
+	private List<Player> players;
 
 	/** 山札 */
 	private Deck deck;
@@ -47,10 +47,10 @@ public class GameMaster {
 	 * @param number ゲームの参加人数
 	 */
 	private void createPlayers(int number) {
-		players = new ArrayList<User>(number);
+		players = new ArrayList<Player>(number);
 		for (int i = 0; i < number; i++) {
 			boolean npc = i == 0 ? false : true;
-			User player = new User(i + 1, npc);
+			Player player = new Player(i + 1, npc);
 			player.setHands(deck.getHands());
 			players.add(player);
 		}
@@ -70,7 +70,7 @@ public class GameMaster {
 	 * @param id プレーヤーを一意に識別するID
 	 * @return IDに紐づくプレーヤー情報
 	 */
-	public User getUser(int id) {
+	public Player getPlayer(int id) {
 		// TODO
 		return players.get(id - 1);
 	}
@@ -92,14 +92,14 @@ public class GameMaster {
 	 * @param index プレーヤーが場に晒す手札のインデックス番号
 	 * @return 場に並べるカードの一覧（カード番号の昇順）
 	 */
-	public SortedMap<Card, User> openHand(int userId, int index) {
+	public SortedMap<Card, Player> openHand(int userId, int index) {
 
-		SortedMap<Card, User> map = new TreeMap<Card, User>();
-		map.put(getUser(userId).pickHand(index), getUser(userId));
+		SortedMap<Card, Player> map = new TreeMap<Card, Player>();
+		map.put(getPlayer(userId).pickHand(index), getPlayer(userId));
 
 		// NPC
 		for (int i = 1; i <players.size(); i++) {
-			map.put(getUser(i + 1).pickRandom(), getUser(i + 1));
+			map.put(getPlayer(i + 1).pickRandom(), getPlayer(i + 1));
 		}
 		return map;
 	}
@@ -125,7 +125,7 @@ public class GameMaster {
 	public void putCardAndUpdate(int lineIndex, Card card, int userId) {
 		if (isLineFull(lineIndex)) {
 			int minus = field.clearLine(lineIndex);
-			getUser(userId).addCow(minus);
+			getPlayer(userId).addCow(minus);
 		}
 		field.put(lineIndex, card);
 	}
@@ -167,8 +167,8 @@ public class GameMaster {
 	// TODO 仮実装
 	public List<Integer> showScore() {
 		List<Integer> scores = new ArrayList<Integer>();
-		for(User user : players) {
-			scores.add(user.getCow());
+		for(Player player : players) {
+			scores.add(player.getCow());
 		}
 		return scores;
 	}

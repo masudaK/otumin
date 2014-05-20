@@ -6,7 +6,7 @@ import com.masudak.nimmt.core.Field;
 import com.masudak.nimmt.core.GameMaster;
 import com.masudak.nimmt.core.Line;
 import com.masudak.nimmt.core.Rule;
-import com.masudak.nimmt.core.User;
+import com.masudak.nimmt.core.Player;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,23 +42,23 @@ public class NimmtCli {
 		GameMaster gameMaster = new GameMaster(number);
 
 		// 出力
-		User player = gameMaster.getUser(1);
+		Player player = gameMaster.getPlayer(1);
 		prompt.showHands(player);
 		prompt.showField(gameMaster.getField());
 
 		while (player.hasHand()) {
 
 			int index = prompt.getIndexOfHands(player);
-			SortedMap<Card, User> open = gameMaster.openHand(player.getId(), index);
+			SortedMap<Card, Player> open = gameMaster.openHand(player.getId(), index);
 
 			// 1ターン
-			for (Map.Entry<Card, User> entry : open.entrySet()) {
+			for (Map.Entry<Card, Player> entry : open.entrySet()) {
 				Card card = entry.getKey();
-				User user = entry.getValue();
+				Player user = entry.getValue();
 				System.out.println(card.getNumber() + "の処理を行います。カードを出したユーザは" + user.getId() + "です。");
 				int line;
 				if (card.getNumber() < gameMaster.getMinimum()) {
-					line = getLineByUserChoise(user, gameMaster.getField());
+					line = getLineByPlayerChoise(user, gameMaster.getField());
 				} else {
 					line = gameMaster.getLineToAddLast(card.getNumber());
 				}
@@ -80,7 +80,7 @@ public class NimmtCli {
 	 * @param user
 	 * @return
 	 */
-	private int getLineByUserChoise(User user, Field field) {
+	private int getLineByPlayerChoise(Player user, Field field) {
 		if (user.isNpc()) {
 			// ランダムにおく
 			return new Random().nextInt(Rule.FIELD_SIZE);
@@ -131,7 +131,7 @@ public class NimmtCli {
 		 * @param player プレーヤー
 		 * @return ユーザの手札のインデックス番号（0-{その時点のユーザの手札の枚数-1}）
 		 */
-		int getIndexOfHands(User player) {
+		int getIndexOfHands(Player player) {
 			System.out.println("choose your card. [index]");
 			int index;
 			while(true) {
@@ -182,7 +182,7 @@ public class NimmtCli {
 			}
 		}
 
-		void showHands(User player) {
+		void showHands(Player player) {
 			System.out.println("id : " + player.getId() );
 			System.out.println("minus : " + player.getCow() );
 			System.out.println("your hands : ");
