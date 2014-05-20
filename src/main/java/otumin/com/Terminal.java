@@ -21,17 +21,12 @@ public class Terminal {
 
     public Integer determineUsersNum(){
         System.out.print("参加ユーザーの数を入力してください: ");
-
-        int n = Integer.valueOf(inputUsersNum());
+        int n = 0;
+        try{
+            n = Integer.valueOf(inputUsersNum());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return n;
-
-        //try{
-        //  //入力がStringになってるので、Intergerにキャスト
-        //  return n;
-        //} catch (IOException e) {
-        //    e.printStackTrace();
-        //}
-        //// ここってデフォルト値？
-        //return 1;
     }
 }
