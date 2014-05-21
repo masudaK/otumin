@@ -51,4 +51,9 @@ public class UserMaster {
         }
         return n;
     }
+
+    public User getUserById(int i) {
+        //IDの存在有無マッチしたら返却
+        return users.get(0);
+    }
 }

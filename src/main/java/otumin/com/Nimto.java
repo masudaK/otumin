@@ -3,9 +3,7 @@ package otumin.com;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.io.IOException;
 
-// このゲームの支配者的存在。
 public class Nimto {
 
     public static void main(String[] args) {
@@ -18,7 +16,4 @@ public class Nimto {
 
 
     }
-
-
-
 }

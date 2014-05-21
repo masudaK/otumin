@@ -9,9 +9,19 @@ package otumin.com;
  */
 public class Card {
 
-    private SomethingType card;
+    private int number;
+    private int minusPoint;
 
     public Card(int number, int minusPoint){
-        this.card = new SomethingType(number, minusPoint);
+        this.number = number;
+        this.minusPoint = minusPoint;
+    }
+
+    public int getNumber(){
+        return number;
+    }
+
+    public int getMinusPoint(){
+        return minusPoint;
     }
 }

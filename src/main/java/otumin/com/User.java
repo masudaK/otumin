@@ -1,5 +1,6 @@
 package otumin.com;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,25 +13,15 @@ import java.util.List;
 public class User {
 
     private int id;
-    private List<Integer> hands;
+    private List<Card> hands;
 
 
     public User(int id){
-        //デフォルト1
         this.id = id;
+        this.hands = new ArrayList<Card>(10);
     }
 
-    private int getId(int id){
-        return id;
+    public void receiveCard(Card card) {
+        hands.add(card);
     }
-
-    private void setId(int id){
-        this.id = id;
-    }
-
-    public void recieveCard(int cardNumber){
-        //todo
-    }
-
-
 }

@@ -20,18 +20,27 @@ public class Deck {
         this.deck = new ArrayList<Card>(104);
     }
 
-    public List<Card> getDeck(){
-        return deck;
-    }
-
     public List<Card> create(){
-        Card card = new Card(1,1);
-        deck.add(card);
+        Card card1 = new Card(1,1);
+        Card card2 = new Card(2,1);
+        Card card3 = new Card(3,1);
+        deck.add(card1);
+        deck.add(card2);
+        deck.add(card3);
         return deck;
     }
 
     public void shuffle(){
         Collections.shuffle(deck);
+    }
+
+    public Card getCardByNumber(int i) {
+        // deckのなかで数値がマッチしたものを返す
+        return deck.get(i);
+    }
+
+    public void removeCardByNumber(int i) {
+        deck.remove(i);
     }
 }
 

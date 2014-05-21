@@ -34,22 +34,17 @@ public class GameMaster {
         deck.create();
         deck.shuffle();
 
-        System.out.println("デッキの中身:" + deck.getDeck());
+        System.out.println("デッキの中身:" + deck.getCardByNumber(0).getNumber());
+        System.out.println("デッキの中身:" + deck.getCardByNumber(0).getMinusPoint());
 
-        //配布Before
-        //int distributeNumber = deck.get(0);
-        //user.hands.add(distributeNumber);
-        //deck.remove(0)
+        User user = um.getUserById(0);
+        Card card = deck.getCardByNumber(0);
+        user.receiveCard(card);
+        deck.removeCardByNumber(0);
 
-        //配布After
-        //User user = um.getUserById(0);
-        //Card card = deck.getCardByIndex(0);
-        //user.receiveCard(card);
-        //deck.popCardByIndex(0);
-
-        // Field field = new Field();
-        // field.receiveCard(card); //Laneオブジェクトに置かれる
-        //deck.popCardByIndex(0);
+        Field field = new Field();
+        field.receiveCard(card);
+        deck.removeCardByNumber(0);
     }
 
 
