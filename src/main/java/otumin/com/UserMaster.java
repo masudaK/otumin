@@ -20,8 +20,8 @@ public class UserMaster {
         this.users = new ArrayList<User>();
     }
 
-    public User getUser(int idx){
-        return users.get(idx + 1);
+    public User getUser(int index){
+        return users.get(index);
     }
 
     public void createMultipleUser(int num){
@@ -55,5 +55,16 @@ public class UserMaster {
     public User getUserById(int i) {
         //IDの存在有無マッチしたら返却
         return users.get(0);
+    }
+
+    public void showHandsByUserIndex(int index) {
+        System.out.println("ユーザ" + index + "の手札");
+        System.out.println("");
+        User user = getUser(index);
+        System.out.println("所有数:" + user.showHands().size() + "枚");
+        for(Card c : user.showHands()){
+            System.out.print(c.getNumber() + ",");
+        }
+        System.out.println("");
     }
 }

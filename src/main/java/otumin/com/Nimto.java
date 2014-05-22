@@ -11,8 +11,7 @@ public class Nimto {
         System.out.println("nimto Start!!");
 
         GameMaster gm = new GameMaster();
-        gm.startGame();
-        gm.distributeCard();
+        gm.gameStart();
 
 
     }

@@ -1,8 +1,6 @@
 package otumin.com;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,18 +13,25 @@ public class Deck {
 
     private List<Card> deck;
 
+    private Map<Integer, Integer> map;
+
     // コンストラクタ
     public Deck(){
         this.deck = new ArrayList<Card>(104);
+        map = new HashMap<Integer, Integer>();
+        for(int i = 1; i <= 104; i++){
+            map.put(i,1);
+        }
     }
 
-    public List<Card> create(){
-        Card card1 = new Card(1,1);
-        Card card2 = new Card(2,1);
-        Card card3 = new Card(3,1);
-        deck.add(card1);
-        deck.add(card2);
-        deck.add(card3);
+    public void create(){
+        for(int i = 1; i <= 104; i++){
+            Card card = new Card(i, map.get(i));
+            deck.add(card);
+        }
+    }
+
+    public List<Card> getDeck(){
         return deck;
     }
 
@@ -34,13 +39,12 @@ public class Deck {
         Collections.shuffle(deck);
     }
 
-    public Card getCardByNumber(int i) {
-        // deckのなかで数値がマッチしたものを返す
-        return deck.get(i);
+    public Card getCardByFirst() {
+        return deck.get(0);
     }
 
-    public void removeCardByNumber(int i) {
-        deck.remove(i);
+    public void removeCardByFirst() {
+        deck.remove(0);
     }
 }
 

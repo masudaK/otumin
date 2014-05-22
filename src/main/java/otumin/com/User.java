@@ -24,4 +24,8 @@ public class User {
     public void receiveCard(Card card) {
         hands.add(card);
     }
+
+    public List<Card> showHands(){
+        return hands;
+    }
 }
