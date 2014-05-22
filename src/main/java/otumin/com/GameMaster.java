@@ -43,7 +43,16 @@ public class GameMaster {
         deck.removeCardByNumber(0);
 
         Field field = new Field();
-        field.receiveCard(card);
+        field.receivePutCardLane1(card);
+        deck.removeCardByNumber(0);
+
+        field.receivePutCardLane2(card);
+        deck.removeCardByNumber(0);
+
+        field.receivePutCardLane3(card);
+        deck.removeCardByNumber(0);
+
+        field.receivePutCardLane4(card);
         deck.removeCardByNumber(0);
     }
 

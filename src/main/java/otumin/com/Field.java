@@ -24,7 +24,22 @@ public class Field {
         this.lane4 = new ArrayList<Card>();
     }
 
-    public void receiveCard(Card card) {
+    public void receivePutCardLane1(Card card) {
         lane1.add(card);
     }
+
+    public void receivePutCardLane2(Card card) {
+        lane2.add(card);
+    }
+
+    public void receivePutCardLane3(Card card) {
+        lane3.add(card);
+    }
+
+    public void receivePutCardLane4(Card card) {
+        lane4.add(card);
+    }
+
+    //GMに空いてるレーンを教える
+
 }
