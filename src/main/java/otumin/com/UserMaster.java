@@ -49,6 +49,7 @@ public class UserMaster {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("参加ユーザの数は「" + n + "」人です");
         return n;
     }
 

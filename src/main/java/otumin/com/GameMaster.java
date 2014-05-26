@@ -27,7 +27,6 @@ public class GameMaster {
         deck.shuffle();
 
         int usersNum =  um.determineUsersNum();
-        System.out.println("参加ユーザの数は「" + usersNum + "」人です");
 
         // ユーザ作成
         um.createMultipleUser(usersNum);
