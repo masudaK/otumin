@@ -55,17 +55,13 @@ public class GameMaster {
 
         // 各レーンに残りの札を配置する（ニムトではレーン1枚ずつ計4枚配置することになっている）
         Field field = new Field();
-        field.receivePutCardLane1(deck.getCardByFirst());
-        deck.removeCardByFirst();
+        field.receivePutCardLane1(deck.removeAndGetCardByFirst());
 
-        field.receivePutCardLane2(deck.getCardByFirst());
-        deck.removeCardByFirst();
+        field.receivePutCardLane2(deck.removeAndGetCardByFirst());
 
-        field.receivePutCardLane3(deck.getCardByFirst());
-        deck.removeCardByFirst();
+        field.receivePutCardLane3(deck.removeAndGetCardByFirst());
 
-        field.receivePutCardLane4(deck.getCardByFirst());
-        deck.removeCardByFirst();
+        field.receivePutCardLane4(deck.removeAndGetCardByFirst());
 
         // ここまでで全ユーザと全列にカードの配置が終わってるので、デッキの中身を表示してみる
         System.out.println("----------------");
@@ -82,9 +78,9 @@ public class GameMaster {
         for(int i = 0; i < usersNum; i++){
             User user = um.getUser(i);
             for(int j = 0; j < 10; j++){ // 10枚配布
-                Card c = deck.getCardByFirst();
+                Card c;
+                c = deck.removeAndGetCardByFirst();
                 user.receiveCard(c);
-                deck.removeCardByFirst();
             }
         }
     }

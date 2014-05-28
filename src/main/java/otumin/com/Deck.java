@@ -39,12 +39,8 @@ public class Deck {
         Collections.shuffle(deck);
     }
 
-    public Card getCardByFirst() {
-        return deck.get(0);
-    }
-
-    public void removeCardByFirst() {
-        deck.remove(0);
+    public Card removeAndGetCardByFirst() {
+        return deck.remove(0);
     }
 }
 
