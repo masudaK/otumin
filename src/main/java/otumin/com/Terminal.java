@@ -13,4 +13,12 @@ import java.io.InputStreamReader;
  */
 public class Terminal {
 
+    public Terminal(){
+    }
+
+    public String input() throws IOException {
+        InputStreamReader isr = new InputStreamReader(System.in);
+        BufferedReader br = new BufferedReader(isr);
+        return br.readLine();
+    }
 }

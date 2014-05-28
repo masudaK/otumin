@@ -32,21 +32,14 @@ public class UserMaster {
         }
     }
 
-    private String inputUsersNum() throws IOException {
-        //TODO: Terminalクラスに責務渡す
-        // int userOutput = tm.inputNumber();
-
-        InputStreamReader isr = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(isr);
-        return br.readLine();
-    }
-
     public Integer determineUsersNum(){
         System.out.print("参加ユーザーの数を入力してください: ");
         int n = 0;
         try{
-            n = Integer.valueOf(inputUsersNum());
-        } catch (IOException e) {
+            Terminal terminal = new Terminal();
+            String input = terminal.input();
+            n = Integer.valueOf(input);
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("参加ユーザの数は「" + n + "」人です");
