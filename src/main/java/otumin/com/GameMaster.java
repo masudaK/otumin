@@ -77,11 +77,14 @@ public class GameMaster {
     private void distributeCardAllUser(int usersNum){
         for(int i = 0; i < usersNum; i++){
             User user = um.getUser(i);
-            for(int j = 0; j < 10; j++){ // 10枚配布
-                Card c;
-                c = deck.removeAndGetCardByFirst();
-                user.receiveCard(c);
-            }
+            // 以下は引数に10を入れたら10枚のカードを先頭から返してほしい
+            //for(int j = 0; j < 10; j++){ // 10枚配布
+            //    Card c;
+            //    c = deck.removeAndGetCardByFirst();
+            //    user.receiveCard(c);
+            //}
+            // 10枚デッキから取得してユーザに渡す
+            user.receiveCards(deck.getCards(10));
         }
     }
 

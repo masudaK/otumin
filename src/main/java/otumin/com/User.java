@@ -1,6 +1,7 @@
 package otumin.com;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -23,6 +24,20 @@ public class User {
 
     public void receiveCard(Card card) {
         hands.add(card);
+    }
+
+    public void receiveCards(List<Card> cards) {
+        // ConcurrentModificationExceptionになってしまう
+        //hands.addAll(cards);
+        // 以下もConcurrentModificationExceptionになってしまう
+        //for(int i = 0; i < cards.size(); i++){
+        //    hands.add(cards.remove(i));
+        //}
+        // 以下もConcurrentModificationExceptionになってしまう
+        //Iterator<Card> iter = cards.iterator();
+        //while (iter.hasNext()) {
+        //    iter.remove();
+        //}
     }
 
     public List<Card> showHands(){

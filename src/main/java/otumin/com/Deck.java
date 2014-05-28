@@ -42,5 +42,15 @@ public class Deck {
     public Card removeAndGetCardByFirst() {
         return deck.remove(0);
     }
+
+    public Card getCardByFirst(){
+        return deck.get(0);
+    }
+
+    public List<Card> getCards(int toLast){
+        List<Card> distributeCards = deck.subList(0, toLast);
+        deck.subList(0, toLast).clear();
+        return distributeCards;
+    }
 }
 
