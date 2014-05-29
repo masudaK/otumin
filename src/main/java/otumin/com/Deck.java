@@ -43,10 +43,6 @@ public class Deck {
         return deck.remove(0);
     }
 
-    public Card getCardByFirst(){
-        return deck.get(0);
-    }
-
     public List<Card> getCards(int toLast){
         List<Card> distributeCards = new ArrayList<Card>(toLast);
         distributeCards.addAll(deck.subList(0, toLast));

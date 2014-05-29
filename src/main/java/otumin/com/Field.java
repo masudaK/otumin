@@ -1,5 +1,6 @@
 package otumin.com;
 
+import javax.swing.text.LayoutQueue;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,34 +13,24 @@ import java.util.List;
  */
 public class Field {
 
-    private List<Card> lane1;
-    private List<Card> lane2;
-    private List<Card> lane3;
-    private List<Card> lane4;
+    private List<Lane> lanes;
 
     public Field(){
-        this.lane1 = new ArrayList<Card>();
-        this.lane2 = new ArrayList<Card>();
-        this.lane3 = new ArrayList<Card>();
-        this.lane4 = new ArrayList<Card>();
+        this.lanes = new ArrayList<Lane>(4);
+        lanes.add(new Lane());
+        lanes.add(new Lane());
+        lanes.add(new Lane());
+        lanes.add(new Lane());
     }
 
-    public void receivePutCardLane1(Card card) {
-        lane1.add(card);
+
+    public Lane getLane(int lane_index) {
+        return lanes.get(lane_index);
     }
 
-    public void receivePutCardLane2(Card card) {
-        lane2.add(card);
+    public void addCard(int lane_index, Card card){
+        Lane lane = getLane(lane_index);
+        lane.addCard(card);
     }
-
-    public void receivePutCardLane3(Card card) {
-        lane3.add(card);
-    }
-
-    public void receivePutCardLane4(Card card) {
-        lane4.add(card);
-    }
-
-    //GMに空いてるレーンを教える
 
 }

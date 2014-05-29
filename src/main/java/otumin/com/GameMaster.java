@@ -14,11 +14,14 @@ public class GameMaster {
     private UserMaster um;
     private Deck deck;
     private Terminal tm;
+    private int turnCount = 0;
+    private Field field;
 
 
     public GameMaster(){
         this.um = new UserMaster();
         this.deck = new Deck();
+        this.field = new Field();
     }
 
 
@@ -54,14 +57,14 @@ public class GameMaster {
         }
 
         // 各レーンに残りの札を配置する（ニムトではレーン1枚ずつ計4枚配置することになっている）
-        Field field = new Field();
-        field.receivePutCardLane1(deck.removeAndGetCardByFirst());
-
-        field.receivePutCardLane2(deck.removeAndGetCardByFirst());
-
-        field.receivePutCardLane3(deck.removeAndGetCardByFirst());
-
-        field.receivePutCardLane4(deck.removeAndGetCardByFirst());
+        field.addCard(0, deck.removeAndGetCardByFirst());
+        field.addCard(1, deck.removeAndGetCardByFirst());
+        field.addCard(2, deck.removeAndGetCardByFirst());
+        field.addCard(3, deck.removeAndGetCardByFirst());
+        //field.receivePutCardLane1(deck.removeAndGetCardByFirst());
+        //field.receivePutCardLane2(deck.removeAndGetCardByFirst());
+        //field.receivePutCardLane3(deck.removeAndGetCardByFirst());
+        //field.receivePutCardLane4(deck.removeAndGetCardByFirst());
 
         // ここまでで全ユーザと全列にカードの配置が終わってるので、デッキの中身を表示してみる
         System.out.println("----------------");
@@ -72,6 +75,13 @@ public class GameMaster {
         }
         System.out.println("");
         System.out.println("----------------");
+
+
+
+        startTurn(0); //0ターン目開始
+
+
+
     }
 
     private void distributeCardAllUser(int usersNum){
@@ -86,6 +96,42 @@ public class GameMaster {
             // 以下に修正: 10枚デッキから取得してユーザに渡す
             user.receiveCards(deck.getCards(10));
         }
+    }
+
+    private void startTurn(int turnCount){
+        System.out.println("1列目:");
+        for(Card card : field.getLane(0).getCardsAll()){
+            System.out.println(card.getNumber());
+        }
+
+        System.out.println("2列目:");
+        for(Card card : field.getLane(1).getCardsAll()){
+            System.out.println(card.getNumber());
+        }
+
+        System.out.println("3列目:");
+        for(Card card : field.getLane(2).getCardsAll()){
+            System.out.println(card.getNumber());
+        }
+
+        System.out.println("4列目:");
+        for(Card card : field.getLane(3).getCardsAll()){
+            System.out.println(card.getNumber());
+        }
+
+        // ユーザの持ってるカードを出力 ※最初は0番目をユーザにしていいかも
+        // どのカードをどの列に渡すか確認して、渡してもらう
+
+        // 他のユーザはランダムでカードを渡す
+
+        // 決定するか確認（実装はあとでもいいかも
+
+        // 小さい順に列に渡す
+
+        // 様々な判定
+
+        // ターン終了
+        turnCount++;
     }
 
 
