@@ -48,7 +48,10 @@ public class Deck {
     }
 
     public List<Card> getCards(int toLast){
-        List<Card> distributeCards = deck.subList(0, toLast);
+        List<Card> distributeCards = new ArrayList<Card>(toLast);
+        distributeCards.addAll(deck.subList(0, toLast));
+        // 以下だと参照を持ち続けてしまう
+        //List<Card> distributeCards = deck.subList(0, toLast);
         deck.subList(0, toLast).clear();
         return distributeCards;
     }

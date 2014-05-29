@@ -28,8 +28,9 @@ public class User {
 
     public void receiveCards(List<Card> cards) {
         // ConcurrentModificationExceptionになってしまう
-        //hands.addAll(cards);
+        hands.addAll(cards);
         // 以下もConcurrentModificationExceptionになってしまう
+        // TODO: size()の戻り値理解する
         //for(int i = 0; i < cards.size(); i++){
         //    hands.add(cards.remove(i));
         //}
@@ -38,6 +39,25 @@ public class User {
         //while (iter.hasNext()) {
         //    iter.remove();
         //}
+        // 以下もConcurrentModificationExceptionになってしまう
+        //Iterator<Card> iter = cards.iterator();
+        //while (iter.hasNext()) {
+        //    iter.remove();
+        //}
+        // 以下もConcurrentModificationExceptionになってしまう
+        //Object[] keys = cards.toArray();
+        //for(int i = 0; i < keys.length; i++){
+        //    cards.remove(i);
+        //}
+        // 以下もConcurrentModificationExceptionになってしまう
+        //int size = cards.size();
+        //for(int i = 0; i < size; i++){
+        //    hands.add(cards.remove(i));
+        //}
+        //    Iterator<Card> iter = cards.iterator();
+        //    while (iter.hasNext()) {
+        //        iter.remove();
+        //    }
     }
 
     public List<Card> showHands(){
