@@ -26,17 +26,4 @@ public class Lane {
         cards.add(card);
     }
 
-    public int fixLaneWithCard() {
-        System.out.print("カードを配置するレーンを選択してください: ");
-        int n = 0;
-        try{
-            Terminal terminal = new Terminal();
-            String input = terminal.input();
-            n = Integer.valueOf(input);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("カードを配置するレーンは「" + n + "」番目のレーンです");
-        return n;
-    }
 }

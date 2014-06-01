@@ -64,10 +64,6 @@ public class GameMaster {
         field.addCard(1, deck.removeAndGetCardByFirst());
         field.addCard(2, deck.removeAndGetCardByFirst());
         field.addCard(3, deck.removeAndGetCardByFirst());
-        //field.receivePutCardLane1(deck.removeAndGetCardByFirst());
-        //field.receivePutCardLane2(deck.removeAndGetCardByFirst());
-        //field.receivePutCardLane3(deck.removeAndGetCardByFirst());
-        //field.receivePutCardLane4(deck.removeAndGetCardByFirst());
 
         // ここまでで全ユーザと全列にカードの配置が終わってるので、デッキの中身を表示してみる
         System.out.println("----------------");
@@ -90,13 +86,7 @@ public class GameMaster {
     private void distributeCardAllUser(int usersNum){
         for(int i = 0; i < usersNum; i++){
             User user = um.getUser(i);
-            // TODO: 以下は引数に10を入れたら10枚のカードを先頭から返してほしいので修正する
-            //for(int j = 0; j < 10; j++){ // 10枚配布
-            //    Card c;
-            //    c = deck.removeAndGetCardByFirst();
-            //    user.receiveCard(c);
-            //}
-            // 以下に修正: 10枚デッキから取得してユーザに渡す
+            //TODO: 必ず10枚配るわけではないし、マジックナンバーは必ず外に出して扱いやすくする
             user.receiveCards(deck.getCards(10));
         }
     }
@@ -123,16 +113,15 @@ public class GameMaster {
         }
 
         // ユーザの持ってるカードを出力 ※最初は0番目をユーザにしていいかも
-        // どのカードをどの列に渡すか確認して、渡してもらう
         System.out.println("自分の手札:");
         for(Card card : um.getUser(0).showHands()){
             System.out.print(card.getNumber() + ",");
         }
 
+        // どのカードをどの列に出すか選択する
         Card userCard = um.getUser(0).fixSubmittedCardInTern();
         int laneNumber = askLaneNumberWithCard();
         field.addCard(laneNumber, userCard);
-
 
 
         System.out.println("1列目:");
@@ -153,6 +142,7 @@ public class GameMaster {
             System.out.print(card.getNumber() + ",");
         }
         // 他のユーザはランダムでカードを渡す
+        //Card userCard = um.getUser(0).fixSubmittedCardRandomInTern();
 
         // 決定するか確認（実装はあとでもいいかも
 
