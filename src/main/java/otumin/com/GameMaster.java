@@ -1,5 +1,7 @@
 package otumin.com;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -22,6 +24,7 @@ public class GameMaster {
         this.um = new UserMaster();
         this.deck = new Deck();
         this.field = new Field();
+        this.tm = new Terminal();
     }
 
 
@@ -121,7 +124,32 @@ public class GameMaster {
 
         // ユーザの持ってるカードを出力 ※最初は0番目をユーザにしていいかも
         // どのカードをどの列に渡すか確認して、渡してもらう
+        System.out.println("自分の手札:");
+        for(Card card : um.getUser(0).showHands()){
+            System.out.print(card.getNumber() + ",");
+        }
 
+        Card userCard = um.getUser(0).fixSubmittedCardInTern();
+        int laneNumber = askLaneNumberWithCard();
+        field.addCard(laneNumber, userCard);
+
+
+        System.out.println("1列目:");
+        for(Card card : field.getLane(0).getCardsAll()){
+            System.out.println(card.getNumber());
+        }
+        System.out.println("2列目:");
+        for(Card card : field.getLane(1).getCardsAll()){
+            System.out.println(card.getNumber());
+        }
+        //System.out.println("3列目:");
+        //for(Card card : field.getLane(2).getCardsAll()){
+        //    System.out.println(card.getNumber());
+        //}
+        //System.out.println("4列目:");
+        //for(Card card : field.getLane(3).getCardsAll()){
+        //    System.out.println(card.getNumber());
+        //}
         // 他のユーザはランダムでカードを渡す
 
         // 決定するか確認（実装はあとでもいいかも
@@ -134,6 +162,18 @@ public class GameMaster {
         turnCount++;
     }
 
+    private int askLaneNumberWithCard() {
+        System.out.print("どのレーンにカードを置くかレーン番号を選択してください: ");
+        int n = 0;
+        try{
+            String input = tm.input();
+            n = Integer.valueOf(input);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("カードを置くレーンは「" + n + "」番目のレーンです。");
+        return n;
+    }
 
 
 }

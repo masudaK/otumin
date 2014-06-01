@@ -62,4 +62,15 @@ public class UserMaster {
         System.out.println("");
     }
 
+    public List<Integer> getHandsByUserIndex(int index) {
+        List<Integer> list = new ArrayList<Integer>();
+        System.out.println("ユーザ" + index + "の手札");
+        System.out.println("");
+        User user = getUser(index);
+        System.out.println("所有数:" + user.showHands().size() + "枚");
+        for(Card c : user.showHands()){
+            list.add(c.getNumber());
+        }
+        return list;
+    }
 }

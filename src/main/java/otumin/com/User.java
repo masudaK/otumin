@@ -15,11 +15,13 @@ public class User {
 
     private int id;
     private List<Card> hands;
+    private Lane lane;
 
 
     public User(int id){
         this.id = id;
         this.hands = new ArrayList<Card>(10);
+        this.lane = new Lane();
     }
 
     public void receiveCard(Card card) {
@@ -63,4 +65,48 @@ public class User {
     public List<Card> showHands(){
         return hands;
     }
+
+    public Card fixSubmittedCardInTern() {
+        System.out.print("提示するカードを自分の手札から選択してください: ");
+        int n = 0;
+        Card userCard = null;
+        try{
+            Terminal terminal = new Terminal();
+            String input = terminal.input();
+            n = Integer.valueOf(input);
+            // カード番号が決まったら、そのカードオブジェクトを返さないといけない
+            // カード番号を入力してもらう
+            // たとえば、4
+            // そのユーザの手札をすべて把握し、そのカードオブジェクトのリストから数を全て洗い出す
+            // その数のリストに存在しているか確認する
+
+            if( ! isExistsNumberInHands(n)){
+                int handsIndex = hands.indexOf(n);
+                userCard = hands.get(handsIndex);
+
+                for(Card card : hands){
+                    if( card.getNumber() == n ){
+                        userCard = card;
+                        break;
+                    }
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println("提出するカードの数は「" + n + "」です");
+        return userCard;
+    }
+
+    private Boolean isExistsNumberInHands(int number){
+        for(Card card : hands){
+            if( number == card.getNumber()){
+                return true;
+            }
+        }
+        System.out.println("マッチしませんでした");
+        return false;
+    }
+
 }
