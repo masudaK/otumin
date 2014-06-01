@@ -74,22 +74,19 @@ public class User {
             Terminal terminal = new Terminal();
             String input = terminal.input();
             n = Integer.valueOf(input);
-            // カード番号が決まったら、そのカードオブジェクトを返さないといけない
-            // カード番号を入力してもらう
-            // たとえば、4
-            // そのユーザの手札をすべて把握し、そのカードオブジェクトのリストから数を全て洗い出す
-            // その数のリストに存在しているか確認する
 
-            if( ! isExistsNumberInHands(n)){
-                int handsIndex = hands.indexOf(n);
-                userCard = hands.get(handsIndex);
-
+            // 手札に該当の値が存在していれば、そのあたいをnumberとして持ったカードオブジェクトを返す
+            if( isExistsNumberInHands(n) ){
                 for(Card card : hands){
+                    //System.out.println(card.getNumber() + "を探索中です");
                     if( card.getNumber() == n ){
                         userCard = card;
                         break;
                     }
                 }
+            }else{
+                System.out.println("インデックスが見つけられません");
+                System.exit(1);
             }
 
         } catch (Exception e) {
@@ -100,13 +97,15 @@ public class User {
     }
 
     private Boolean isExistsNumberInHands(int number){
+        Boolean matchFlg = false;
         for(Card card : hands){
             if( number == card.getNumber()){
-                return true;
+                System.out.println("手札にありました:" + number);
+                matchFlg = true;
+                break;
             }
         }
-        System.out.println("マッチしませんでした");
-        return false;
+        return matchFlg;
     }
 
 }

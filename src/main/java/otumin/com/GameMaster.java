@@ -134,22 +134,24 @@ public class GameMaster {
         field.addCard(laneNumber, userCard);
 
 
+
         System.out.println("1列目:");
         for(Card card : field.getLane(0).getCardsAll()){
-            System.out.println(card.getNumber());
+            System.out.print(card.getNumber() + ",");
         }
-        System.out.println("2列目:");
+
+        System.out.println("\n2列目:");
         for(Card card : field.getLane(1).getCardsAll()){
-            System.out.println(card.getNumber());
+            System.out.print(card.getNumber() + ",");
         }
-        //System.out.println("3列目:");
-        //for(Card card : field.getLane(2).getCardsAll()){
-        //    System.out.println(card.getNumber());
-        //}
-        //System.out.println("4列目:");
-        //for(Card card : field.getLane(3).getCardsAll()){
-        //    System.out.println(card.getNumber());
-        //}
+        System.out.println("\n3列目:");
+        for(Card card : field.getLane(2).getCardsAll()){
+            System.out.print(card.getNumber() + ",");
+        }
+        System.out.println("\n4列目:");
+        for(Card card : field.getLane(3).getCardsAll()){
+            System.out.print(card.getNumber() + ",");
+        }
         // 他のユーザはランダムでカードを渡す
 
         // 決定するか確認（実装はあとでもいいかも
@@ -163,6 +165,7 @@ public class GameMaster {
     }
 
     private int askLaneNumberWithCard() {
+        //TODO: 0-3以外の数だったら例外を投げる
         System.out.print("どのレーンにカードを置くかレーン番号を選択してください: ");
         int n = 0;
         try{
