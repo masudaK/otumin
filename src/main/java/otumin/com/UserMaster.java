@@ -57,4 +57,14 @@ public class UserMaster {
         System.out.println("");
     }
 
+    public void printAllUserCards(int i) {
+        if(i == 0){
+            System.out.println("自分の手札:");
+        }else{
+            System.out.println(i + "番目のユーザの手札:");
+        }
+        for(Card card : getUser(i).showHands()){
+            System.out.print(card.getNumber() + ",");
+        }
+    }
 }

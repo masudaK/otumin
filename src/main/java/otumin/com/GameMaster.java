@@ -98,11 +98,9 @@ public class GameMaster {
         field.printAllLaneCards(3);
 
 
-        // ユーザの持ってるカードを出力 ※最初は0番目をユーザにしていいかも
-        System.out.println("自分の手札:");
-        for(Card card : um.getUser(0).showHands()){
-            System.out.print(card.getNumber() + ",");
-        }
+        // TODO: 0番目を自分とし、それ以降を他のユーザにする
+        // ユーザの持ってるカードを出力 ※0番目を自分にしてる
+        um.printAllUserCards(0);
 
         // どのカードをどの列に出すか選択する
         Card userCard = um.getUser(0).fixSubmittedCardInTern();
