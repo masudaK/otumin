@@ -81,4 +81,10 @@ public class User {
         return matchFlg;
     }
 
+    public Card fixSubmittedCardRandomInTern() {
+        //TODO: 今は先頭から取ってるけど、ランダムに実装を変える
+        Card userCardRandom = hands.get(0);
+        System.out.println(userCardRandom.getNumber());
+        return userCardRandom;
+    }
 }

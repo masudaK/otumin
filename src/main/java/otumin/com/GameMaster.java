@@ -108,13 +108,11 @@ public class GameMaster {
         field.addCard(laneNumber, userCard);
 
 
-        field.printAllLaneCards(0);
-        field.printAllLaneCards(1);
-        field.printAllLaneCards(2);
-        field.printAllLaneCards(3);
-
         // 他のユーザはランダムでカードを渡す
-        //Card userCard = um.getUser(0).fixSubmittedCardRandomInTern();
+        for(int i = 1; i < 3; i++){
+            Card npcCard = um.getUser(i).fixSubmittedCardRandomInTern();
+            field.addCard(i, npcCard);
+        }
 
         // 決定するか確認（実装はあとでもいいかも
 
@@ -124,6 +122,12 @@ public class GameMaster {
 
         // ターン終了
         turnCount++;
+
+        // Debug
+        field.printAllLaneCards(0);
+        field.printAllLaneCards(1);
+        field.printAllLaneCards(2);
+        field.printAllLaneCards(3);
     }
 
     private int askLaneNumberWithCard() {
