@@ -92,25 +92,11 @@ public class GameMaster {
     }
 
     private void startTurn(int turnCount){
-        System.out.println("1列目:");
-        for(Card card : field.getLane(0).getCardsAll()){
-            System.out.println(card.getNumber());
-        }
+        field.printAllLaneCards(0);
+        field.printAllLaneCards(1);
+        field.printAllLaneCards(2);
+        field.printAllLaneCards(3);
 
-        System.out.println("2列目:");
-        for(Card card : field.getLane(1).getCardsAll()){
-            System.out.println(card.getNumber());
-        }
-
-        System.out.println("3列目:");
-        for(Card card : field.getLane(2).getCardsAll()){
-            System.out.println(card.getNumber());
-        }
-
-        System.out.println("4列目:");
-        for(Card card : field.getLane(3).getCardsAll()){
-            System.out.println(card.getNumber());
-        }
 
         // ユーザの持ってるカードを出力 ※最初は0番目をユーザにしていいかも
         System.out.println("自分の手札:");
@@ -124,23 +110,11 @@ public class GameMaster {
         field.addCard(laneNumber, userCard);
 
 
-        System.out.println("1列目:");
-        for(Card card : field.getLane(0).getCardsAll()){
-            System.out.print(card.getNumber() + ",");
-        }
+        field.printAllLaneCards(0);
+        field.printAllLaneCards(1);
+        field.printAllLaneCards(2);
+        field.printAllLaneCards(3);
 
-        System.out.println("\n2列目:");
-        for(Card card : field.getLane(1).getCardsAll()){
-            System.out.print(card.getNumber() + ",");
-        }
-        System.out.println("\n3列目:");
-        for(Card card : field.getLane(2).getCardsAll()){
-            System.out.print(card.getNumber() + ",");
-        }
-        System.out.println("\n4列目:");
-        for(Card card : field.getLane(3).getCardsAll()){
-            System.out.print(card.getNumber() + ",");
-        }
         // 他のユーザはランダムでカードを渡す
         //Card userCard = um.getUser(0).fixSubmittedCardRandomInTern();
 

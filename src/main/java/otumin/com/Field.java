@@ -33,4 +33,10 @@ public class Field {
         lane.addCard(card);
     }
 
+    public void printAllLaneCards(int i) {
+        System.out.println(i + "列目:");
+        for(Card card : getLane(i).getCardsAll()){
+            System.out.println(card.getNumber());
+        }
+    }
 }
