@@ -42,22 +42,22 @@ public class GameMaster {
 
         // ここまででユーザには配り終わってる。
         // ので、その状態の山札の情報を表示する
-        System.out.println("----------------");
-        System.out.println("ユーザへの配布後の山札の状態");
-        System.out.println("");
-        List<Card> deckobj = deck.getDeck();
-        for(Card c : deckobj){
-            System.out.print(c.getNumber() + ",");
-        }
-        System.out.println("");
-        System.out.println("----------------");
+        //System.out.println("----------------");
+        //System.out.println("ユーザへの配布後の山札の状態");
+        //System.out.println("");
+        //List<Card> deckobj = deck.getDeck();
+        //for(Card c : deckobj){
+        //    System.out.print(c.getNumber() + ",");
+        //}
+        //System.out.println("");
+        //System.out.println("----------------");
 
 
-        // 試験的にユーザの手札を全て表示する
-        for(int i = 0; i < usersNum; i++){
-            System.out.println("#########################");
-            um.showHandsByUserIndex(i);
-        }
+        //// 試験的にユーザの手札を全て表示する
+        //for(int i = 0; i < usersNum; i++){
+        //    System.out.println("#########################");
+        //    um.showHandsByUserIndex(i);
+        //}
 
         // 各レーンに残りの札を配置する（ニムトではレーン1枚ずつ計4枚配置することになっている）
         field.addCard(0, deck.removeAndGetCardByFirst());
@@ -66,14 +66,14 @@ public class GameMaster {
         field.addCard(3, deck.removeAndGetCardByFirst());
 
         // ここまでで全ユーザと全列にカードの配置が終わってるので、デッキの中身を表示してみる
-        System.out.println("----------------");
-        System.out.println("最終的なデッキの中身:");
-        System.out.println("");
-        for(Card c : deckobj){
-            System.out.print(c.getNumber() + ",");
-        }
-        System.out.println("");
-        System.out.println("----------------");
+        //System.out.println("----------------");
+        //System.out.println("最終的なデッキの中身:");
+        //System.out.println("");
+        //for(Card c : deckobj){
+        //    System.out.print(c.getNumber() + ",");
+        //}
+        //System.out.println("");
+        //System.out.println("----------------");
 
 
 
@@ -92,21 +92,21 @@ public class GameMaster {
     }
 
     private void startTurn(int turnCount){
+        // レーンにある現状のカードを出力
         field.printAllLaneCards(0);
         field.printAllLaneCards(1);
         field.printAllLaneCards(2);
         field.printAllLaneCards(3);
 
 
-        // TODO: 0番目を自分とし、それ以降を他のユーザにする
         // ユーザの持ってるカードを出力 ※0番目を自分にしてる
+        // TODO: 0番目を自分とし、それ以降を他のユーザにする
         um.printAllUserCards(0);
 
         // どのカードをどの列に出すか選択する
         Card userCard = um.getUser(0).fixSubmittedCardInTern();
         int laneNumber = askLaneNumberWithCard();
         field.addCard(laneNumber, userCard);
-
 
         // 他のユーザはランダムでカードを渡す
         for(int i = 1; i < 3; i++){
