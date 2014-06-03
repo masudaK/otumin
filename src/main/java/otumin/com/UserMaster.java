@@ -33,6 +33,7 @@ public class UserMaster {
     }
 
     public Integer determineUsersNum(){
+        // TODO: バリデーションがない。何度も入れさせるでも、強制終了させるでもいいので、何かする。
         System.out.print("参加ユーザーの数を入力してください: ");
         int n = 0;
         try{
