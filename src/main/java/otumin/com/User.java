@@ -40,6 +40,10 @@ public class User {
     }
 
     public Card fixSubmittedCardInTern() {
+        //TODO: コマンドプロンプトでしか動かないし、色々やらせすぎてるので、分離
+        // ex: ゲームマスターにやらせるとか
+        // メソッド名がうーむという感じなので直す
+        // ユーザがターンをする必要はないし
         System.out.print("提示するカードを自分の手札から選択してください: ");
         int n = 0;
         Card userCard = null;
@@ -69,8 +73,8 @@ public class User {
         return userCard;
     }
 
-    private Boolean isExistsNumberInHands(int number){
-        Boolean matchFlg = false;
+    private boolean isExistsNumberInHands(int number){
+        boolean matchFlg = false;
         for(Card card : hands){
             if( number == card.getNumber()){
                 System.out.println("手札にありました:" + number);
