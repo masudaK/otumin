@@ -32,10 +32,10 @@ public class GameMaster {
         deck.create();
         deck.shuffle();
 
-        int usersNum =  um.determineUsersNum();
-
         // ユーザ作成
-        um.createMultipleUser(usersNum);
+        int usersNum =  um.determineUsersNum();
+        //um.determineUsersNum();
+        //um.createMultipleUser(usersNum);
 
         // 作成した全ユーザにカード配布
         distributeCardAllUser(usersNum);

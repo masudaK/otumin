@@ -27,45 +27,45 @@ public class UserMaster {
         return users.get(index);
     }
 
-    public void createMultipleUser(int num){
-        //playerNumの数だけループさせる
+
+    public Integer determineUsersNum(){
+        System.out.print("参加ユーザーの数を入力してください: ");
+        int n = 0;
         AtomicInteger retryCount = new AtomicInteger(0);
         while(retryCount.get() <3){
-            System.out.println(retryCount.get());
-
             //validation
-            if(! validation.isValidUsersNum(num)){
-                System.out.println("参加者の条件を満たしていません。再度入力してください。");
-                retryCount.getAndIncrement();
-                continue;
-            }
+            try{
+                Terminal terminal = new Terminal();
+                String input = terminal.input();
+                n = Integer.valueOf(input);
 
-            for(int i = 0; i < num; i++){
-                User user = new User(i);
-                users.add(user);
-            }
+                if(validation.isValidUsersNum(n)){
+                    createMultipleUser(n);
+                    System.out.println("参加ユーザの数は「" + n + "」人です");
+                    return n;
+                }else{
+                    System.out.println("参加者の条件を満たしていません。再度入力してください。");
+                    retryCount.getAndIncrement();
+                    continue;
+                }
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         System.out.println("条件を満たしていませんでした。ゲームを終了します。");
         System.exit(1);
+        //TODO: default値にする
+        return 0;
     }
 
-    public Integer determineUsersNum(){
-        // TODO: バリデーションがない。何度も入れさせるでも、強制終了させるでもいいので、何かする。
-        System.out.print("参加ユーザーの数を入力してください: ");
-        int n = 0;
-        try{
-            Terminal terminal = new Terminal();
-            String input = terminal.input();
-            n = Integer.valueOf(input);
-
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void createMultipleUser(int num){
+        //playerNumの数だけループさせる
+        for(int i = 0; i < num; i++){
+            User user = new User(i);
+            users.add(user);
         }
-        System.out.println("参加ユーザの数は「" + n + "」人です");
-        return n;
     }
-
 
     public void showHandsByUserIndex(int index) {
         System.out.println("ユーザ" + index + "の手札");
