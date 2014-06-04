@@ -92,6 +92,8 @@ public class GameMaster {
     }
 
     private void startTurn(int turnCount){
+        ArrayList<Card> submitUsersCard = new ArrayList<Card>();
+
         // レーンにある現状のカードを出力
         field.printAllLaneCards(0);
         field.printAllLaneCards(1);
@@ -105,18 +107,18 @@ public class GameMaster {
 
         // どのカードをどの列に出すか選択する
         Card userCard = um.getUser(0).fixSubmittedCardInTern();
-        int laneNumber = askLaneNumberWithCard();
-        field.addCard(laneNumber, userCard);
+        submitUsersCard.add(userCard);
+        //int laneNumber = askLaneNumberWithCard();
 
         // 他のユーザはランダムでカードを渡す
         for(int i = 1; i < 3; i++){
             Card npcCard = um.getUser(i).fixSubmittedCardRandomInTern();
-            field.addCard(i, npcCard);
+            submitUsersCard.add(npcCard);
         }
 
-        // 決定するか確認（実装はあとでもいいかも
-
-        // 小さい順に列に渡す
+        // 小さい順に並べる
+        Collections.sort(submitUsersCard, new CardComparator());
+        // その小さい順に並んだカードを、距離が最小距離の列に配置する
 
         // 様々な判定
 
