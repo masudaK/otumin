@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created with IntelliJ IDEA.
@@ -15,9 +16,11 @@ import java.util.List;
  */
 public class UserMaster {
     private List<User> users;
+    private Validation validation;
 
     public UserMaster(){
         this.users = new ArrayList<User>();
+        this.validation = new Validation();
     }
 
     public User getUser(int index){
@@ -26,10 +29,25 @@ public class UserMaster {
 
     public void createMultipleUser(int num){
         //playerNumの数だけループさせる
-        for(int i = 0; i < num; i++){
-            User user = new User(i);
-            users.add(user);
+        AtomicInteger retryCount = new AtomicInteger(0);
+        while(retryCount.get() <3){
+            System.out.println(retryCount.get());
+
+            //validation
+            if(! validation.isValidUsersNum(num)){
+                System.out.println("参加者の条件を満たしていません。再度入力してください。");
+                retryCount.getAndIncrement();
+                continue;
+            }
+
+            for(int i = 0; i < num; i++){
+                User user = new User(i);
+                users.add(user);
+            }
+
         }
+        System.out.println("条件を満たしていませんでした。ゲームを終了します。");
+        System.exit(1);
     }
 
     public Integer determineUsersNum(){
@@ -40,12 +58,14 @@ public class UserMaster {
             Terminal terminal = new Terminal();
             String input = terminal.input();
             n = Integer.valueOf(input);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("参加ユーザの数は「" + n + "」人です");
         return n;
     }
+
 
     public void showHandsByUserIndex(int index) {
         System.out.println("ユーザ" + index + "の手札");
