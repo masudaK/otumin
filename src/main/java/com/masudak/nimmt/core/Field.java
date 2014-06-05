@@ -68,6 +68,25 @@ public class Field {
 	}
 
 	/**
+	 * 各列に並んでいる牛の数の合計が最も少ない列番号を取得します。<br />
+	 * 牛の数の合計が同じ列がある場合は、列番号がより小さい方を返します。
+	 *
+	 * @return 列に並んでいる牛の数の合計が最も少ない列番号
+	 */
+	public int getLineWithMinCows() {
+		int lineIndex = 0;
+		int cows = Byte.MAX_VALUE;
+		for (int i = 0; i < lines.size(); i++) {
+			int totalCows = lines.get(i).getTotalCows();
+			if (totalCows < cows) {
+				lineIndex = i;
+				cows = totalCows;
+			}
+		}
+		return lineIndex;
+	}
+
+	/**
 	 * 指定した列をクリアし、その時点で列に並んでいた各カードの牛の数の合計を返します。
 	 *
 	 * @param index 列番号（0-3）
