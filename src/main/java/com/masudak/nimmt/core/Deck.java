@@ -23,9 +23,10 @@ class Deck {
 		cards = new ArrayList<Card>(Rule.NUMBER_OF_CARDS);
 		for (int i = 1; i <= Rule.NUMBER_OF_CARDS; i++) {
 			int cow = 0;
-			if (i % 11 == 0) cow = cow + 5;
-			if (i % 10 == 5) cow = cow + 2;
-			if (i % 10 == 0) cow = cow + 3;
+			if (i % 11 == 0) cow += 5;
+			if (i % 10 == 5) cow += 2;
+			if (i % 10 == 0) cow += 3;
+			if (cow == 0) cow = 1;
 			cards.add(new Card(i, cow));
 		}
 		Collections.shuffle(cards);
