@@ -28,19 +28,33 @@ public class UserMaster {
     }
 
 
-    public Integer determineUsersNum(){
+
+    public void createMultipleUser(){
+        int usersNum = determineUsersNum();
+
+        //playerNumの数だけループさせる
+        for(int i = 0; i < usersNum; i++){
+            User user = new User(i);
+            users.add(user);
+        }
+    }
+
+    private int determineUsersNum(){
         System.out.print("参加ユーザーの数を入力してください: ");
         int n = 0;
         AtomicInteger retryCount = new AtomicInteger(0);
         while(retryCount.get() <3){
-            //validation
             try{
                 Terminal terminal = new Terminal();
                 String input = terminal.input();
                 n = Integer.valueOf(input);
 
+                //validation
+                //TODO: 処理自体を完全に外出し
+                // ex: continueが処理できない。。。
+                //validation.checkValidUsersNum(10);
+
                 if(validation.isValidUsersNum(n)){
-                    createMultipleUser(n);
                     System.out.println("参加ユーザの数は「" + n + "」人です");
                     return n;
                 }else{
@@ -57,14 +71,6 @@ public class UserMaster {
         System.exit(1);
         //TODO: default値にする
         return 0;
-    }
-
-    private void createMultipleUser(int num){
-        //playerNumの数だけループさせる
-        for(int i = 0; i < num; i++){
-            User user = new User(i);
-            users.add(user);
-        }
     }
 
     public void showHandsByUserIndex(int index) {
@@ -87,5 +93,9 @@ public class UserMaster {
         for(Card card : getUser(i).showHands()){
             System.out.print(card.getNumber() + ",");
         }
+    }
+
+    public int  getUsersNum() {
+        return users.size();
     }
 }

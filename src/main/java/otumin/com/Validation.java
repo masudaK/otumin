@@ -8,6 +8,7 @@ package otumin.com;
  * To change this template use File | Settings | File Templates.
  */
 public class Validation {
+
     public boolean isValidUsersNum(int num){
         if(0 < num && num <= 10){
             return true;
@@ -15,4 +16,9 @@ public class Validation {
             return false;
         }
     }
+
+
+    //public void checkValidUsersNum(int i) {
+    //
+    //}
 }
