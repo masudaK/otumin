@@ -44,32 +44,35 @@ public class UserMaster {
         int n = 0;
         AtomicInteger retryCount = new AtomicInteger(0);
         while(retryCount.get() <3){
-            try{
-                Terminal terminal = new Terminal();
-                String input = terminal.input();
-                n = Integer.valueOf(input);
 
-                //validation
-                //TODO: 処理自体を完全に外出し
-                // ex: continueが処理できない。。。
-                //validation.checkValidUsersNum(10);
+            int num = getUsersNumFromInput();
 
-                if(validation.isValidUsersNum(n)){
-                    System.out.println("参加ユーザの数は「" + n + "」人です");
-                    return n;
-                }else{
-                    System.out.println("参加者の条件を満たしていません。再度入力してください。");
-                    retryCount.getAndIncrement();
-                    continue;
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            if( validation.isValidUsersNum(num)){
+                return num;
             }
+            retryCount.getAndIncrement();
         }
-        System.out.println("条件を満たしていませんでした。ゲームを終了します。");
-        System.exit(1);
         //TODO: default値にする
+        return 0;
+    }
+
+    private int getUsersNumFromInput(){
+        try{
+            Terminal terminal = new Terminal();
+            String input = terminal.input();
+            int n = Integer.valueOf(input);
+
+            //validation
+            if(validation.isValidUsersNum(n)){
+                System.out.println("参加ユーザの数は「" + n + "」人です");
+                return n;
+            }
+            System.out.println("参加者の条件を満たしていません。再度入力してください。");
+
+        } catch (Exception e) {
+            // TODO: 理由をちゃんと出力する
+            //e.printStackTrace();
+        }
         return 0;
     }
 
