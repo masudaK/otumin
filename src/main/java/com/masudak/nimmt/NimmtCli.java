@@ -7,13 +7,13 @@ import com.masudak.nimmt.core.GameMaster;
 import com.masudak.nimmt.core.Line;
 import com.masudak.nimmt.core.Rule;
 import com.masudak.nimmt.core.Player;
+import com.masudak.nimmt.core.GameException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.SortedMap;
 
 /**
@@ -26,19 +26,18 @@ public class NimmtCli {
 	private Prompt prompt = new Prompt();
 
 	public static void main(String[] args) {
-		System.out.println("nimto Start!!");
-		new NimmtCli().play();
-	}
-
-	public void play() {
-
-		int number = prompt.getNumberOfPlayerFromInput();
-		if (!Rule.isValidNumberOfPlayers(number)) {
-			System.out.println("number is invalid");
+		System.out.println("nimmt Start!!");
+		try {
+			new NimmtCli().play();
+		} catch (GameException e) {
+			System.out.println(e.getMessage());
 			System.exit(1);
 		}
-		System.out.println("number of player : " + number );
+	}
 
+	public void play() throws GameException {
+
+		int number = prompt.getNumberOfPlayer();
 		GameMaster gameMaster = new GameMaster(number);
 
 		// 出力
@@ -59,10 +58,11 @@ public class NimmtCli {
 				int line;
 				if (card.getNumber() < gameMaster.getMinimum()) {
 					line = getLineByPlayerChoice(user, gameMaster.getField());
+					gameMaster.putCardAndAddCow(line, card, user.getId());
 				} else {
 					line = gameMaster.getLineToAddLast(card.getNumber());
+					gameMaster.putCardAndUpdate(line, card, user.getId());
 				}
-				gameMaster.putCardAndUpdate(line, card, user.getId());
 			}
 
 			System.out.println("1巡が終わった状態");
@@ -76,14 +76,16 @@ public class NimmtCli {
 	}
 
 	/**
+	 * プレーヤーの選択でカードを置く列の列番号を取得します。
 	 *
-	 * @param user
-	 * @return
+	 * @param user プレーヤー
+	 * @param field 場
+	 * @return 列番号
 	 */
 	private int getLineByPlayerChoice(Player user, Field field) {
 		if (user.isNpc()) {
-			// ランダムにおく
-			return new Random().nextInt(Rule.FIELD_SIZE);
+			// NPCは牛の合計数が最も小さい列を選択する
+			return field.getLineWithMinCows();
 		} else {
 			// ユーザに選択させる
 			prompt.showField(field);
@@ -101,28 +103,35 @@ public class NimmtCli {
 		/**
 		 * 標準入力からプレーヤーの人数(2-10)を取得します。<br />
 		 * 入力値が不正の場合は3回までリトライさせます。<br />
-		 * 3回リトライしても正しい値が入力されない場合は0を返します。
+		 * 3回リトライしても正しい値が入力されない場合は{@link GameException}をスローします。
 		 *
-		 * @return プレーヤー人数（2-10）。リトライに3回失敗した場合は0を返します。
+		 * @return プレーヤー人数（2-10）。
+		 * @throws GameException リトライに3回失敗した場合
+		 *
 		 */
-		int getNumberOfPlayerFromInput() {
-			int number = 0;
+		int getNumberOfPlayer() throws GameException {
 			int retryCount = 0;
 			while (retryCount < 3) {
-				try {
-					System.out.println("Input number of player (2-10)");
-					number = Integer.parseInt(in.readLine());
-					if (Rule.isValidNumberOfPlayers(number)) {
-						break;
-					}
-				} catch (Exception e) {
-					// ignore
+				System.out.println("Input number of player (2-10)");
+				int number = getNumberFromInput();
+				if (Rule.isValidNumberOfPlayers(number)) {
+					return number;
 				}
 				System.out.println("Number of player should be in 2-10");
 				retryCount++;
-				number = 0; // 負の値が入力された場合の対策
 			}
-			return number;
+			throw new GameException("プレーヤーの人数が正しく入力されませんでした。");
+		}
+
+		/**
+		 * @return 標準入力から得られた数字。数字以外を入力した場合は-1(無効な数)を返す。
+		 */
+		private int getNumberFromInput() {
+			try {
+				return Integer.parseInt(in.readLine());
+			} catch (Exception e) {
+				return -1;
+			}
 		}
 
 		/**
@@ -133,21 +142,14 @@ public class NimmtCli {
 		 */
 		int getIndexOfHands(Player player) {
 			System.out.println("choose your card. [index]");
-			int index;
 			while(true) {
-				try {
-					index = Integer.parseInt(in.readLine());
-					if (0 <= index && index < player.handsSize()) {
-						break;
-					}
-				} catch (Exception e) {
-					// ignore
+				int index = getNumberFromInput();
+				if (0 <= index && index < player.handsSize()) {
+					System.out.println("You have choose [index]:" + index);
+					return index;
 				}
-				System.out.println("Input should be in 0-" + player.handsSize() + ". Choose again");
+				System.out.println("Input should be in 0-" + (player.handsSize() - 1) + ". Choose again");
 			}
-			//close(in);
-			System.out.println("You have choose [index]:" + index);
-			return index;
 		}
 
 		/**
@@ -158,20 +160,14 @@ public class NimmtCli {
 		 */
 		int getIndexOfLine() {
 			System.out.println("choose line. [index]");
-			int index;
 			while(true) {
-				try {
-					index = Integer.parseInt(in.readLine());
-					if (0 <= index && index < Rule.FIELD_SIZE) {
-						break;
-					}
-				} catch (Exception e) {
-					// ignore
+				int index = getNumberFromInput();
+				if (0 <= index && index < Rule.FIELD_SIZE) {
+					System.out.println("You have choose [index]:" + index);
+					return index;
 				}
 				System.out.println("Input should be in 0-3. Choose again");
 			}
-			System.out.println("You have choose [index]:" + index);
-			return index;
 		}
 
 		void closeStream() {
