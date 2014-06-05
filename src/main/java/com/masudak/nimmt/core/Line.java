@@ -107,4 +107,17 @@ public class Line {
 			return false;
 		}
 	}
+
+	/**
+	 * 列に並んでいる全カードの牛の数の合計を取得します。
+	 *
+	 * @return 牛の数の合計
+	 */
+	public int getTotalCows() {
+		int totalCows = 0;
+		for (Card card : cards) {
+			totalCows += card.getCow();
+		}
+		return totalCows;
+	}
 }
