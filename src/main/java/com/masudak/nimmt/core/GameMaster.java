@@ -124,9 +124,22 @@ public class GameMaster {
 	 */
 	public void putCardAndUpdate(int lineIndex, Card card, int userId) {
 		if (isLineFull(lineIndex)) {
-			int minus = field.clearLine(lineIndex);
-			getPlayer(userId).addCow(minus);
+			int cows = field.clearLine(lineIndex);
+			getPlayer(userId).addCow(cows);
 		}
+		field.put(lineIndex, card);
+	}
+
+	/**
+	 * 場に置かれている各カードの牛の数の合計をユーザに引き取らせ、列から全てのカードを取り除いた上でカードを並べます。
+	 *
+	 * @param lineIndex カードを置く列のID
+	 * @param card 場に配置するカード
+	 * @param userId カードを配置するユーザ
+	 */
+	public void putCardAndAddCow(int lineIndex, Card card, int userId) {
+		int cows = field.clearLine(lineIndex);
+		getPlayer(userId).addCow(cows);
 		field.put(lineIndex, card);
 	}
 
