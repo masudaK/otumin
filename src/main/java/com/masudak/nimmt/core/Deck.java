@@ -22,14 +22,24 @@ class Deck {
 	public Deck() {
 		cards = new ArrayList<Card>(Rule.NUMBER_OF_CARDS);
 		for (int i = 1; i <= Rule.NUMBER_OF_CARDS; i++) {
-			int cow = 0;
-			if (i % 11 == 0) cow += 5;
-			if (i % 10 == 5) cow += 2;
-			if (i % 10 == 0) cow += 3;
-			if (cow == 0) cow = 1;
-			cards.add(new Card(i, cow));
+			cards.add(new Card(i, getCow(i)));
 		}
 		Collections.shuffle(cards);
+	}
+
+	/**
+	 * カード番号に伴う牛の数を取得します。
+	 *
+	 * @param number カード番号
+	 * @return 牛の数。
+	 */
+	private int getCow(int number) {
+		int cow = 0;
+		if (number % 11 == 0) cow += 5;
+		if (number % 10 == 5) cow += 2;
+		if (number % 10 == 0) cow += 3;
+		if (cow == 0) cow = 1;
+		return cow;
 	}
 
 	/**
