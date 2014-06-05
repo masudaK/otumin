@@ -15,13 +15,18 @@ class Deck {
 	/** 山札に置かれているカード */
 	private List<Card> cards;
 
+
 	/**
 	 * 山札を初期化します。<br />
 	 */
 	public Deck() {
 		cards = new ArrayList<Card>(Rule.NUMBER_OF_CARDS);
 		for (int i = 1; i <= Rule.NUMBER_OF_CARDS; i++) {
-			cards.add(new Card(i, 1)); // TODO あとで直す
+			int cow = 0;
+			if (i % 11 == 0) cow = cow + 5;
+			if (i % 10 == 5) cow = cow + 2;
+			if (i % 10 == 0) cow = cow + 3;
+			cards.add(new Card(i, cow));
 		}
 		Collections.shuffle(cards);
 	}
