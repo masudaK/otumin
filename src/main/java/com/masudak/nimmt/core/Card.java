@@ -11,9 +11,24 @@ public class Card implements Comparable<Card> {
 	/** 牛の数 */
 	private int cow;
 
-	public Card(int number, int cow) {
+	public Card(int number) {
 		this.number = number;
-		this.cow = cow;
+		this.cow = getCow(number);
+	}
+
+	/**
+	 * カード番号に伴う牛の数を取得します。
+	 *
+	 * @param number カード番号
+	 * @return 牛の数。
+	 */
+	private int getCow(int number) {
+		int cow = 0;
+		if (number % 11 == 0) cow += 5;
+		if (number % 10 == 5) cow += 2;
+		if (number % 10 == 0) cow += 3;
+		if (cow == 0) cow = 1;
+		return cow;
 	}
 
 	/**
