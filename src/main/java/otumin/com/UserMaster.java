@@ -43,9 +43,10 @@ public class UserMaster {
         AtomicInteger retryCount = new AtomicInteger(0);
         while(retryCount.get() <3){
 
-            int num = getUsersNumFromInput();
+            System.out.print("参加ユーザーの数を入力してください: ");
+            int num = getNumFromInput();
 
-            if( validation.isValidUsersNum(num)){
+            if(validation.isValidUsersNum(num)){
                 return num;
             }
             retryCount.getAndIncrement();
@@ -54,25 +55,16 @@ public class UserMaster {
         return 0;
     }
 
-    private int getUsersNumFromInput(){
-        System.out.print("参加ユーザーの数を入力してください: ");
+    private int getNumFromInput(){
         try{
             Terminal terminal = new Terminal();
             String input = terminal.input();
-            int n = Integer.valueOf(input);
-
-            //validation
-            if(validation.isValidUsersNum(n)){
-                System.out.println("参加ユーザの数は「" + n + "」人です");
-                return n;
-            }
-            System.out.println("参加者の条件を満たしていません。再度入力してください。");
-
+            return Integer.valueOf(input);
         } catch (Exception e) {
             // TODO: 理由をちゃんと出力する
             //e.printStackTrace();
+            return -1;
         }
-        return 0;
     }
 
     public void showHandsByUserIndex(int index) {
