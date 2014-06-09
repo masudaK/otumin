@@ -27,7 +27,7 @@ public class Terminal {
         try {
             n = Integer.valueOf(input());
         } catch (Exception e) {
-            System.out.println("入力時にエラーが発生しました");
+            System.out.println(Config.INPUT_ERROR_MESSAGE);
         }
         return n;
     }

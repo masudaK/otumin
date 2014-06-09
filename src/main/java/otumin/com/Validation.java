@@ -10,7 +10,7 @@ package otumin.com;
 public class Validation {
 
     public boolean isValidUsersNum(int num){
-        if(1 < num && num <= 10){
+        if(Config.MIN_USERS_NUM <= num && num <= Config.MAX_USERS_NUM){
             return true;
         }else{
             return false;

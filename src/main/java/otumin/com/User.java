@@ -22,7 +22,7 @@ public class User {
 
     public User(int id){
         this.id = id;
-        this.hands = new ArrayList<Card>(10);
+        this.hands = new ArrayList<Card>(Config.DEFAULT_CARDS_NUM);
         this.discards = new LinkedList<Card>();
     }
 

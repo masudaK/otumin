@@ -18,7 +18,7 @@ public class Field {
     private List<Lane> lanes;
 
     public Field(){
-        this.lanes = new ArrayList<Lane>(4);
+        this.lanes = new ArrayList<Lane>(Config.MAX_LANE_NUM);
         lanes.add(new Lane());
         lanes.add(new Lane());
         lanes.add(new Lane());
@@ -38,7 +38,7 @@ public class Field {
     public List<Integer> collectLastIndexCard(){
         List<Integer> lastNumbers = new ArrayList<Integer>(4);
 
-        for(int i = 0; i < 4; i++ ){
+        for(int i = 0; i < Config.MAX_LANE_NUM; i++ ){
             List<Card> cards =  getLane(i).getCardsAll();
             Card lastCard = cards.get(cards.size() - 1);
             System.out.println(lastCard.getNumber());
@@ -60,7 +60,7 @@ public class Field {
                 distance.add(difference);
                 canPlaced = true;
             }else{
-                distance.add(999);
+                distance.add(Config.MAX_DIFFERENCE);
             }
         }
 
