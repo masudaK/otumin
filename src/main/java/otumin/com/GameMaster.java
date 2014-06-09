@@ -91,7 +91,7 @@ public class GameMaster {
     }
 
     private void startTurn(int turnCount){
-        ArrayList<Card> submitUsersCard = new ArrayList<Card>();
+        ArrayList<Card> submitUsersCardsAll = new ArrayList<Card>();
 
         // レーンにある現状のカードを出力
         field.printAllLaneCards(0);
@@ -105,18 +105,20 @@ public class GameMaster {
         um.printAllUserCards(0);
 
         // どのカードをどの列に出すか選択する
-        Card userCard = um.getUser(0).fixSubmittedCardInTern();
-        submitUsersCard.add(userCard);
+        System.out.print("\n提示するカードを自分の手札から選択してください:");
+        int submitNumber = tm.inputNumber();
+        Card userCard = um.getUser(0).findCardInHands(submitNumber);
+        submitUsersCardsAll.add(userCard);
         //int laneNumber = askLaneNumberWithCard();
 
         // 他のユーザはランダムでカードを渡す
         for(int i = 1; i < 3; i++){
-            Card npcCard = um.getUser(i).fixSubmittedCardRandomInTern();
-            submitUsersCard.add(npcCard);
+            Card npcCard = um.getUser(i).getCardRandom();
+            submitUsersCardsAll.add(npcCard);
         }
 
         // 小さい順に並べる
-        Collections.sort(submitUsersCard, new CardComparator());
+        Collections.sort(submitUsersCardsAll, new CardComparator());
         // その小さい順に並んだカードを、距離が最小距離の列に配置する
         List<Integer> lastNumbers = field.collectLastIndexCard();
         int minimumDistanceIndex =  field.getMinimumDistanceIndex(userCard.getNumber(), lastNumbers);
@@ -124,10 +126,14 @@ public class GameMaster {
 
         // 置ける場所がなかったら、マイナスポイントを受け取る処理に入る
         if(minimumDistanceIndex == -1){
-            um.getUser(0).choiceLaneAndReceiveAllCards();
+            System.out.println("\nマイナスポイントを受け取りたい列を選んでください:");
+            int laneIndex = tm.inputNumber();
+            um.getUser(0).receiveAllCardsByLane(laneIndex);
+        }else{
+            //置ける場所が決まったので、カード配置
+
         }
 
-        //カード配置
 
         // 様々な判定
 

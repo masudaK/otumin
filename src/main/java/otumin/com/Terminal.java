@@ -21,4 +21,14 @@ public class Terminal {
         BufferedReader br = new BufferedReader(isr);
         return br.readLine();
     }
+
+    public int inputNumber() {
+        int n = 0;
+        try {
+            n = Integer.valueOf(input());
+        } catch (Exception e) {
+            System.out.println("入力時にエラーが発生しました");
+        }
+        return n;
+    }
 }

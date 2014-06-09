@@ -59,36 +59,21 @@ public class User {
         return discards;
     }
 
-    public Card fixSubmittedCardInTern() {
-        //TODO: コマンドプロンプトでしか動かないし、色々やらせすぎてるので、分離
-        // ex: ゲームマスターにやらせるとか
-        // メソッド名がうーむという感じなので直す
-        // ユーザがターンをする必要はないし
-        System.out.print("提示するカードを自分の手札から選択してください: ");
-        int n = 0;
+    public Card findCardInHands(int n){
         Card userCard = null;
-        try{
-            Terminal terminal = new Terminal();
-            String input = terminal.input();
-            n = Integer.valueOf(input);
-
-            // 手札に該当の値が存在していれば、そのあたいをnumberとして持ったカードオブジェクトを返す
-            if( isExistsNumberInHands(n) ){
-                for(Card card : hands){
-                    //System.out.println(card.getNumber() + "を探索中です");
-                    if( card.getNumber() == n ){
-                        userCard = card;
-                        break;
-                    }
+        // 手札に該当の値が存在していれば、そのあたいをnumberとして持ったカードオブジェクトを返す
+        if( isExistsNumberInHands(n) ){
+            for(Card card : hands){
+                if( card.getNumber() == n ){
+                    userCard = card;
+                    break;
                 }
-            }else{
-                System.out.println("インデックスが見つけられません");
-                System.exit(1);
             }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        }else{
+            System.out.println("インデックスが見つけられません");
+            System.exit(1);
         }
+
         System.out.println("提出するカードの数は「" + n + "」です");
         return userCard;
     }
@@ -105,25 +90,15 @@ public class User {
         return matchFlg;
     }
 
-    public Card fixSubmittedCardRandomInTern() {
+    public Card getCardRandom() {
         //TODO: 今は先頭から取ってるけど、ランダムに実装を変える
         Card userCardRandom = hands.get(0);
         return userCardRandom;
     }
 
-    //TODO: 責務を考える。メソッド分けたほうがいいかもしれない
-    public void choiceLaneAndReceiveAllCards(){
-        System.out.println("マイナスポイントを受け取りたい列を選んでください:");
-        Terminal tm = new Terminal();
-        String in = null;
-        try {
-            in = tm.input();
-            Field field = new Field();
-            List<Card> cardsOfLane = field.getLane(Integer.valueOf(in)).getCardsAll();
-            receiveCards(cardsOfLane);
-        } catch (IOException e) {
-            //TODO: エラーメッセージ
-            //e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+    public void receiveAllCardsByLane(int laneIndex){
+        Field field = new Field();
+        List<Card> cardsOfLane = field.getLane(laneIndex).getCardsAll();
+        receiveCards(cardsOfLane);
     }
 }
