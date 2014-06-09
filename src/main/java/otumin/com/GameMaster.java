@@ -141,20 +141,4 @@ public class GameMaster {
         field.printAllLaneCards(2);
         field.printAllLaneCards(3);
     }
-
-    private int askLaneNumberWithCard() {
-        //TODO: 0-3以外の数だったら例外を投げる
-        System.out.print("どのレーンにカードを置くかレーン番号を選択してください: ");
-        int n = 0;
-        try{
-            String input = tm.input();
-            n = Integer.valueOf(input);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println("カードを置くレーンは「" + n + "」番目のレーンです。");
-        return n;
-    }
-
-
 }
