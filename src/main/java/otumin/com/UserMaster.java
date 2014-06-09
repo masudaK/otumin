@@ -40,8 +40,6 @@ public class UserMaster {
     }
 
     private int determineUsersNum(){
-        System.out.print("参加ユーザーの数を入力してください: ");
-        int n = 0;
         AtomicInteger retryCount = new AtomicInteger(0);
         while(retryCount.get() <3){
 
@@ -57,6 +55,7 @@ public class UserMaster {
     }
 
     private int getUsersNumFromInput(){
+        System.out.print("参加ユーザーの数を入力してください: ");
         try{
             Terminal terminal = new Terminal();
             String input = terminal.input();
