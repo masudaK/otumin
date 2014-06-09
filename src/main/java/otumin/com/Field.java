@@ -1,7 +1,9 @@
 package otumin.com;
 
 import javax.swing.text.LayoutQueue;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -32,6 +34,44 @@ public class Field {
         Lane lane = getLane(lane_index);
         lane.addCard(card);
     }
+
+    public List<Integer> collectLastIndexCard(){
+        List<Integer> lastNumbers = new ArrayList<Integer>(4);
+
+        for(int i = 0; i < 4; i++ ){
+            List<Card> cards =  getLane(i).getCardsAll();
+            Card lastCard = cards.get(cards.size() - 1);
+            System.out.println(lastCard.getNumber());
+            lastNumbers.add(lastCard.getNumber());
+        }
+        return lastNumbers;
+    }
+
+    //TODO: もしこのメソッドですべてのカードとの距離が999のような場合は、
+    // どの列かを選んでマイナスポイントを受け取らないといけない
+    public int getMinimumDistanceIndex(int cardNumber, List<Integer> lists){
+        ArrayList<Integer> distance = new ArrayList<Integer>(4);
+        boolean canPlaced = false;
+
+        for(int num : lists){
+            int difference = cardNumber - num;
+            //差分が正のものはそのままリストに入れ、負のものは距離999として設定する
+            if(difference > 0){
+                distance.add(difference);
+                canPlaced = true;
+            }else{
+                distance.add(999);
+            }
+        }
+
+        if(canPlaced == false){
+            System.out.println("数が大きすぎるため、列に配置することができませんでした");
+            return -1;
+        }
+
+        return distance.indexOf(Collections.min(distance));
+    }
+
 
     public void printAllLaneCards(int i) {
         System.out.println(i + "列目:");

@@ -118,8 +118,19 @@ public class GameMaster {
         // 小さい順に並べる
         Collections.sort(submitUsersCard, new CardComparator());
         // その小さい順に並んだカードを、距離が最小距離の列に配置する
+        List<Integer> lastNumbers = field.collectLastIndexCard();
+        int minimumDistanceIndex =  field.getMinimumDistanceIndex(userCard.getNumber(), lastNumbers);
+        System.out.println("最小距離の列は" + minimumDistanceIndex + "列目のレーンになります");
+
+        // 置ける場所がなかったら、マイナスポイントを受け取る処理に入る
+        if(minimumDistanceIndex == -1){
+            um.getUser(0).choiceLaneAndReceiveAllCards();
+        }
+
+        //カード配置
 
         // 様々な判定
+
 
         // ターン終了
         turnCount++;
