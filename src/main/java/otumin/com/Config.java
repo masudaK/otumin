@@ -14,8 +14,6 @@ public class Config {
 
     public static final int DEFAULT_CARDS_NUM = 10;
     public static final int OWN_USER_INDEX = 0;
-    public static final String START_MESSAGE = "Nimto Start!!";
-    public static final String INPUT_ERROR_MESSAGE = "入力時にエラーが発生しました";
     public static final int MIN_USERS_NUM = 2;
     public static final int MAX_USERS_NUM = 10;
 }

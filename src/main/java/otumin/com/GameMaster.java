@@ -85,7 +85,6 @@ public class GameMaster {
     private void distributeCardAllUser(int usersNum){
         for(int i = 0; i < usersNum; i++){
             User user = um.getUser(i);
-            //TODO: 必ず10枚配るわけではないし、マジックナンバーは必ず外に出して扱いやすくする
             user.receiveCards(deck.getCards(Config.DEFAULT_CARDS_NUM));
         }
     }
@@ -105,7 +104,7 @@ public class GameMaster {
         um.printAllUserCards(Config.OWN_USER_INDEX);
 
         // どのカードをどの列に出すか選択する
-        System.out.print("\n提示するカードを自分の手札から選択してください:");
+        System.out.print("\n" + Message.CHOICE_OWN_CARD_BY_HANDS);
         int submitNumber = tm.inputNumber();
         Card userCard = um.getUser(Config.OWN_USER_INDEX).findCardInHands(submitNumber);
         submitUsersCardsAll.add(userCard);
@@ -126,7 +125,7 @@ public class GameMaster {
 
         // 置ける場所がなかったら、マイナスポイントを受け取る処理に入る
         if(minimumDistanceIndex == -1){
-            System.out.println("\nマイナスポイントを受け取りたい列を選んでください:");
+            System.out.println("\n" + Message.CHOICE_LANE_OF_GETTIMG_MINUS_POINT);
             int laneIndex = tm.inputNumber();
             um.getUser(Config.OWN_USER_INDEX).receiveAllCardsByLane(laneIndex);
         }else{

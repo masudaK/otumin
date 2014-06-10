@@ -65,7 +65,7 @@ public class Field {
         }
 
         if(canPlaced == false){
-            System.out.println("数が大きすぎるため、列に配置することができませんでした");
+            System.out.println(Message.CANNOT_PLACE_CARD_WITH_BIG_NUMBER);
             return -1;
         }
 
