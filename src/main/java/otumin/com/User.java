@@ -16,7 +16,7 @@ import java.util.List;
 public class User {
 
     private int id;
-    private List<Card> hands; //手札の山
+    private List<Card> hands; //手札の山 LinkedList OR LinkedHashMapがいいかも
     private LinkedList<Card> discards; //捨て札の山
 
 
