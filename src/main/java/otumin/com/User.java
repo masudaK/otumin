@@ -70,7 +70,8 @@ public class User {
                 }
             }
         }else{
-            System.out.println("インデックスが見つけられません");
+            System.out.println(Message.CANNOT_FIND_INDEX);
+            //TODO: 強制終了させないで、繰り返し入力させる
             System.exit(1);
         }
 
