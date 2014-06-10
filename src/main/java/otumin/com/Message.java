@@ -15,4 +15,5 @@ public class Message {
     public static final String CHOICE_OWN_CARD_BY_HANDS = "場に置くカードを自分の手札から選択してください:";
     public static final String CHOICE_LANE_OF_GETTIMG_MINUS_POINT = "マイナスポイントを受け取りたい列を選んでください:";
     public static final String CANNOT_FIND_INDEX = "対象インデックスが見つけられません";
+    public static final String INPUT_NUMBER_OF_USERS = "参加ユーザーの数を入力してください:";
 }

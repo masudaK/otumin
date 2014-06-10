@@ -43,7 +43,7 @@ public class UserMaster {
         AtomicInteger retryCount = new AtomicInteger(0);
         while(retryCount.get() <3){
 
-            System.out.print("参加ユーザーの数を入力してください: ");
+            System.out.print(Message.INPUT_NUMBER_OF_USERS);
             int num = getNumFromInput();
 
             if(validation.isValidUsersNum(num)){
