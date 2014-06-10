@@ -48,6 +48,9 @@ public class Deck {
         distributeCards.addAll(deck.subList(0, toLast));
         // 以下だと参照を持ち続けてしまう
         //List<Card> distributeCards = deck.subList(0, toLast);
+        //for(Card card: distributeCards){
+        //    System.out.println("debug:" + card.getNumber());
+        //}
         deck.subList(0, toLast).clear();
         return distributeCards;
     }

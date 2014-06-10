@@ -3,6 +3,7 @@ package otumin.com;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -18,6 +19,7 @@ public class GameMaster {
     private Terminal tm;
     private int turnCount = 0;
     private Field field;
+    private Print print;
 
 
     public GameMaster(){
@@ -25,6 +27,7 @@ public class GameMaster {
         this.deck = new Deck();
         this.field = new Field();
         this.tm = new Terminal();
+        this.print = new Print();
     }
 
 
@@ -39,24 +42,12 @@ public class GameMaster {
         int usersNum =  um.getUsersNum();
         distributeCardAllUser(usersNum);
 
-        // ここまででユーザには配り終わってる。
-        // ので、その状態の山札の情報を表示する
-        //System.out.println("----------------");
-        //System.out.println("ユーザへの配布後の山札の状態");
-        //System.out.println("");
-        //List<Card> deckobj = deck.getDeck();
-        //for(Card c : deckobj){
-        //    System.out.print(c.getNumber() + ",");
-        //}
-        //System.out.println("");
-        //System.out.println("----------------");
-
-
         //// 試験的にユーザの手札を全て表示する
-        //for(int i = 0; i < usersNum; i++){
-        //    System.out.println("#########################");
-        //    um.showHandsByUserIndex(i);
-        //}
+        for(int i = 0; i < usersNum; i++){
+            System.out.println("#########################");
+            Map<Integer, Card> userHands = um.getHandsByUserIndex(i);
+            Print.hands(userHands);
+        }
 
         // 各レーンに残りの札を配置する（ニムトではレーン1枚ずつ計4枚配置することになっている）
         field.addCard(0, deck.removeAndGetCardByFirst());
@@ -84,8 +75,11 @@ public class GameMaster {
 
     private void distributeCardAllUser(int usersNum){
         for(int i = 0; i < usersNum; i++){
+            //System.out.println(i + "番目のユーザの番です---------------------------------");
             User user = um.getUser(i);
             user.receiveCards(deck.getCards(Config.DEFAULT_CARDS_NUM));
+            // 上記のようにreceiveCards(Card);的なことがMapになるとツライので
+            // user.receiveCard(Car
         }
     }
 
@@ -101,7 +95,10 @@ public class GameMaster {
 
         // ユーザの持ってるカードを出力 ※0番目を自分にしてる
         // TODO: 0番目を自分とし、それ以降を他のユーザにする
-        um.printAllUserCards(Config.OWN_USER_INDEX);
+        //um.printAllUserCards(Config.OWN_USER_INDEX);
+        //printUserHand(Config.OWN_USER_INDEX);
+        Print.hands(um.getHandsByUserIndex(0));
+
 
         // どのカードをどの列に出すか選択する
         System.out.print("\n" + Message.CHOICE_OWN_CARD_BY_HANDS);
@@ -145,5 +142,21 @@ public class GameMaster {
         field.printAllLaneCards(1);
         field.printAllLaneCards(2);
         field.printAllLaneCards(3);
+    }
+
+    public void printUserHand(int userIndex){
+        System.out.println(userIndex);
+        //Map<Integer, Card> userHand = um.getUser(userIndex).showHands();
+        System.out.println(um.getUser(userIndex).showHands().get(0).getNumber());
+        System.out.println(um.getUser(userIndex).showHands().get(1).getNumber());
+        System.out.println(um.getUser(userIndex).showHands().get(2).getNumber());
+        System.exit(1);
+        //userHand.get(0).getNumber();
+
+        //for(int i = 0; i < userHand.size(); i++ ){
+        //    System.out.print(userHand.get(i).getNumber() + ",");
+        //}
+
+
     }
 }
