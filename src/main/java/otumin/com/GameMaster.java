@@ -94,22 +94,8 @@ public class GameMaster {
             System.out.println("================");
             Card userCard;
 
-            if(userIndex == Config.OWN_USER_INDEX){
-                // ユーザの持ってるカードを出力 ※0番目を自分にしてる
-                Print.hands(um.getHandsByUserIndex(Config.OWN_USER_INDEX));
-
-                // どのカードをどの列に出すか選択する
-                System.out.print("\n" + Message.CHOICE_OWN_CARD_BY_HANDS);
-                int submitNumber = tm.inputNumber();
-                userCard = um.getUser(Config.OWN_USER_INDEX).findCardInHands(submitNumber);
-                submitUsersCardsAll.put(userCard.getNumber(), userCard);
-
-            }else{
-                // 他のユーザはランダムでカードを渡す
-                userCard = um.getUser(userIndex).getCardRandom();
-                System.out.println("カード「" + userCard.getNumber() + "」を配置します");
-                submitUsersCardsAll.put(userCard.getNumber(), userCard);
-            }
+            // カードを提出
+            userCard = submitCard(submitUsersCardsAll, userIndex);
 
             // その小さい順に並んだカードを、距離が最小距離の列に配置する
             List<Integer> lastNumbers = field.collectLastIndexCard();
@@ -139,6 +125,29 @@ public class GameMaster {
         field.printAllLaneCards(1);
         field.printAllLaneCards(2);
         field.printAllLaneCards(3);
+    }
+
+    // 場に出すカードを選択し、提出します
+    // 場に出した上で、出したカードを引数として受け取ります。
+    private Card submitCard(TreeMap<Integer, Card> submitUsersCardsAll, int userIndex) {
+        Card userCard;
+        if(userIndex == Config.OWN_USER_INDEX){
+            // ユーザの持ってるカードを出力 ※0番目を自分にしてる
+            Print.hands(um.getHandsByUserIndex(Config.OWN_USER_INDEX));
+
+            // どのカードをどの列に出すか選択する
+            System.out.print("\n" + Message.CHOICE_OWN_CARD_BY_HANDS);
+            int submitNumber = tm.inputNumber();
+            userCard = um.getUser(Config.OWN_USER_INDEX).findCardInHands(submitNumber);
+            submitUsersCardsAll.put(userCard.getNumber(), userCard);
+
+        }else{
+            // 他のユーザはランダムでカードを渡す
+            userCard = um.getUser(userIndex).getCardRandom();
+            System.out.println("カード「" + userCard.getNumber() + "」を配置します");
+            submitUsersCardsAll.put(userCard.getNumber(), userCard);
+        }
+        return userCard;
     }
 
 }
