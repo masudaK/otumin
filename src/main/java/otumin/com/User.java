@@ -13,19 +13,20 @@ import java.util.*;
 public class User {
 
     private int id;
-    // 手札はCard.getNumberで値を見た上での処理をすることが多い。そのため、NumberをkeyとしたMapを使うことにする
-    private Map<Integer, Card> hands;
+    // 手札はCard.getNumberで値を見た上での処理をすることが多い。
+    // そのため、NumberをkeyとしたMapを使うことにする
+    // また、先頭を取得するなどをしやすくするため、TreeMapを使う
+    private TreeMap<Integer, Card> hands;
     private LinkedList<Card> discards; //捨て札の山
 
 
     public User(int id){
         this.id = id;
-        this.hands = new HashMap<Integer, Card>(Config.DEFAULT_CARDS_NUM);
+        this.hands = new TreeMap<Integer, Card>();
         this.discards = new LinkedList<Card>();
     }
 
     public void receiveCard(Card card) {
-        //hands.add(card);
         hands.put(card.getNumber(), card);
     }
 
@@ -66,9 +67,10 @@ public class User {
     }
 
     public Card getCardRandom() {
-        //TODO: 今は先頭から取ってるけど、ランダムに実装を変える
-        Card userCardRandom = hands.get(0);
-        return userCardRandom;
+        // TODO: 今は先頭から取ってるけど、ランダムに実装を変える
+        // get(0)は0の数字を持ったカードなので、ヌルポになってしまう。
+        // なので、先頭を取得する必要がある。
+        return hands.get(hands.firstKey());
     }
 
     public void receiveAllCardsByLane(int laneIndex){

@@ -103,8 +103,6 @@ public class GameMaster {
         // 他のユーザはランダムでカードを渡す
         for(int i = 1; i < 3; i++){
             Card npcCard = um.getUser(i).getCardRandom();
-            System.out.println("test:" + npcCard.getNumber());
-            //submitUsersCardsAll.add(npcCard);
             submitUsersCardsAll.put(npcCard.getNumber(), npcCard);
         }
 
