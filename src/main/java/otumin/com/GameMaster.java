@@ -39,7 +39,7 @@ public class GameMaster {
         int usersNum =  um.getUsersNum();
         distributeCardAllUser(usersNum);
 
-        //// 試験的にユーザの手札を全て表示する
+        // 試験的にユーザの手札を全て表示する
         for(int i = 0; i < usersNum; i++){
             System.out.println("#########################");
             Map<Integer, Card> userHands = um.getHandsByUserIndex(i);
@@ -72,17 +72,13 @@ public class GameMaster {
 
     private void distributeCardAllUser(int usersNum){
         for(int i = 0; i < usersNum; i++){
-            //System.out.println(i + "番目のユーザの番です---------------------------------");
             User user = um.getUser(i);
             user.receiveCards(deck.getCards(Config.DEFAULT_CARDS_NUM));
-            // 上記のようにreceiveCards(Card);的なことがMapになるとツライので
-            // user.receiveCard(Car
         }
     }
 
     private void startTurn(int turnCount){
         // keyはカードの数。そして、小さい順にソートされるようTreeMapを使う
-        //ArrayList<Card> submitUsersCardsAll = new ArrayList<Card>();
         TreeMap<Integer, Card> submitUsersCardsAll = new TreeMap<Integer, Card>();
 
         // レーンにある現状のカードを出力
@@ -101,7 +97,6 @@ public class GameMaster {
         System.out.print("\n" + Message.CHOICE_OWN_CARD_BY_HANDS);
         int submitNumber = tm.inputNumber();
         Card userCard = um.getUser(Config.OWN_USER_INDEX).findCardInHands(submitNumber);
-        //submitUsersCardsAll.add(userCard);
         submitUsersCardsAll.put(userCard.getNumber(), userCard);
         //int laneNumber = askLaneNumberWithCard();
 
@@ -144,19 +139,4 @@ public class GameMaster {
         field.printAllLaneCards(3);
     }
 
-    public void printUserHand(int userIndex){
-        System.out.println(userIndex);
-        //Map<Integer, Card> userHand = um.getUser(userIndex).showHands();
-        System.out.println(um.getUser(userIndex).showHands().get(0).getNumber());
-        System.out.println(um.getUser(userIndex).showHands().get(1).getNumber());
-        System.out.println(um.getUser(userIndex).showHands().get(2).getNumber());
-        System.exit(1);
-        //userHand.get(0).getNumber();
-
-        //for(int i = 0; i < userHand.size(); i++ ){
-        //    System.out.print(userHand.get(i).getNumber() + ",");
-        //}
-
-
-    }
 }
