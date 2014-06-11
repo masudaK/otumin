@@ -28,8 +28,6 @@ public class UserMaster {
         return users.get(index);
     }
 
-
-
     public void createMultipleUser(){
         int usersNum = determineUsersNum();
 
@@ -68,30 +66,11 @@ public class UserMaster {
         }
     }
 
-    public Map<Integer, Card> getHandsByUserIndex(int index) {
-      System.out.println("ユーザ" + index + "の手札");
+    public Map<Integer, Card> getHandsByUserIndex(int userIndex) {
+      System.out.println("ユーザ" + userIndex + "の手札");
       System.out.println("");
-      User user = getUser(index);
-      //System.out.println("所有数:" + user.showHands().size() + "枚");
-      Map<Integer, Card> userCards = user.showHands();
-      return  userCards;
-      //for(Card card : userCards.values()){
-      //    //get(key)で取得しないといけない key=0とは限らない
-      //    System.out.print(card.getNumber() + ",");
-      //}
-      //System.out.println("");
+      return getUser(userIndex).showHands();
     }
-
-    //public void printAllUserCards(int i) {
-    //    if(i == 0){
-    //        System.out.println("自分の手札:");
-    //    }else{
-    //        System.out.println(i + "番目のユーザの手札:");
-    //    }
-    //    for(Card card : getUser(i).showHands()){
-    //        System.out.print(card.getNumber() + ",");
-    //    }
-    //}
 
     public int  getUsersNum() {
         return users.size();
