@@ -95,9 +95,7 @@ public class GameMaster {
 
         // ユーザの持ってるカードを出力 ※0番目を自分にしてる
         // TODO: 0番目を自分とし、それ以降を他のユーザにする
-        //um.printAllUserCards(Config.OWN_USER_INDEX);
-        //printUserHand(Config.OWN_USER_INDEX);
-        Print.hands(um.getHandsByUserIndex(0));
+        Print.hands(um.getHandsByUserIndex(Config.OWN_USER_INDEX));
 
 
         // どのカードをどの列に出すか選択する
