@@ -60,12 +60,12 @@ public class Field {
                 distance.add(difference);
                 canPlaced = true;
             }else{
-                distance.add(Config.MAX_DIFFERENCE);
+                distance.add(Integer.MAX_VALUE);
             }
         }
 
         if(canPlaced == false){
-            System.out.println(Message.CANNOT_PLACE_CARD_WITH_BIG_NUMBER);
+            System.out.println(Message.CANNOT_PLACE_CARD_WITH_SMALL_NUMBER);
             return -1;
         }
 

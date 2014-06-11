@@ -97,25 +97,13 @@ public class GameMaster {
             // カードを提出
             userCard = submitCard(submitUsersCardsAll, userIndex);
 
-            // その小さい順に並んだカードを、距離が最小距離の列に配置する
-            List<Integer> lastNumbers = field.collectLastIndexCard();
-            int minimumDistanceIndex =  field.getMinimumDistanceIndex(userCard.getNumber(), lastNumbers);
-            System.out.println("最小距離の列は" + minimumDistanceIndex + "列目のレーンになります");
+            // 最も近い距離の列を探索
+            int minimumDistanceIndex = calculateDistanceOfFieldCards(userCard);
 
-            // 置ける場所がなかったら、マイナスポイントを受け取る処理に入る
-            if(minimumDistanceIndex == -1){
-                // userIndexが0ならレーン番号を問う。そうでなければ、0番目を選ぶ
-                int laneIndex = 0;
-                if(userIndex == Config.OWN_USER_INDEX){
-                    System.out.println("\n" + Message.CHOICE_LANE_OF_GETTIMG_MINUS_POINT);
-                    laneIndex = tm.inputNumber();
-                }
-                um.getUser(Config.OWN_USER_INDEX).receiveAllCardsByLane(laneIndex);
-            }
+            // マイナスポイントを受け取るべきか判断
+            judgeViolationOfSubmitCard(userIndex, minimumDistanceIndex);
+
         }
-
-
-        // 様々な判定
 
         // ターン終了
         turnCount++;
@@ -148,6 +136,30 @@ public class GameMaster {
             submitUsersCardsAll.put(userCard.getNumber(), userCard);
         }
         return userCard;
+    }
+
+    // 列にあるカードとの距離を計測し、最小値の列インデックスを返します
+    private int calculateDistanceOfFieldCards(Card userCard) {
+        // その小さい順に並んだカードを、距離が最小距離の列に配置する
+        List<Integer> lastNumbers = field.collectLastIndexCard();
+        int minimumDistanceIndex =  field.getMinimumDistanceIndex(userCard.getNumber(), lastNumbers);
+        System.out.println("最小距離の列は" + minimumDistanceIndex + "列目のレーンになります");
+        return minimumDistanceIndex;
+    }
+
+
+    // 列にあるカードとの距離が全てMAX_VALUEだった場合に、マイナスポイントを受け取るべきかをジャッジします
+    private void judgeViolationOfSubmitCard(int userIndex, int minimumDistanceIndex) {
+        // 置ける場所がなかったら、マイナスポイントを受け取る処理に入る
+        if(minimumDistanceIndex == -1){
+            // userIndexが0ならレーン番号を問う。そうでなければ、0番目を選ぶ
+            int laneIndex = 0;
+            if(userIndex == Config.OWN_USER_INDEX){
+                System.out.println("\n" + Message.CHOICE_LANE_OF_GETTIMG_MINUS_POINT);
+                laneIndex = tm.inputNumber();
+            }
+            um.getUser(Config.OWN_USER_INDEX).receiveAllCardsByLane(laneIndex);
+        }
     }
 
 }

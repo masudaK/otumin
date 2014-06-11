@@ -9,7 +9,6 @@ package otumin.com;
  */
 public class Config {
 
-    public static final int MAX_DIFFERENCE = 999;
     public static final int MAX_LANE_NUM = 4;
 
     public static final int DEFAULT_CARDS_NUM = 10;

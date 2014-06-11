@@ -16,6 +16,7 @@ public class User {
     // 手札はCard.getNumberで値を見た上での処理をすることが多い。
     // そのため、NumberをkeyとしたMapを使うことにする
     // また、先頭を取得するなどをしやすくするため、TreeMapを使う
+    // ただ、この状態だと必ず一番小さい数から出してしまうので、ランダムで出すように修正しないといけない
     private TreeMap<Integer, Card> hands;
     private LinkedList<Card> discards; //捨て札の山
 
