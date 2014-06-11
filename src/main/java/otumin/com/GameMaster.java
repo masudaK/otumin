@@ -40,11 +40,11 @@ public class GameMaster {
         distributeCardAllUser(usersNum);
 
         // 試験的にユーザの手札を全て表示する
-        for(int i = 0; i < usersNum; i++){
-            System.out.println("#########################");
-            Map<Integer, Card> userHands = um.getHandsByUserIndex(i);
-            Print.hands(userHands);
-        }
+        //for(int i = 0; i < usersNum; i++){
+        //    System.out.println("#########################");
+        //    Map<Integer, Card> userHands = um.getHandsByUserIndex(i);
+        //    Print.hands(userHands);
+        //}
 
         // 各レーンに残りの札を配置する（ニムトではレーン1枚ずつ計4枚配置することになっている）
         field.addCard(0, deck.removeAndGetCardByFirst());
@@ -87,45 +87,49 @@ public class GameMaster {
         field.printAllLaneCards(2);
         field.printAllLaneCards(3);
 
+        // ユーザの数の分、順番をループさせる
+        for(int userIndex = 0; userIndex< Config.MAX_USERS_NUM; userIndex++){
+            System.out.println("================");
+            System.out.println(userIndex + "番目のプレイヤーの順番になります");
+            System.out.println("================");
+            Card userCard;
 
-        // ユーザの持ってるカードを出力 ※0番目を自分にしてる
-        // TODO: 0番目を自分とし、それ以降を他のユーザにする
-        Print.hands(um.getHandsByUserIndex(Config.OWN_USER_INDEX));
+            if(userIndex == Config.OWN_USER_INDEX){
+                // ユーザの持ってるカードを出力 ※0番目を自分にしてる
+                Print.hands(um.getHandsByUserIndex(Config.OWN_USER_INDEX));
 
+                // どのカードをどの列に出すか選択する
+                System.out.print("\n" + Message.CHOICE_OWN_CARD_BY_HANDS);
+                int submitNumber = tm.inputNumber();
+                userCard = um.getUser(Config.OWN_USER_INDEX).findCardInHands(submitNumber);
+                submitUsersCardsAll.put(userCard.getNumber(), userCard);
 
-        // どのカードをどの列に出すか選択する
-        System.out.print("\n" + Message.CHOICE_OWN_CARD_BY_HANDS);
-        int submitNumber = tm.inputNumber();
-        Card userCard = um.getUser(Config.OWN_USER_INDEX).findCardInHands(submitNumber);
-        submitUsersCardsAll.put(userCard.getNumber(), userCard);
-        //int laneNumber = askLaneNumberWithCard();
+            }else{
+                // 他のユーザはランダムでカードを渡す
+                userCard = um.getUser(userIndex).getCardRandom();
+                System.out.println("カード「" + userCard.getNumber() + "」を配置します");
+                submitUsersCardsAll.put(userCard.getNumber(), userCard);
+            }
 
-        // 他のユーザはランダムでカードを渡す
-        for(int i = 1; i < 3; i++){
-            Card npcCard = um.getUser(i).getCardRandom();
-            submitUsersCardsAll.put(npcCard.getNumber(), npcCard);
-        }
+            // その小さい順に並んだカードを、距離が最小距離の列に配置する
+            List<Integer> lastNumbers = field.collectLastIndexCard();
+            int minimumDistanceIndex =  field.getMinimumDistanceIndex(userCard.getNumber(), lastNumbers);
+            System.out.println("最小距離の列は" + minimumDistanceIndex + "列目のレーンになります");
 
-        // 小さい順に並べる
-        //Collections.sort(submitUsersCardsAll, new CardComparator());
-        // その小さい順に並んだカードを、距離が最小距離の列に配置する
-        List<Integer> lastNumbers = field.collectLastIndexCard();
-        int minimumDistanceIndex =  field.getMinimumDistanceIndex(userCard.getNumber(), lastNumbers);
-        System.out.println("最小距離の列は" + minimumDistanceIndex + "列目のレーンになります");
-
-        // 置ける場所がなかったら、マイナスポイントを受け取る処理に入る
-        if(minimumDistanceIndex == -1){
-            System.out.println("\n" + Message.CHOICE_LANE_OF_GETTIMG_MINUS_POINT);
-            int laneIndex = tm.inputNumber();
-            um.getUser(Config.OWN_USER_INDEX).receiveAllCardsByLane(laneIndex);
-        }else{
-            //置ける場所が決まったので、カード配置
-
+            // 置ける場所がなかったら、マイナスポイントを受け取る処理に入る
+            if(minimumDistanceIndex == -1){
+                // userIndexが0ならレーン番号を問う。そうでなければ、0番目を選ぶ
+                int laneIndex = 0;
+                if(userIndex == Config.OWN_USER_INDEX){
+                    System.out.println("\n" + Message.CHOICE_LANE_OF_GETTIMG_MINUS_POINT);
+                    laneIndex = tm.inputNumber();
+                }
+                um.getUser(Config.OWN_USER_INDEX).receiveAllCardsByLane(laneIndex);
+            }
         }
 
 
         // 様々な判定
-
 
         // ターン終了
         turnCount++;
