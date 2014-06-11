@@ -1,9 +1,6 @@
 package otumin.com;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -84,7 +81,9 @@ public class GameMaster {
     }
 
     private void startTurn(int turnCount){
-        ArrayList<Card> submitUsersCardsAll = new ArrayList<Card>();
+        // keyはカードの数。そして、小さい順にソートされるようTreeMapを使う
+        //ArrayList<Card> submitUsersCardsAll = new ArrayList<Card>();
+        TreeMap<Integer, Card> submitUsersCardsAll = new TreeMap<Integer, Card>();
 
         // レーンにある現状のカードを出力
         field.printAllLaneCards(0);
@@ -102,17 +101,20 @@ public class GameMaster {
         System.out.print("\n" + Message.CHOICE_OWN_CARD_BY_HANDS);
         int submitNumber = tm.inputNumber();
         Card userCard = um.getUser(Config.OWN_USER_INDEX).findCardInHands(submitNumber);
-        submitUsersCardsAll.add(userCard);
+        //submitUsersCardsAll.add(userCard);
+        submitUsersCardsAll.put(userCard.getNumber(), userCard);
         //int laneNumber = askLaneNumberWithCard();
 
         // 他のユーザはランダムでカードを渡す
         for(int i = 1; i < 3; i++){
             Card npcCard = um.getUser(i).getCardRandom();
-            submitUsersCardsAll.add(npcCard);
+            System.out.println("test:" + npcCard.getNumber());
+            //submitUsersCardsAll.add(npcCard);
+            submitUsersCardsAll.put(npcCard.getNumber(), npcCard);
         }
 
         // 小さい順に並べる
-        Collections.sort(submitUsersCardsAll, new CardComparator());
+        //Collections.sort(submitUsersCardsAll, new CardComparator());
         // その小さい順に並んだカードを、距離が最小距離の列に配置する
         List<Integer> lastNumbers = field.collectLastIndexCard();
         int minimumDistanceIndex =  field.getMinimumDistanceIndex(userCard.getNumber(), lastNumbers);
