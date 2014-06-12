@@ -49,6 +49,7 @@ public class Field {
 
     //TODO: もしこのメソッドですべてのカードとの距離が999のような場合は、
     // どの列かを選んでマイナスポイントを受け取らないといけない
+    // listsはフィールドから取ってくればいいんじゃないのか
     public int getMinimumDistanceIndex(int cardNumber, List<Integer> lists){
         ArrayList<Integer> distance = new ArrayList<Integer>(4);
         boolean canPlaced = false;
