@@ -22,8 +22,24 @@ public class Lane {
         return cards;
     }
 
+    public List<Card> removeCardsAll(){
+
+        List<Card> removeCards = new ArrayList<Card>();
+        int cardsSize = cards.size();
+        //System.out.println("カードのサイズ:" + cardsSize + "。この分ループします");
+        for(int i = 0; i < cardsSize; i++){
+            System.out.println("捨て札に加わります:" + cards.get(0).getNumber());
+            removeCards.add(cards.remove(0));
+        }
+        return removeCards;
+    }
+
     public void addCard(Card card) {
         cards.add(card);
     }
 
+    public int getSize(){
+        return cards.size();
+
+    }
 }

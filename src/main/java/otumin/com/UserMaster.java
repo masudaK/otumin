@@ -72,6 +72,12 @@ public class UserMaster {
       return getUser(userIndex).showHands();
     }
 
+    public List<Card> getDiscardsByUserIndex(int userIndex) {
+        System.out.println("ユーザ" + userIndex + "の捨て札");
+        System.out.println("");
+        return getUser(userIndex).showDiscards();
+    }
+
     public int  getUsersNum() {
         return users.size();
     }

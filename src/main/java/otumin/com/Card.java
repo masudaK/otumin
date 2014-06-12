@@ -11,6 +11,7 @@ public class Card {
 
     private int number;
     private int minusPoint;
+    private int owner;
 
     public Card(int number, int minusPoint){
         this.number = number;
@@ -23,5 +24,13 @@ public class Card {
 
     public int getMinusPoint(){
         return minusPoint;
+    }
+
+    public int getOwner(){
+        return owner;
+    }
+
+    public void setOwner(int owner) {
+        this.owner = owner;
     }
 }

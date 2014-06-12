@@ -17,13 +17,17 @@ public class User {
     // そのため、NumberをkeyとしたMapを使うことにする
     // また、先頭を取得するなどをしやすくするため、TreeMapを使う
     // ただ、この状態だと必ず一番小さい数から出してしまうので、ランダムで出すように修正しないといけない
-    private TreeMap<Integer, Card> hands;
+
+    // 結果Mapにする
+    //private TreeMap<Integer, Card> hands;
+    private HashMap<Integer, Card> hands;
     private ArrayList<Card> discards; //捨て札の山
 
 
     public User(int id){
         this.id = id;
-        this.hands = new TreeMap<Integer, Card>();
+        //this.hands = new TreeMap<Integer, Card>();
+        this.hands = new HashMap();
         this.discards = new ArrayList<Card>();
     }
 
@@ -57,7 +61,7 @@ public class User {
     }
 
     // インデックスが見当たらない場合は、空のCardオブジェクトを返す
-    public Card findCardInHands(int n){
+    public Card getCardInHands(int n){
         if(hands.containsKey(n)){
             return hands.get(n);
         }else{
@@ -67,19 +71,32 @@ public class User {
         }
     }
 
-    public Card getCardRandom() {
-        // TODO: 今は先頭から取ってるけど、ランダムに実装を変える
-        // get(0)は0の数字を持ったカードなので、ヌルポになってしまう。
-        // なので、先頭を取得する必要がある。
-        return hands.get(hands.firstKey());
+    // インデックスが見当たらない場合は、空のCardオブジェクトを返す
+    public Card removeCardInHands(int key){
+    //public Card removeCardInHands(Card submitCard){
+        //System.out.println("対象key:" + key);
+        if(hands.containsKey(key)){
+            return hands.remove(key);
+        }else{
+            System.out.println(Message.CANNOT_FIND_INDEX);
+            // ユーザに優しい例外処理を設定する
+            return new Card(0, 0);
+        }
     }
 
-    // TODO: fieldを持つことになってしまうので、カードだけをユーザに渡すようにする
-    //public void receiveAllCardsByLane(int laneIndex){
-    public void receiveAllCardsByLane(int laneIndex){
-        //Field field = new Field();
-        // 渡したカードは除去するようにしないといけない
-        List<Card> cardsOfLane = field.getLane(laneIndex).getCardsAll();
-        receiveDiscardsAll(cardsOfLane);
+    public Card getCardRandomInHands() {
+        Random random = new Random();
+        List<Integer> keys = new ArrayList<Integer>(hands.keySet());
+        int randomKey = keys.get( random.nextInt(keys.size()) );
+
+        return hands.get(randomKey);
+    }
+
+    public Card removeCardRandomInHands() {
+        Random random = new Random();
+        List<Integer> keys = new ArrayList<Integer>(hands.keySet());
+        int randomKey = keys.get( random.nextInt(keys.size()) );
+
+        return hands.remove(randomKey);
     }
 }

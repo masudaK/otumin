@@ -1,5 +1,6 @@
 package otumin.com;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,5 +24,32 @@ public class Print {
             System.out.print(card.getNumber() + ",");
         }
         System.out.println("\n");
+    }
+
+    public static void discards(List<Card> userDiscards) {
+        for(Card card : userDiscards){
+            System.out.print(card.getNumber() + ",");
+        }
+        System.out.println("\n");
+    }
+
+    public void allCardsInLane(List<Card> laneCards){
+        for(Card card : laneCards){
+            System.out.print(card.getNumber() + ",");
+        }
+        System.out.println("\n");
+    }
+
+    public void usersHand(Map<Integer, Card> hand){
+        System.out.println("#########################");
+        hands(hand);
+        System.out.println("------------------------");
+
+    }
+
+    public void usersDiscard(List<Card> discard) {
+        System.out.println("#########################");
+        discards(discard);
+        System.out.println("------------------------");
     }
 }

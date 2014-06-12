@@ -26,12 +26,12 @@ public class Field {
     }
 
 
-    public Lane getLane(int lane_index) {
-        return lanes.get(lane_index);
+    public Lane getLane(int laneIndex) {
+        return lanes.get(laneIndex);
     }
 
-    public void addCard(int lane_index, Card card){
-        Lane lane = getLane(lane_index);
+    public void addCard(int laneIndex, Card card){
+        Lane lane = getLane(laneIndex);
         lane.addCard(card);
     }
 
@@ -40,16 +40,14 @@ public class Field {
 
         for(int i = 0; i < Config.MAX_LANE_NUM; i++ ){
             List<Card> cards =  getLane(i).getCardsAll();
+            //System.out.println("列にあるカードのサイズは" + cards.size() + "です。（実際はここからマイナス1します）");
             Card lastCard = cards.get(cards.size() - 1);
-            System.out.println(lastCard.getNumber());
+            //System.out.println(lastCard.getNumber());
             lastNumbers.add(lastCard.getNumber());
         }
         return lastNumbers;
     }
 
-    //TODO: もしこのメソッドですべてのカードとの距離が999のような場合は、
-    // どの列かを選んでマイナスポイントを受け取らないといけない
-    // listsはフィールドから取ってくればいいんじゃないのか
     public int getMinimumDistanceIndex(int cardNumber, List<Integer> lists){
         ArrayList<Integer> distance = new ArrayList<Integer>(4);
         boolean canPlaced = false;
@@ -79,5 +77,9 @@ public class Field {
         for(Card card : getLane(i).getCardsAll()){
             System.out.println(card.getNumber());
         }
+    }
+
+    public List<Card> getAllLaneCards(int i){
+        return getLane(i).getCardsAll();
     }
 }

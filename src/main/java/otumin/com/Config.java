@@ -10,6 +10,7 @@ package otumin.com;
 public class Config {
 
     public static final int MAX_LANE_NUM = 4;
+    public static final int CAPACITY_OF_CARDS = 6;
 
     public static final int DEFAULT_CARDS_NUM = 10;
     public static final int OWN_USER_INDEX = 0;
