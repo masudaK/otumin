@@ -121,7 +121,7 @@ public class GameMaster {
         Card userCard;
         if(userIndex == Config.OWN_USER_INDEX){
             // ユーザの持ってるカードを出力 ※0番目を自分にしてる
-            Print.hands(um.getHandsByUserIndex(Config.OWN_USER_INDEX));
+            print.hands(um.getHandsByUserIndex(Config.OWN_USER_INDEX));
 
             // どのカードをどの列に出すか選択する
             System.out.print("\n" + Message.CHOICE_OWN_CARD_BY_HANDS);
