@@ -18,13 +18,13 @@ public class User {
     // また、先頭を取得するなどをしやすくするため、TreeMapを使う
     // ただ、この状態だと必ず一番小さい数から出してしまうので、ランダムで出すように修正しないといけない
     private TreeMap<Integer, Card> hands;
-    private LinkedList<Card> discards; //捨て札の山
+    private ArrayList<Card> discards; //捨て札の山
 
 
     public User(int id){
         this.id = id;
         this.hands = new TreeMap<Integer, Card>();
-        this.discards = new LinkedList<Card>();
+        this.discards = new ArrayList<Card>();
     }
 
     public void receiveCard(Card card) {
@@ -44,7 +44,7 @@ public class User {
         discards.add(card);
     }
 
-    public void receiveDiscardsAll(LinkedList<Card> cards){
+    public void receiveDiscardsAll(List<Card> cards){
         discards.addAll(cards);
     }
 
@@ -74,9 +74,12 @@ public class User {
         return hands.get(hands.firstKey());
     }
 
+    // TODO: fieldを持つことになってしまうので、カードだけをユーザに渡すようにする
+    //public void receiveAllCardsByLane(int laneIndex){
     public void receiveAllCardsByLane(int laneIndex){
-        Field field = new Field();
+        //Field field = new Field();
+        // 渡したカードは除去するようにしないといけない
         List<Card> cardsOfLane = field.getLane(laneIndex).getCardsAll();
-        receiveCards(cardsOfLane);
+        receiveDiscardsAll(cardsOfLane);
     }
 }

@@ -79,7 +79,8 @@ public class GameMaster {
 
     private void startTurn(int turnCount){
         // keyはカードの数。そして、小さい順にソートされるようTreeMapを使う
-        TreeMap<Integer, Card> submitUsersCardsAll = new TreeMap<Integer, Card>();
+        //TreeMap<Integer, Card> submitUsersCardsAll = new TreeMap<Integer, Card>();
+        SortedMap<Integer, Card> submitUsersCardsAll = new TreeMap<Integer, Card>();
 
         // レーンにある現状のカードを出力
         field.printAllLaneCards(0);
@@ -117,7 +118,7 @@ public class GameMaster {
 
     // 場に出すカードを選択し、提出します
     // 場に出した上で、出したカードを引数として受け取ります。
-    private Card submitCard(TreeMap<Integer, Card> submitUsersCardsAll, int userIndex) {
+    private Card submitCard(Map<Integer, Card> submitUsersCardsAll, int userIndex) {
         Card userCard;
         if(userIndex == Config.OWN_USER_INDEX){
             // ユーザの持ってるカードを出力 ※0番目を自分にしてる
@@ -158,7 +159,7 @@ public class GameMaster {
                 System.out.println("\n" + Message.CHOICE_LANE_OF_GETTIMG_MINUS_POINT);
                 laneIndex = tm.inputNumber();
             }
-            um.getUser(Config.OWN_USER_INDEX).receiveAllCardsByLane(laneIndex);
+            um.getUser(userIndex).receiveAllCardsByLane(laneIndex);
         }
     }
 
