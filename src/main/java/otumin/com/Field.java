@@ -82,4 +82,9 @@ public class Field {
     public List<Card> getAllLaneCards(int i){
         return getLane(i).getCardsAll();
     }
+
+    public getLaneWithMaxMinusPoint(){
+        List<Integer> minus = new ArrayList<Integer>();
+        lanes.get(0).calculateMinusPoint();
+    }
 }

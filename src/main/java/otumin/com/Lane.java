@@ -42,4 +42,12 @@ public class Lane {
         return cards.size();
 
     }
+
+    public int calculateMinusPoint(){
+        int sumMinus = 0;
+        for(Card card : cards){
+           sumMinus += card.getMinusPoint();
+        }
+        return sumMinus;
+    }
 }
