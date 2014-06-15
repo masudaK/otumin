@@ -83,8 +83,13 @@ public class Field {
         return getLane(i).getCardsAll();
     }
 
-    public getLaneWithMaxMinusPoint(){
-        List<Integer> minus = new ArrayList<Integer>();
-        lanes.get(0).calculateMinusPoint();
+    public int getLaneWithMinimumMinusPoint(){
+        List<Integer> minusOfLanes = new ArrayList<Integer>();
+        minusOfLanes.add(lanes.get(0).calculateMinusPoint());
+        minusOfLanes.add(lanes.get(1).calculateMinusPoint());
+        minusOfLanes.add(lanes.get(2).calculateMinusPoint());
+        minusOfLanes.add(lanes.get(3).calculateMinusPoint());
+
+        return minusOfLanes.indexOf(Collections.min(minusOfLanes));
     }
 }

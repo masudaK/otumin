@@ -39,18 +39,22 @@ public class GameMaster {
         int usersNum =  um.getUsersNum();
         distributeCardAllUser(usersNum);
 
-        // 試験的にユーザの手札を全て表示する
-        //print.usersHand(um.getHandsByUserIndex(0));
-
         // 各レーンに残りの札を配置する（ニムトではレーン1枚ずつ計4枚配置することになっている）
         field.addCard(0, deck.removeAndGetCardByFirst());
         field.addCard(1, deck.removeAndGetCardByFirst());
         field.addCard(2, deck.removeAndGetCardByFirst());
         field.addCard(3, deck.removeAndGetCardByFirst());
 
-        startTurn(0); //0ターン目開始
-        startTurn(1); //0ターン目開始
-        startTurn(2); //0ターン目開始
+        // レーンにある現状のカードを出力
+        print.allCardsInLane(field.getAllLaneCards(0));
+        print.allCardsInLane(field.getAllLaneCards(1));
+        print.allCardsInLane(field.getAllLaneCards(2));
+        print.allCardsInLane(field.getAllLaneCards(3));
+
+        // 各ターンを開始します。MAX_OF_TURNの数だけ繰り返します
+        for(int i = 0; i < Config.MAX_OF_TURN; i++){
+            startTurn(i);
+        }
 
 
         // 試験的にユーザの捨て札を全て表示する
@@ -58,7 +62,7 @@ public class GameMaster {
             print.usersDiscard(um.getDiscardsByUserIndex(i));
         }
 
-    }
+    } // end of gameStart()
 
     private void startTurn(int turnCount){
         // keyはカードの数。そして、小さい順にソートされるようTreeMapを使う
@@ -68,15 +72,8 @@ public class GameMaster {
         // ユーザの数の分、順番をループさせる
         for(int userIndex = 0; userIndex< Config.MAX_USERS_NUM; userIndex++){
 
-            // レーンにある現状のカードを出力
-            //print.allCardsInLane(field.getAllLaneCards(0));
-            //print.allCardsInLane(field.getAllLaneCards(1));
-            //print.allCardsInLane(field.getAllLaneCards(2));
-            //print.allCardsInLane(field.getAllLaneCards(3));
-
             System.out.println("================");
             System.out.println(userIndex + "番目のプレイヤーの順番になります");
-            System.out.println("================");
 
             // どのカードを出すか判断(judge)します
             // NPCの場合はランダムでカードを選択します
@@ -90,6 +87,8 @@ public class GameMaster {
 
         //全ユーザが手札を出し終わったら、その手札の山を下に操作を行う
         for(Card submitted : submitUsersCardsAll.values()){
+
+            System.out.print("\n");
             System.out.println("===========");
             System.out.println("ターンのカードナンバー:" + submitted.getNumber());
             System.out.println("ターンのカード所有者:" + submitted.getOwner());
@@ -99,30 +98,40 @@ public class GameMaster {
             // 近いカードがない場合は-1が返ります
             int laneIndexDistanceMinimum = calculateDistanceOfFieldCards(submitted);
 
-            // マイナスポイントを受け取るか判断します
-            // * その最小距離の列インデックスが最大枚数に達してないかチェックをします
-            // * その最小距離の列インデックスが一つも存在しないかチェックします
-            boolean isGetMinusPoint =  isGetMinusPoint(laneIndexDistanceMinimum);
+            // どの列のカードよりも小さいカードを出したかどうかをチェックします
+            boolean isSmallestCard = isSmallestCard(submitted);
 
-            // 受け取るべきなら、マイナスポイントを受け取りたい列を選択します
-            // NPCの場合はランダムで列を選択します
-            int laneIndexSelected = 0;
-            if(isGetMinusPoint){
-                laneIndexSelected =  selectLaneOfGettingMinusPoint();
+           // 最も小さい数を出した場合は、最もマイナス値が少ない列を選択し、マイナスポイントを受け取ります
+           // そして、その列にカードを置きます
+           int laneIndexSelected = 0;
+           if(isSmallestCard) {
+               System.out.println("smallestFlagが経ちました");
+               laneIndexSelected =  selectLaneOfGettingMinusPoint(submitted);
 
-                // そして、列からカードをすべて受け取り、自分の捨て札に加えます
-                System.out.println("以下の列が選択されました:" + laneIndexSelected);
-                List<Card> cardReceived =  field.getLane(laneIndexSelected).removeCardsAll();
-                //um.getUser(userIndex).receiveDiscardsAll(cardReceived);
-                System.out.println("カードの所有者:" + submitted.getOwner());
-                um.getUser(submitted.getOwner()).receiveDiscardsAll(cardReceived);
+               // そして、列からカードをすべて受け取り、自分の捨て札に加えます
+               System.out.println("以下の列が選択されました:" + laneIndexSelected);
+               List<Card> cardReceived =  field.getLane(laneIndexSelected).removeCardsAll();
+               System.out.println("カードの所有者:" + submitted.getOwner());
+               um.getUser(submitted.getOwner()).receiveDiscardsAll(cardReceived);
 
-                // そのマイナスポイントを受け取った列に対して、カードをsubmitします
-                field.getLane(laneIndexSelected).addCard(submitted);
-            }else{
-                // 最小距離の列にカードをsubmitする
-                field.getLane(laneIndexDistanceMinimum).addCard(submitted);
-            }
+               // そのマイナスポイントを受け取った列に対して、カードをsubmitします
+               field.getLane(laneIndexSelected).addCard(submitted);
+
+           // もし、レーンにおける最大数を超えていた場合は、その列にあるカードをすべて受け取ります
+           // そして、その列にカードを置きます
+           }else if(isOverOfLimitOfCapacity(laneIndexDistanceMinimum)){
+
+               List<Card> cardReceived =  field.getLane(laneIndexDistanceMinimum).removeCardsAll();
+               System.out.println("カードの所有者:" + submitted.getOwner());
+               um.getUser(submitted.getOwner()).receiveDiscardsAll(cardReceived);
+
+               field.getLane(laneIndexDistanceMinimum).addCard(submitted);
+
+           // 上記2つの分岐にマッチしない場合は、マイナスポイントを受け取る必要がないので、
+           // そのユーザのターンを追えます
+           }else{
+               field.getLane(laneIndexDistanceMinimum).addCard(submitted);
+           }
 
             // レーンにある現状のカードを出力
             print.allCardsInLane(field.getAllLaneCards(0));
@@ -137,6 +146,8 @@ public class GameMaster {
         turnCount++;
 
     }
+
+
 
     private void distributeCardAllUser(int usersNum){
         for(int i = 0; i < usersNum; i++){
@@ -162,10 +173,8 @@ public class GameMaster {
             System.out.print("\n" + Message.CHOICE_OWN_CARD_BY_HANDS);
             int submitNumber = tm.inputNumber();
             userCard = um.getUser(Config.OWN_USER_INDEX).getCardInHands(submitNumber);
-            //userCard = um.getUser(Config.OWN_USER_INDEX).removeCardInHands(submitNumber);
         }else{
             userCard = um.getUser(userIndex).getCardRandomInHands();
-            //userCard = um.getUser(userIndex).removeCardRandomInHands();
         }
         return userCard;
 
@@ -180,32 +189,38 @@ public class GameMaster {
         return minimumDistanceIndex;
     }
 
-    private boolean isGetMinusPoint(int laneIndex) {
-        boolean isGetMinusPoint = false;
-        // 列インデックスが-1の場合は必ずtrue
-        if(laneIndex == -1){
-            isGetMinusPoint = true;
-        // 列インデックスが-1じゃなくても、サイズが最大値達していたらtrue
-        }else if(field.getLane(laneIndex).getSize() >= Config.CAPACITY_OF_CARDS){
-            isGetMinusPoint = true;
+    private boolean isOverOfLimitOfCapacity(int laneIndex) {
+        boolean isOverOfLimitOfCapacity = false;
+        System.out.println("debug isOverLimit" + field.getLane(laneIndex).getSize() + ":::" + Config.CAPACITY_OF_CARDS);
+        // ユーザがカードを置く時点でキャパシティと同数あったら、その時点がフラグが立つ
+        if(field.getLane(laneIndex).getSize() >= Config.CAPACITY_OF_CARDS){
+            isOverOfLimitOfCapacity = true;
         }
-        return isGetMinusPoint;
+        return isOverOfLimitOfCapacity;
     }
 
-    //private int selectLaneOfGettingMinusPoint(int userIndex) {
-    private int selectLaneOfGettingMinusPoint() {
-        // TODO: 一番マイナスポイントが少ない列を選択する
-        // TODO: 余裕があれば、カードの所有者を見て、inputさせるか↑のルールに従うかを分岐させる
+    private boolean isSmallestCard(Card submitted) {
+        boolean isSmallestCard = false;
+        List<Integer> lastNumbers = field.collectLastIndexCard();
+        int smallestNumber =  Collections.min(lastNumbers);
+
+        if(smallestNumber > submitted.getNumber()){
+            isSmallestCard = true;
+        }
+        return isSmallestCard;
+    }
+
+    private int selectLaneOfGettingMinusPoint(Card card) {
         int laneIndex = 0;
         //if(userIndex == Config.OWN_USER_INDEX){
-        //    System.out.println("\n" + Message.CHOICE_LANE_OF_GETTIMG_MINUS_POINT);
-        //    laneIndex = tm.inputNumber();
-        //}else{
+        if(card.getOwner() == Config.OWN_USER_INDEX){
+            System.out.println("\n" + Message.CHOICE_LANE_OF_GETTIMG_MINUS_POINT);
+            laneIndex = tm.inputNumber();
+        }else{
             //NPCの場合
-            //0-3でランダムの値
-            laneIndex = (int) (Math.random() * 3);
-            System.out.println("乱数:" + laneIndex);
-        //}
+            laneIndex = field.getLaneWithMinimumMinusPoint();
+        }
+        System.out.println("選択されたレーンは以下になります:" + laneIndex);
         return laneIndex;
 
     }
