@@ -1,13 +1,7 @@
 package com.masudak.nimmt;
 
 
-import com.masudak.nimmt.core.Card;
-import com.masudak.nimmt.core.Field;
-import com.masudak.nimmt.core.GameMaster;
-import com.masudak.nimmt.core.Line;
-import com.masudak.nimmt.core.Rule;
-import com.masudak.nimmt.core.Player;
-import com.masudak.nimmt.core.GameException;
+import com.masudak.nimmt.core.*;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,18 +31,18 @@ public class NimmtCli {
 
 	public void play() throws GameException {
 
-		int number = prompt.getNumberOfPlayer();
-		GameMaster gameMaster = new GameMaster(number);
+		final int numberOfPlayer = prompt.getNumberOfPlayer();
+		GameMaster gameMaster = GameMaster.newGame(numberOfPlayer);
 
 		// 出力
-		Player player = gameMaster.getPlayer(1);
+		Player player = gameMaster.getPlayer(Rule.PLAYER_ID);
 		prompt.showHands(player);
 		prompt.showField(gameMaster.getField());
 
 		while (player.hasHand()) {
 
-			int index = prompt.getIndexOfHands(player);
-			SortedMap<Card, Player> open = gameMaster.openHand(player.getId(), index);
+			int cardNumber = prompt.getCardFromHands(player);
+			SortedMap<Card, Player> open = gameMaster.openHand(cardNumber);
 
 			// 1ターン
 			for (Map.Entry<Card, Player> entry : open.entrySet()) {
@@ -58,11 +52,10 @@ public class NimmtCli {
 				int line;
 				if (card.getNumber() < gameMaster.getMinimum()) {
 					line = getLineByPlayerChoice(user, gameMaster.getField());
-					gameMaster.putCardAndAddCow(line, card, user.getId());
 				} else {
 					line = gameMaster.getLineToAddLast(card.getNumber());
-					gameMaster.putCardAndUpdate(line, card, user.getId());
 				}
+				gameMaster.putCardAndUpdate(line, card, user.getId());
 			}
 
 			System.out.println("1巡が終わった状態");
@@ -135,20 +128,20 @@ public class NimmtCli {
 		}
 
 		/**
-		 * プレーヤーの手札のうち、どれを出すか、カードのインデックス番号を取得します。
+		 * プレーヤーの手札にあるカードのうち、場に出すカードの番号を取得します。
 		 *
 		 * @param player プレーヤー
 		 * @return ユーザの手札のインデックス番号（0-{その時点のユーザの手札の枚数-1}）
 		 */
-		int getIndexOfHands(Player player) {
-			System.out.println("choose your card. [index]");
+		int getCardFromHands(Player player) {
+			System.out.println("choose your card in you hand.");
 			while(true) {
-				int index = getNumberFromInput();
-				if (0 <= index && index < player.handsSize()) {
-					System.out.println("You have choose [index]:" + index);
-					return index;
+				int number = getNumberFromInput();
+				if (player.hasCard(number)) {
+					System.out.println("You have choose " + number);
+					return number;
 				}
-				System.out.println("Input should be in 0-" + (player.handsSize() - 1) + ". Choose again");
+				System.out.println("Player does not have a card you have chosen. Choose again");
 			}
 		}
 
@@ -162,7 +155,7 @@ public class NimmtCli {
 			System.out.println("choose line. [index]");
 			while(true) {
 				int index = getNumberFromInput();
-				if (0 <= index && index < Rule.FIELD_SIZE) {
+				if (Rule.isValidFieldIndex(index)) {
 					System.out.println("You have choose [index]:" + index);
 					return index;
 				}
@@ -182,11 +175,9 @@ public class NimmtCli {
 			System.out.println("id : " + player.getId() );
 			System.out.println("minus : " + player.getCow() );
 			System.out.println("your hands : ");
-			System.out.println("index, card number, minus");
-			List<Card> hands = player.listHands();
-			for (int i = 0; i < hands.size(); i++) {
-				Card card = hands.get(i);
-				System.out.println(i + ", " + card.getNumber() + "(" + card.getCow() + ")");
+			System.out.println("card number(cow)");
+			for (Card card : player.getHands()) {
+				System.out.println(card.getNumber() + "(" + card.getCow() + ")");
 			}
 		}
 

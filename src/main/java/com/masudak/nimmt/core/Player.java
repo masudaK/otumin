@@ -1,8 +1,6 @@
 package com.masudak.nimmt.core;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Nimmtを遊ぶプレーヤー情報を表します。
@@ -16,17 +14,14 @@ public class Player {
 	private int id;
 
 	/** プレーヤーの手札 */
-	private List<Card> hands;
+	private SortedMap<Integer, Card> hands;
 
 	/** プレーヤーが引き取った牛の数 */
 	private int cow;
 
-	/** プレーヤがNPCかどうか */
-	private boolean npc;
-
-	public Player(int id, boolean npc) {
+	public Player(int id) {
 		this.id = id;
-		this.npc = npc;
+		this.hands = new TreeMap<Integer, Card>();
 	}
 
 	/**
@@ -39,22 +34,13 @@ public class Player {
 	}
 
 	/**
-	 * プレーヤーの手札の情報を返しますが、削除はされません。<br />
+	 * プレーヤーの手札を返しますが、削除はされません。<br />
 	 * また、取得した一覧に対して変更を加えても元の情報には影響を与えません。
 	 *
 	 * @return プレーヤーの手
 	 */
-	public List<Card> listHands() {
-		return new ArrayList<Card>(hands);
-	}
-
-	/**
-	 * プレーヤーが持っている手札の現在の枚数を返します。
-	 *
-	 * @return 手札の枚数
-	 */
-	public int handsSize() {
-		return hands.size();
+	public Collection<Card> getHands() {
+		return Collections.unmodifiableCollection(hands.values());
 	}
 
 	/**
@@ -67,13 +53,23 @@ public class Player {
 	}
 
 	/**
-	 * プレーヤーの手札から1枚抜き取り、カードを返します。
-	 *
-	 * @param index 手札の何枚目のカードかを示すインデックス番号
-	 * @return カード
+	 * プレーヤーが指定した番号を手札に持っているかチェックします。
+	 * @param number カードの番号
+	 * @return 番号を手札に持っている場合はtrueを返す
 	 */
-	Card pickHand(int index) {
-		return hands.remove(index);
+	public boolean hasCard(int number) {
+		return hands.containsKey(number);
+	}
+
+	/**
+	 * プレーヤーの手札から1枚抜き取り、カードを返します。<br />
+	 * 指定した番号を手札に持っていない場合はnullを返します。
+	 *
+	 * @param number 手札の番号
+	 * @return カード（所持していない場合はnull）
+	 */
+	Card pickCard(int number) {
+		return hands.remove(number);
 	}
 
 	/**
@@ -82,7 +78,9 @@ public class Player {
 	 * @return カード
 	 */
 	Card pickRandom() {
-		return hands.remove(new Random().nextInt(hands.size()));
+		Integer[] keys = hands.keySet().toArray(new Integer[hands.size()]);
+		final int index = new Random().nextInt(keys.length);
+		return hands.remove(keys[index]);
 	}
 
 	/**
@@ -90,8 +88,10 @@ public class Player {
 	 *
 	 * @param hands カードのリスト
 	 */
-	void setHands(List<Card> hands) {
-		this.hands = hands;
+	void setHands(Collection<Card> hands) {
+		for (Card card : hands) {
+			this.hands.put(card.getNumber(), card);
+		}
 	}
 
 	/**
@@ -118,6 +118,6 @@ public class Player {
 	 * @return NPCの場合trueを返す
 	 */
 	public boolean isNpc() {
-		return npc;
+		return id != Rule.PLAYER_ID;
 	}
 }

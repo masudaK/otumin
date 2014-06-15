@@ -22,15 +22,19 @@ public class GameMaster {
 	/** 場 */
 	private Field field;
 
-	/**
-	 * プレーヤーの人数を指定してゲームマスターを初期化します。
-	 *
-	 * @param number ゲームの参加人数
-	 */
-	public GameMaster(int number) {
+	private GameMaster(int number) {
 		createDeck();
 		createPlayers(number);
 		createField();
+	}
+
+	/**
+	 * プレーヤーの人数を指定してゲームを初期化します。
+	 *
+	 * @param numberOfPlayers ゲームの参加人数
+	 */
+	public static GameMaster newGame(int numberOfPlayers) {
+		return new GameMaster(numberOfPlayers);
 	}
 
 	/**
@@ -49,8 +53,7 @@ public class GameMaster {
 	private void createPlayers(int number) {
 		players = new ArrayList<Player>(number);
 		for (int i = 0; i < number; i++) {
-			boolean npc = i == 0 ? false : true;
-			Player player = new Player(i + 1, npc);
+			Player player = new Player(i);
 			player.setHands(deck.getHands());
 			players.add(player);
 		}
@@ -72,7 +75,7 @@ public class GameMaster {
 	 */
 	public Player getPlayer(int id) {
 		// TODO
-		return players.get(id - 1);
+		return players.get(id);
 	}
 
 	/**
@@ -88,18 +91,17 @@ public class GameMaster {
 	 * プレーヤーが場に晒す手札を選択します。<br />
 	 * 実行した結果、他のNPCユーザが選択した手札と比較して、場に並べるカードの一覧を取得します。
 	 *
-	 * @param userId プレーヤーを一意に特定するID
-	 * @param index プレーヤーが場に晒す手札のインデックス番号
+	 * @param cardNumber プレーヤーが場に晒す手札のインデックス番号
 	 * @return 場に並べるカードの一覧（カード番号の昇順）
 	 */
-	public SortedMap<Card, Player> openHand(int userId, int index) {
-
+	public SortedMap<Card, Player> openHand(int cardNumber) {
 		SortedMap<Card, Player> map = new TreeMap<Card, Player>();
-		map.put(getPlayer(userId).pickHand(index), getPlayer(userId));
-
-		// NPC
-		for (int i = 1; i <players.size(); i++) {
-			map.put(getPlayer(i + 1).pickRandom(), getPlayer(i + 1));
+		for (Player player : players) {
+			if (player.isNpc()) {
+				map.put(player.pickRandom(), player);
+			} else {
+				map.put(player.pickCard(cardNumber), player);
+			}
 		}
 		return map;
 	}
@@ -115,7 +117,7 @@ public class GameMaster {
 
 	/**
 	 * 場にカードを並べ、必要に応じて場の情報を更新します。<br />
-	 * カードを配置する列にすでに5枚カードが置かれている場合、置かれている各カードの牛の数の合計をユーザに引き取らせ、<br />
+	 * カードを配置する列の後ろにカードを追加できない場合、置かれている各カードの牛の数の合計をユーザに引き取らせ、<br />
 	 * 列から全てのカードを取り除いた上でカードを並べます。
 	 *
 	 * @param lineIndex カードを置く列のID
@@ -123,23 +125,10 @@ public class GameMaster {
 	 * @param userId カードを配置するユーザ
 	 */
 	public void putCardAndUpdate(int lineIndex, Card card, int userId) {
-		if (isLineFull(lineIndex)) {
+		if (! isAbleToAddLast(lineIndex, card.getNumber())) {
 			int cows = field.clearLine(lineIndex);
 			getPlayer(userId).addCow(cows);
 		}
-		field.put(lineIndex, card);
-	}
-
-	/**
-	 * 場に置かれている各カードの牛の数の合計をユーザに引き取らせ、列から全てのカードを取り除いた上でカードを並べます。
-	 *
-	 * @param lineIndex カードを置く列のID
-	 * @param card 場に配置するカード
-	 * @param userId カードを配置するユーザ
-	 */
-	public void putCardAndAddCow(int lineIndex, Card card, int userId) {
-		int cows = field.clearLine(lineIndex);
-		getPlayer(userId).addCow(cows);
 		field.put(lineIndex, card);
 	}
 
@@ -168,13 +157,17 @@ public class GameMaster {
 	}
 
 	/**
-	 * 指定した列が一杯かどうかを判定します。（列には5枚以上カードを配置することができない）
+	 * 指定した列の最後尾にカードを追加できるか判定します。<br />
+	 * 列にすでに5枚カードが並んでいる場合はカードを追加することはできません。<br />
+	 * また、入力した番号が指定した列の最後尾のカードよりも小さい場合も追加することはできません。
 	 *
 	 * @param lineIndex 列を一意に特定するID
-	 * @return 列にこれ以上カードを置けない場合trueを返します。
+	 * @param number プレーヤーが出した手札の番号
+	 * @return カードが追加できる場合true、追加できない場合はfalseを返します。
 	 */
-	private boolean isLineFull(int lineIndex) {
-		return field.getLine(lineIndex).isFull();
+	private boolean isAbleToAddLast(int lineIndex, int number) {
+		Line line = field.getLine(lineIndex);
+		return !line.isFull() && number > line.getLast().getNumber();
 	}
 
 	// TODO 仮実装
