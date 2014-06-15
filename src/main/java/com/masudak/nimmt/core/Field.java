@@ -75,7 +75,7 @@ public class Field {
 	 */
 	public int getLineWithMinCows() {
 		int lineIndex = 0;
-		int cows = Byte.MAX_VALUE;
+		int cows = Integer.MAX_VALUE;
 		for (int i = 0; i < lines.size(); i++) {
 			int totalCows = lines.get(i).getTotalCows();
 			if (totalCows < cows) {
