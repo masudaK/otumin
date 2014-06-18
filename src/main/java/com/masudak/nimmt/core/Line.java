@@ -42,9 +42,13 @@ public class Line {
 	/**
 	 * 列の最後尾にカードを置きます。
 	 *
+	 * @throws IndexOutOfBoundsException 列にカードをこれ以上追加できない場合
 	 * @param card カード
 	 */
 	void addLast(Card card) {
+		if (isFull()) {
+			throw new IndexOutOfBoundsException("Line is full.");
+		}
 		cards.addLast(card);
 	}
 
@@ -90,7 +94,7 @@ public class Line {
 	 * 自身のコピーを取得します。（deep copy）
 	 * @return {@link Line} オブジェクトのコピー
 	 */
-	public Line copy() {
+	Line copy() {
 		return new Line(id, cards);
 	}
 
@@ -119,5 +123,9 @@ public class Line {
 			totalCows += card.getCow();
 		}
 		return totalCows;
+	}
+
+	void clear() {
+		cards.clear();
 	}
 }

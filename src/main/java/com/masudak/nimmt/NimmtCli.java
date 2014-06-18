@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.SortedMap;
 
 /**
@@ -35,36 +36,38 @@ public class NimmtCli {
 		GameMaster gameMaster = GameMaster.newGame(numberOfPlayer);
 
 		// 出力
-		Player player = gameMaster.getPlayer(Rule.PLAYER_ID);
-		prompt.showHands(player);
+		Player nonNpcPlayer = gameMaster.getPlayer(Rule.PLAYER_ID);
+		prompt.showStatus(nonNpcPlayer);
 		prompt.showField(gameMaster.getField());
 
-		while (player.hasHand()) {
+		while (nonNpcPlayer.hasHand()) {
 
-			int cardNumber = prompt.getCardFromHands(player);
+			int cardNumber = prompt.getCardFromHands(nonNpcPlayer);
 			SortedMap<Card, Player> open = gameMaster.openHand(cardNumber);
+
+			prompt.showOpen(open.keySet());
 
 			// 1ターン
 			for (Map.Entry<Card, Player> entry : open.entrySet()) {
 				Card card = entry.getKey();
-				Player user = entry.getValue();
-				System.out.println(card.getNumber() + "の処理を行います。カードを出したユーザは" + user.getId() + "です。");
+				Player player = entry.getValue();
+				System.out.println("Dealing => playerId : " + player.getId() + ", card : " + card.getNumber());
 				int line;
 				if (card.getNumber() < gameMaster.getMinimum()) {
-					line = getLineByPlayerChoice(user, gameMaster.getField());
+					line = getLineByPlayerChoice(player, gameMaster.getField());
 				} else {
 					line = gameMaster.getLineToAddLast(card.getNumber());
 				}
-				gameMaster.putCardAndUpdate(line, card, user.getId());
+				gameMaster.putCardAndUpdate(line, card, player.getId());
 			}
 
 			System.out.println("1巡が終わった状態");
 			prompt.showField(gameMaster.getField());
-			prompt.showHands(player);
+			prompt.showStatus(nonNpcPlayer);
 		}
 
-		System.out.println("全てのターンが終わった");
-		prompt.showScore(gameMaster.showScore());
+		System.out.println("============= Game is Over. =============");
+		prompt.showScore(gameMaster.getScores());
 		prompt.closeStream();
 	}
 
@@ -171,35 +174,43 @@ public class NimmtCli {
 			}
 		}
 
-		void showHands(Player player) {
-			System.out.println("id : " + player.getId() );
-			System.out.println("minus : " + player.getCow() );
-			System.out.println("your hands : ");
-			System.out.println("card number(cow)");
+		void showStatus(Player player) {
+			System.out.println("----- status now. -----");
+			StringBuilder builder = new StringBuilder();
+			builder.append("playerId   : " + player.getId() + "\n");
+			builder.append("cows       : " + player.getCow() + "\n");
+			builder.append("your hands : \n");
 			for (Card card : player.getHands()) {
-				System.out.println(card.getNumber() + "(" + card.getCow() + ")");
+				builder.append(card.getNumber() + "(" + card.getCow() + ") ");
 			}
+			System.out.println(builder.toString());
+			System.out.println("-----------------------");
 		}
 
 		void showField(Field field) {
-			System.out.println("↓Cards on field now.↓");
-			int i = 0;
-			for (Line line : field.getLines()) {
-				System.out.print(i + ": ");
+			System.out.println("----- Cards on field now. -----");
+			for (Line line : field.showLines()) {
+				System.out.print(line.getId() + ": ");
 				for (Card card : line.getCards()) {
 					System.out.print(card.getNumber() + "(" + card.getCow() + ")  ");
 				}
 				System.out.println();
-				i++;
+			}
+			System.out.println("-------------------------------");
+		}
+
+		void showScore(List<Score> scores) {
+			for (Score score : scores) {
+				System.out.println(score.getPlayerId() + ": " + score.getCow());
 			}
 		}
 
-		void showScore(List<Integer> scores) {
-			int i = 1;
-			for (int score : scores) {
-				System.out.println(i + ": " + score);
-				i++;
+		public void showOpen(Set<Card> cards) {
+			System.out.println("Cards to deal.");
+			for (Card card: cards) {
+				System.out.print(card.getNumber() + " ");
 			}
+			System.out.println();
 		}
 	}
 }

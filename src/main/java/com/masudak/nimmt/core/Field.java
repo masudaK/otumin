@@ -14,31 +14,40 @@ public class Field {
 	/** 場にある列の数 */
 	private static final int LINE_SIZE = Rule.FIELD_SIZE;
 
+	private static Field instance;
 	/** 場が持つ列 */
 	private List<Line> lines;
 
-	Field(List<Card> cards) {
-		// TODO 引数チェック
+	private Field() {
 		lines = new ArrayList<Line>(LINE_SIZE);
 		for (int i = 0; i < LINE_SIZE; i++) {
-			Line line = new Line(i);
-			line.addLast(cards.get(i));
-			lines.add(line);
+			lines.add(new Line(i));
 		}
 	}
 
+	public static Field getInstance() {
+		if (instance == null) {
+			instance = new Field();
+		}
+		return instance;
+	}
+
 	/**
-	 * フィールドを構成する列の一覧を取得しますが、削除はしません。<br />
-	 * また、取得したリスト内の列に対して変更を加えても列の情報が変更されることはありません。
+	 * フィールドを構成する列の一覧のビューを返します。<br />
+	 * 取得したリスト内の列に対して変更を加えても列の情報が変更されることはありません。
 	 *
 	 * @return フィールドを構成する列の一覧
 	 */
-	public List<Line> getLines() {
+	public List<Line> showLines() {
 		List<Line> field = new ArrayList<Line>(LINE_SIZE);
 		for (Line line : lines) {
 			field.add(line.copy());
 		}
 		return field;
+	}
+
+	List<Line> getLines() {
+		return lines;
 	}
 
 	/**
@@ -107,9 +116,12 @@ public class Field {
 	 *
 	 * @param index 列番号(0-3)
 	 * @param card カード
+	 * @throws IndexOutOfBoundsException
 	 */
 	void put(int index, Card card) {
-		// TODO
+		if (!Rule.isValidFieldIndex(index)) {
+			throw new IndexOutOfBoundsException("Invalid index of line.");
+		}
 		lines.get(index).addLast(card);
 	}
 

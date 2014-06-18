@@ -120,4 +120,8 @@ public class Player {
 	public boolean isNpc() {
 		return id != Rule.PLAYER_ID;
 	}
+
+	public Score getScore() {
+		return new Score(id, cow);
+	}
 }

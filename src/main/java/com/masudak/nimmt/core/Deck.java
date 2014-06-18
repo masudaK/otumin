@@ -12,19 +12,30 @@ import java.util.List;
  */
 class Deck {
 
+	/** 山の先頭 */
+	private static final int HEAD = 0;
+
+	private static Deck instance;
+
 	/** 山札に置かれているカード */
 	private List<Card> cards;
-
 
 	/**
 	 * 山札を初期化します。<br />
 	 */
-	public Deck() {
+	private Deck() {
 		cards = new ArrayList<Card>(Rule.NUMBER_OF_CARDS);
 		for (int i = 1; i <= Rule.NUMBER_OF_CARDS; i++) {
 			cards.add(new Card(i));
 		}
 		Collections.shuffle(cards);
+	}
+
+	public static Deck getInstance() {
+		if (instance == null) {
+			instance = new Deck();
+		}
+		return instance;
 	}
 
 	/**
@@ -34,17 +45,17 @@ class Deck {
 	 * @return 山札から抜き取られたカードの一覧
 	 */
 	public List<Card> getCards(int number) {
-		List<Card> hand = new ArrayList<Card>(cards.subList(0, number));
-		cards.subList(0, number).clear();
+		List<Card> hand = new ArrayList<Card>(cards.subList(HEAD, number));
+		cards.subList(HEAD, number).clear();
 		return hand;
 	}
 
 	/**
-	 * 山札からカードを10枚抜き取ります。
+	 * 山札から1枚カードを抜き取ります。
 	 *
-	 * @return 山札から抜き取られた10枚のカード
+	 * @return カード
 	 */
-	public List<Card> getHands() {
-		return getCards(Rule.PLAYER_HANDS);
+	public Card get() {
+		return cards.remove(HEAD);
 	}
 }

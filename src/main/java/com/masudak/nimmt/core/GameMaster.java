@@ -14,7 +14,7 @@ import java.util.TreeMap;
 public class GameMaster {
 
 	/** ゲームのプレーヤー一覧 */
-	private List<Player> players;
+	private PlayerManager playerManager;
 
 	/** 山札 */
 	private Deck deck;
@@ -23,9 +23,11 @@ public class GameMaster {
 	private Field field;
 
 	private GameMaster(int number) {
-		createDeck();
-		createPlayers(number);
-		createField();
+		this.deck = Deck.getInstance();
+		this.playerManager = PlayerManager.getInstance();
+		this.field = Field.getInstance();
+		initPlayers(number);
+		initField();
 	}
 
 	/**
@@ -38,24 +40,14 @@ public class GameMaster {
 	}
 
 	/**
-	 * 104枚のカードがシャッフルされた状態で山札を生成します。
-	 */
-	private void createDeck() {
-		deck = new Deck();
-	}
-
-	/**
 	 * ゲームの参加人数分のプレーヤー情報を初期化します。<br />
-	 * 注意：この操作は山札を初期化した後に実行してください。
 	 *
 	 * @param number ゲームの参加人数
 	 */
-	private void createPlayers(int number) {
-		players = new ArrayList<Player>(number);
+	private void initPlayers(int number) {
 		for (int i = 0; i < number; i++) {
-			Player player = new Player(i);
-			player.setHands(deck.getHands());
-			players.add(player);
+			Player player = playerManager.createPlayer();
+			player.setHands(deck.getCards(Rule.PLAYER_HANDS));
 		}
 	}
 
@@ -63,8 +55,11 @@ public class GameMaster {
 	 * 場を初期化します。<br />
 	 * 注意：この操作は山札を初期化した後に実行してください。
 	 */
-	private void createField() {
-		field = new Field(deck.getCards(Rule.FIELD_SIZE));
+	private void initField() {
+		for (Line line : field.getLines()) {
+			line.clear();
+			line.addLast(deck.get());
+		}
 	}
 
 	/**
@@ -74,8 +69,7 @@ public class GameMaster {
 	 * @return IDに紐づくプレーヤー情報
 	 */
 	public Player getPlayer(int id) {
-		// TODO
-		return players.get(id);
+		return playerManager.findById(id);
 	}
 
 	/**
@@ -94,9 +88,10 @@ public class GameMaster {
 	 * @param cardNumber プレーヤーが場に晒す手札のインデックス番号
 	 * @return 場に並べるカードの一覧（カード番号の昇順）
 	 */
+	// TODO 何かしっくりこない
 	public SortedMap<Card, Player> openHand(int cardNumber) {
 		SortedMap<Card, Player> map = new TreeMap<Card, Player>();
-		for (Player player : players) {
+		for (Player player : playerManager.getAllPlayers()) {
 			if (player.isNpc()) {
 				map.put(player.pickRandom(), player);
 			} else {
@@ -171,10 +166,10 @@ public class GameMaster {
 	}
 
 	// TODO 仮実装
-	public List<Integer> showScore() {
-		List<Integer> scores = new ArrayList<Integer>();
-		for(Player player : players) {
-			scores.add(player.getCow());
+	public List<Score> getScores() {
+		List<Score> scores = new ArrayList<Score>();
+		for(Player player : playerManager.getAllPlayers()) {
+			scores.add(player.getScore());
 		}
 		return scores;
 	}
