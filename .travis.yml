@@ -1,0 +1,6 @@
+language: java
+script: mvn verify javadoc:javadoc
+jdk:
+  - oraclejdk6
+  - oraclejdk7
+  - oraclejdk8
