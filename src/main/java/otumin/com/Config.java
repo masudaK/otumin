@@ -16,5 +16,6 @@ public class Config {
     public static final int OWN_USER_INDEX = 0;
     public static final int MIN_USERS_NUM = 2;
     public static final int MAX_USERS_NUM = 10;
+    public static final int DEFAULT_NUM_OF_USERS = 2;
     public static int MAX_OF_TURN = 10;
 }

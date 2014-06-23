@@ -18,10 +18,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class UserMaster {
     private List<User> users;
     private Validation validation;
+    private Config config;
 
     public UserMaster(){
         this.users = new ArrayList<User>();
         this.validation = new Validation();
+        this.config = new Config();
     }
 
     public User getUser(int index){
@@ -50,8 +52,7 @@ public class UserMaster {
             }
             retryCount.getAndIncrement();
         }
-        //TODO: default値にする
-        return 0;
+        return config.DEFAULT_NUM_OF_USERS;
     }
 
     private int getNumFromInput(){
