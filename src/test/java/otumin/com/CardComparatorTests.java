@@ -17,6 +17,6 @@ public class CardComparatorTests {
         CardComparator cc = new CardComparator();
         Card cardA = new Card(1,1);
         Card cardB = new Card(2,1);
-        assertEquals(2, cc.compare(cardA, cardB));
+        assertEquals(-1, cc.compare(cardA, cardB));
     }
 }
