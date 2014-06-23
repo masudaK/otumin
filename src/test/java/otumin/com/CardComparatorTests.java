@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
  * Time: 0:49
  * To change this template use File | Settings | File Templates.
  */
-public class CardComparatorTest {
+public class CardComparatorTests {
 
     @Test
     public void testCompare() throws Exception {
