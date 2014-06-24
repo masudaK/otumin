@@ -31,10 +31,6 @@ public class Deck {
         }
     }
 
-    public List<Card> getDeck(){
-        return deck;
-    }
-
     public void shuffle(){
         Collections.shuffle(deck);
     }
