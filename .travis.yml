@@ -6,6 +6,6 @@ jdk:
   - openjdk7
 after_success:
   # Coberturaにする場合は以下を有効にする
-  #- mvn clean cobertura:cobertura coveralls:cobertura
+  - mvn clean cobertura:cobertura coveralls:cobertura
   # Jacocoにする場合は以下を有効にする
-  - mvn clean test jacoco:report coveralls:jacoco
+  #- mvn clean test jacoco:report coveralls:jacoco
