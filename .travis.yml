@@ -1,10 +1,11 @@
 language: java
+
 jdk:
   - oraclejdk7
   - oraclejdk8
   - openjdk6
   - openjdk7
 
-# this is test
 after_success:
-  - mvn clean cobertura:cobertura coveralls:cobertura
+  - mvn clean cobertura:cobertura coveralls:cobertura # if you want use "cobertura", uncomment this line.
+  #- mvn clean test jacoco:report coveralls:jacoco  # if you want use "Jacoco", uncomment this line.
