@@ -5,7 +5,6 @@ jdk:
   - openjdk6
   - openjdk7
 
-# カバレッジはcoberturaとjacocoを使い分ける。
-# jacocoにする場合は、以下に書き換える
+# this is test
 after_success:
   - mvn clean cobertura:cobertura coveralls:cobertura
