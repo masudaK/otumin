@@ -7,6 +7,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: masuda_kenichi
@@ -30,7 +33,6 @@ public class LaneTest {
         int i = 1;
         for(Card card : lane.getCardsAll()){
             assertThat(card.getNumber(), is(i));
-            assertThat(card.getMinusPoint(), is(i));
             i += 1;
         }
     }
@@ -55,8 +57,7 @@ public class LaneTest {
         Lane lane = new Lane();
         Card cardA = new Card(1,1);
         lane.addCard(cardA);
-        int expected = 1;
-        assertThat(lane.getSize(), is(expected));
+        assertThat(lane.getSize(), is(1));
     }
 
     @Test
@@ -66,13 +67,23 @@ public class LaneTest {
         Card cardB = new Card(2,2);
         lane.addCard(cardA);
         lane.addCard(cardB);
-        int sum = 0;
-        for(Card card : lane.getCardsAll()){
-            sum += card.getNumber();
-        }
 
-        int expected = 3;
-        assertThat(sum, is(expected));
+        assertThat(lane.calculateMinusPoint(), is(3));
+    }
+
+    @Test
+    public void レーンにあるカードをすべて他のリストに移すことができる() throws Exception {
+        Lane lane = new Lane();
+        Card cardA = new Card(1,1);
+        Card cardB = new Card(2,2);
+        lane.addCard(cardA);
+        lane.addCard(cardB);
+
+        List<Card> removeCards = new ArrayList<Card>();
+        removeCards.addAll(lane.removeCardsAll());
+
+        assertThat(lane.getSize(), is(0));
+        assertThat(removeCards.size(), is(2));
     }
 
     @After
