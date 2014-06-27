@@ -4,5 +4,9 @@ jdk:
   - oraclejdk8
   - openjdk6
   - openjdk7
+
+# カバレッジはcoberturaとjacocoを使い分ける。
+# jacocoにする場合は、以下に書き換える
+# - mvn clean test jacoco:report coveralls:jacoco
 after_success:
-  - mvn clean cobertura:cobertura coveralls:cobertura # Coberturaにする場合は有効にする
+  - mvn clean cobertura:cobertura coveralls:cobertura
