@@ -1,7 +1,11 @@
 package otumin.com;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
+
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Created with IntelliJ IDEA.
@@ -10,26 +14,37 @@ import static org.junit.Assert.assertEquals;
  * Time: 23:58
  * To change this template use File | Settings | File Templates.
  */
-public class CardTests {
+public class CardTest {
+
+    @Before
+    public void setup() throws Exception {
+    }
 
     @Test
     public void testGetNumber() throws Exception {
         Card card = new Card(1,1);
-        assertEquals(1, card.getNumber());
+        int expected = 1;
+        assertThat(card.getNumber(), is(expected));
     }
 
     @Test
     public void testGetMinusPoint() throws Exception {
         Card card = new Card(1,2);
-        assertEquals(2, card.getMinusPoint());
+        int expected = 2;
+        assertThat(card.getMinusPoint(), is(expected));
     }
 
     @Test
     public void testSetOwner() throws Exception {
-        // TODO: setterなのにgetterもテストしてるので、問題ないか確認する
         Card card = new Card(1,2);
         card.setOwner(0);
-        assertEquals(0, card.getOwner());
+        int expected = 0;
+        assertThat(card.getOwner(), is(expected));
+
+    }
+
+    @After
+    public void tearDown() {
     }
 
 }
