@@ -21,21 +21,21 @@ public class CardTest {
     }
 
     @Test
-    public void testGetNumber() throws Exception {
+    public void コンストラクタでセットしたカードの数を取得できる() throws Exception {
         Card card = new Card(1,1);
         int expected = 1;
         assertThat(card.getNumber(), is(expected));
     }
 
     @Test
-    public void testGetMinusPoint() throws Exception {
+    public void コンストラクタでセットしたカードのマイナスポイントの値を取得できる() throws Exception {
         Card card = new Card(1,2);
         int expected = 2;
         assertThat(card.getMinusPoint(), is(expected));
     }
 
     @Test
-    public void testSetOwner() throws Exception {
+    public void オーナーをセットし取得もできる() throws Exception {
         Card card = new Card(1,2);
         card.setOwner(0);
         int expected = 0;
