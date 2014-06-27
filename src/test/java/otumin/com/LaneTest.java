@@ -20,7 +20,7 @@ public class LaneTest {
     }
 
     @Test
-    public void レーンにカードを配置しそのカードを取得することができる() throws Exception {
+    public void レーンにカードを配置しそのカードの数を取得する() throws Exception {
         Lane lane = new Lane();
         Card cardA = new Card(1,1);
         Card cardB = new Card(2,2);
@@ -33,7 +33,46 @@ public class LaneTest {
             assertThat(card.getMinusPoint(), is(i));
             i += 1;
         }
+    }
 
+    @Test
+    public void レーンにカードを配置しそのカードのマイナスポイントを取得する() throws Exception {
+        Lane lane = new Lane();
+        Card cardA = new Card(1,1);
+        Card cardB = new Card(2,2);
+        lane.addCard(cardA);
+        lane.addCard(cardB);
+
+        int i = 1;
+        for(Card card : lane.getCardsAll()){
+            assertThat(card.getMinusPoint(), is(i));
+            i += 1;
+        }
+    }
+
+    @Test
+    public void レーンにカードを配置しそのカードの大きさを取得する() throws Exception {
+        Lane lane = new Lane();
+        Card cardA = new Card(1,1);
+        lane.addCard(cardA);
+        int expected = 1;
+        assertThat(lane.getSize(), is(expected));
+    }
+
+    @Test
+    public void レーンにカード全てのマイナスポイントを合算する() throws Exception {
+        Lane lane = new Lane();
+        Card cardA = new Card(1,1);
+        Card cardB = new Card(2,2);
+        lane.addCard(cardA);
+        lane.addCard(cardB);
+        int sum = 0;
+        for(Card card : lane.getCardsAll()){
+            sum += card.getNumber();
+        }
+
+        int expected = 3;
+        assertThat(sum, is(expected));
     }
 
     @After
