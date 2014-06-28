@@ -1,11 +1,18 @@
 package otumin.com;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.containsInAnyOrder;
+
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -35,29 +42,49 @@ public class FieldTest {
     }
 
     @Test
-    public void testCollectLastIndexCard() throws Exception {
-        // TODO: test
+    public void 各列に置かれた最後のカードのリストを作成する() throws Exception {
+        Field field = setupCardOfLanes();
 
+        List<Integer> lastNumbers = new ArrayList<Integer>(4);
+        lastNumbers.addAll(field.collectLastIndexCard());
+
+        assertThat(lastNumbers, containsInAnyOrder(20,30,40,50));
+        assertThat(lastNumbers.size(), is(4));
     }
 
     @Test
-    public void testGetMinimumDistanceIndex() throws Exception {
-        // TODO: test
+    public void 各列に置かれた最後のカードとの最短距離を計測する() throws Exception {
+        Field field = setupCardOfLanes();
+        Card card = new Card(21, 21);
+
+        int minimumIndex = field.getMinimumDistanceIndex(card.getNumber(), field.collectLastIndexCard());
+        assertThat(minimumIndex, is(0));
     }
 
     @Test
-    public void testPrintAllLaneCards() throws Exception {
-        // TODO: test
+    public void 各列に置かれた最後のカードとの最短距離が計測できない場合はマイナス1を返す() throws Exception {
+        Field field = setupCardOfLanes();
+        Card card = new Card(3, 3);
+
+        int minimumIndex = field.getMinimumDistanceIndex(card.getNumber(), field.collectLastIndexCard());
+        assertThat(minimumIndex, is(-1));
     }
 
-    @Test
-    public void testGetAllLaneCards() throws Exception {
-        // TODO: test
-    }
+    private Field setupCardOfLanes(){
+        Field field = new Field();
+        Card card0OfLane0 = new Card(10,1);
+        Card card1OfLane0 = new Card(20,2);
+        Card card0OfLane1 = new Card(30,3);
+        Card card0OfLane2 = new Card(40,4);
+        Card card0OfLane3 = new Card(50,5);
 
-    @Test
-    public void testGetLaneWithMinimumMinusPoint() throws Exception {
-        // TODO: test
+        field.addCard(0, card0OfLane0);
+        field.addCard(0, card1OfLane0);
+        field.addCard(1, card0OfLane1);
+        field.addCard(2, card0OfLane2);
+        field.addCard(3, card0OfLane3);
+
+        return field;
     }
 
     @After
